@@ -6,24 +6,31 @@
   <title>Ángel Luzón Balanzá | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="fondo" aria-hidden="true"></canvas>
-  <div id="cursor" aria-hidden="true"></div>
+  <div id="cursor-punto" aria-hidden="true"></div>
+  <div id="cursor-anillo" aria-hidden="true"></div>
 
   <button id="idioma" type="button" aria-label="Change language">EN</button>
 
-  <section id="inicio" class="hero">
-    <p class="prompt">visitor@portfolio:~$ whoami</p>
+  <header class="hero">
+    <p class="etiqueta" data-i18n="etiqueta">Portfolio</p>
     <h1 class="nombre">Ángel Luzón Balanzá</h1>
     <p id="rol" class="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</p>
-    <a href="#sobre-mi" class="scroll" data-i18n="scroll">Explorar ↓</a>
-  </section>
+    <a href="#tabs" class="scroll" data-i18n="scroll">Explorar</a>
+  </header>
 
   <main>
-    <section id="sobre-mi">
+    <nav id="tabs" class="tabs" role="tablist" aria-label="Secciones">
+      <button type="button" class="tab activo" role="tab" data-tab="sobre" data-i18n="tab_sobre">Sobre mí</button>
+      <button type="button" class="tab" role="tab" data-tab="competencias" data-i18n="tab_competencias">Competencias</button>
+      <button type="button" class="tab" role="tab" data-tab="proyectos" data-i18n="tab_proyectos">Proyectos</button>
+      <button type="button" class="tab" role="tab" data-tab="contacto" data-i18n="tab_contacto">Contacto</button>
+    </nav>
+
+    <section id="sobre" class="panel" role="tabpanel">
       <h2 data-i18n="sobre_titulo">Sobre mí</h2>
       <p data-i18n="sobre_1">Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.</p>
       <p data-i18n="sobre_2">Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.</p>
@@ -31,26 +38,26 @@
       <p data-i18n="sobre_4">Idiomas: español nativo, inglés bilingüe (certificado Cambridge B2) y nivel básico de portugués y francés.</p>
     </section>
 
-    <section id="competencias">
+    <section id="competencias" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="competencias_titulo">Competencias</h2>
       <div class="filtros" role="group" aria-label="Filtrar competencias">
-        <button type="button" class="filtro activo" data-filtro="todas" data-i18n="filtro_todas">Todas</button>
-        <button type="button" class="filtro" data-filtro="lenguajes" data-i18n="filtro_lenguajes">Lenguajes</button>
-        <button type="button" class="filtro" data-filtro="frameworks" data-i18n="filtro_frameworks">Frameworks y datos</button>
-        <button type="button" class="filtro" data-filtro="herramientas" data-i18n="filtro_herramientas">Herramientas</button>
+        <button type="button" class="filtro activo" data-filtro="todas" aria-pressed="true" data-i18n="filtro_todas">Todas</button>
+        <button type="button" class="filtro" data-filtro="lenguajes" aria-pressed="false" data-i18n="filtro_lenguajes">Lenguajes</button>
+        <button type="button" class="filtro" data-filtro="frameworks" aria-pressed="false" data-i18n="filtro_frameworks">Frameworks y datos</button>
+        <button type="button" class="filtro" data-filtro="herramientas" aria-pressed="false" data-i18n="filtro_herramientas">Herramientas</button>
       </div>
       <ul id="lista-competencias" class="chips"></ul>
 
       <h3 data-i18n="aptitudes_titulo">Aptitudes</h3>
-      <ul id="lista-aptitudes" class="chips"></ul>
+      <ul id="lista-aptitudes" class="libros"></ul>
     </section>
 
-    <section id="proyectos">
+    <section id="proyectos" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="proyectos_titulo">Proyectos</h2>
       <p data-i18n="proyectos_vacio">Próximamente.</p>
     </section>
 
-    <section id="contacto">
+    <section id="contacto" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="contacto_titulo">Contacto</h2>
       <p>
         <a href="mailto:angel.luzon.job@gmail.com" data-i18n="correo">Correo</a> ·

@@ -4,8 +4,13 @@ const puntero_fino = window.matchMedia("(pointer: fine)").matches && !reducirMov
 const traducciones = {
   es: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
+    etiqueta: "Portfolio",
     rol: "Desarrollador full stack junior · IA y automatización",
-    scroll: "Explorar ↓",
+    scroll: "Explorar",
+    tab_sobre: "Sobre mí",
+    tab_competencias: "Competencias",
+    tab_proyectos: "Proyectos",
+    tab_contacto: "Contacto",
     sobre_titulo: "Sobre mí",
     sobre_1: "Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.",
     sobre_2: "Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.",
@@ -19,7 +24,7 @@ const traducciones = {
     nivel_intermedio: "intermedio",
     nivel_inicial: "inicial",
     aptitudes_titulo: "Aptitudes",
-    aptitud_hint: "Pulsa para ver la cita",
+    hint_libro: "Pulsa para abrir",
     aptitudes: [
       { nombre: "Compromiso", cita: "La perfección no se puede alcanzar, pero si persigues la perfección puedes alcanzar la excelencia.", autor: "Vince Lombardi" },
       { nombre: "Trabajo en equipo", cita: "Juntarse es un comienzo, mantenerse juntos es un progreso, trabajar juntos es un éxito.", autor: "Henry Ford" },
@@ -35,8 +40,13 @@ const traducciones = {
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
+    etiqueta: "Portfolio",
     rol: "Junior full stack developer · AI and automation",
-    scroll: "Explore ↓",
+    scroll: "Explore",
+    tab_sobre: "About me",
+    tab_competencias: "Skills",
+    tab_proyectos: "Projects",
+    tab_contacto: "Contact",
     sobre_titulo: "About me",
     sobre_1: "I'm Ángel Luzón, a junior full stack developer with a degree in Multiplatform Application Development. I enjoy building web and mobile applications, especially automation and integrating artificial intelligence into real projects.",
     sobre_2: "I worked as a junior software developer at AIQUBE Labs, where I built AI automations, optical character recognition (OCR), automated bots and Azure solutions with Logic Apps. I have also developed CRMs.",
@@ -50,7 +60,7 @@ const traducciones = {
     nivel_intermedio: "intermediate",
     nivel_inicial: "beginner",
     aptitudes_titulo: "Soft skills",
-    aptitud_hint: "Click to see the quote",
+    hint_libro: "Click to open",
     aptitudes: [
       { nombre: "Commitment", cita: "Perfection is not attainable, but if we chase perfection we can catch excellence.", autor: "Vince Lombardi" },
       { nombre: "Teamwork", cita: "Coming together is a beginning, keeping together is progress, working together is success.", autor: "Henry Ford" },
@@ -91,6 +101,8 @@ const botonIdioma = document.getElementById("idioma");
 const listaCompetencias = document.getElementById("lista-competencias");
 const listaAptitudes = document.getElementById("lista-aptitudes");
 const botonesFiltro = document.querySelectorAll(".filtro");
+const pestanas = document.querySelectorAll(".tab");
+const paneles = document.querySelectorAll(".panel");
 
 // Idioma inicial: guardado > idioma del navegador > español
 function idiomaInicial() {
@@ -107,8 +119,8 @@ let idioma = idiomaInicial();
 let filtroActual = "todas";
 let timerRol = null;
 
-// Efecto de escritura, con limpieza del timer anterior
-function escribirTexto(elemento, texto, velocidad = 50) {
+// Efecto de escritura en el rol
+function escribirTexto(elemento, texto, velocidad = 35) {
   clearInterval(timerRol);
 
   if (reducirMovimiento) {
@@ -124,6 +136,23 @@ function escribirTexto(elemento, texto, velocidad = 50) {
     if (i === texto.length) clearInterval(timerRol);
   }, velocidad);
 }
+
+// Pestañas: muestra un único panel a la vez
+function mostrarPanel(id) {
+  paneles.forEach((p) => {
+    p.hidden = p.id !== id;
+  });
+
+  pestanas.forEach((t) => {
+    const activa = t.dataset.tab === id;
+    t.classList.toggle("activo", activa);
+    t.setAttribute("aria-selected", String(activa));
+  });
+}
+
+pestanas.forEach((t) => {
+  t.addEventListener("click", () => mostrarPanel(t.dataset.tab));
+});
 
 // Competencias técnicas según el filtro y el idioma
 function renderCompetencias(lang) {
@@ -147,48 +176,62 @@ function renderCompetencias(lang) {
     });
 }
 
-// Aptitudes: tarjetas que giran al pulsarlas y muestran la cita con su autor
+// Aptitudes como libros: la tapa se abre y deja ver la cita
 function renderAptitudes(lang) {
   const t = traducciones[lang];
   listaAptitudes.textContent = "";
 
   t.aptitudes.forEach((apt) => {
     const li = document.createElement("li");
+    li.className = "libro-item";
 
-    const boton = document.createElement("button");
-    boton.type = "button";
-    boton.className = "apt";
-    boton.dataset.hint = t.aptitud_hint;
-    boton.setAttribute("aria-expanded", "false");
+    const libro = document.createElement("div");
+    libro.className = "libro";
+    libro.tabIndex = 0;
+    libro.setAttribute("role", "button");
+    libro.setAttribute("aria-expanded", "false");
 
-    const inner = document.createElement("span");
-    inner.className = "apt-inner";
+    const pagina = document.createElement("div");
+    pagina.className = "pagina";
 
-    const frente = document.createElement("span");
-    frente.className = "apt-frente";
-    frente.textContent = apt.nombre;
-
-    const dorso = document.createElement("span");
-    dorso.className = "apt-dorso";
-
-    const cita = document.createElement("span");
-    cita.className = "apt-cita";
+    const cita = document.createElement("p");
+    cita.className = "cita";
     cita.textContent = `"${apt.cita}"`;
 
     const autor = document.createElement("span");
-    autor.className = "apt-autor";
+    autor.className = "autor";
     autor.textContent = `— ${apt.autor}`;
 
-    dorso.append(cita, autor);
-    inner.append(frente, dorso);
-    boton.appendChild(inner);
+    pagina.append(cita, autor);
 
-    boton.addEventListener("click", () => {
-      const abierta = boton.classList.toggle("volteada");
-      boton.setAttribute("aria-expanded", String(abierta));
+    const tapa = document.createElement("div");
+    tapa.className = "tapa";
+
+    const titulo = document.createElement("span");
+    titulo.className = "titulo";
+    titulo.textContent = apt.nombre;
+
+    tapa.appendChild(titulo);
+    libro.append(pagina, tapa);
+
+    const alternar = () => {
+      const abierto = libro.classList.toggle("abierto");
+      libro.setAttribute("aria-expanded", String(abierto));
+    };
+
+    libro.addEventListener("click", alternar);
+    libro.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        alternar();
+      }
     });
 
-    li.appendChild(boton);
+    const hint = document.createElement("span");
+    hint.className = "hint";
+    hint.textContent = t.hint_libro;
+
+    li.append(libro, hint);
     listaAptitudes.appendChild(li);
   });
 }
@@ -236,9 +279,76 @@ botonesFiltro.forEach((boton) => {
   });
 });
 
-// Secciones que aparecen al hacer scroll (no incluye la portada)
+// Cursor: punto que sigue al ratón al instante y anillo con retardo suave
+function iniciarCursor() {
+  if (!puntero_fino) return;
+
+  document.documentElement.classList.add("puntero-fino");
+
+  const punto = document.getElementById("cursor-punto");
+  const anillo = document.getElementById("cursor-anillo");
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+  let ax = x;
+  let ay = y;
+
+  window.addEventListener("mousemove", (e) => {
+    x = e.clientX;
+    y = e.clientY;
+    punto.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+  });
+
+  function seguirAnillo() {
+    ax += (x - ax) * 0.18;
+    ay += (y - ay) * 0.18;
+    anillo.style.transform = `translate(${ax}px, ${ay}px) translate(-50%, -50%)`;
+    requestAnimationFrame(seguirAnillo);
+  }
+  seguirAnillo();
+
+  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro";
+
+  document.addEventListener("mouseover", (e) => {
+    anillo.classList.toggle("hover", Boolean(e.target.closest(interactivos)));
+  });
+
+  const raiz = document.documentElement;
+
+  raiz.addEventListener("mouseleave", () => {
+    punto.style.opacity = "0";
+    anillo.style.opacity = "0";
+  });
+
+  raiz.addEventListener("mouseenter", () => {
+    punto.style.opacity = "1";
+    anillo.style.opacity = "";
+  });
+}
+
+// Tarjetas con inclinación sutil al pasar el ratón
+function iniciarInclinacion() {
+  if (!puntero_fino) return;
+
+  let activa = null;
+
+  document.addEventListener("mousemove", (e) => {
+    const el = e.target.closest?.(".proyecto, .chip");
+
+    if (activa && activa !== el) activa.style.transform = "";
+    activa = el;
+    if (!el) return;
+
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-2px)`;
+  });
+}
+
+// Secciones que aparecen al hacer scroll (la cabecera no se anima)
 if (!reducirMovimiento) {
-  const secciones = document.querySelectorAll("main section");
+  const secciones = document.querySelectorAll("main .panel");
   secciones.forEach((s) => s.classList.add("oculta"));
 
   const observador = new IntersectionObserver(
@@ -250,122 +360,13 @@ if (!reducirMovimiento) {
         }
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0.1 }
   );
 
   secciones.forEach((s) => observador.observe(s));
 }
 
-// Fondo animado: red de nodos
-function iniciarFondo() {
-  const canvas = document.getElementById("fondo");
-  if (!canvas || reducirMovimiento) return;
-
-  const ctx = canvas.getContext("2d");
-  let puntos = [];
-
-  function ajustar() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const cantidad = Math.min(80, Math.floor((canvas.width * canvas.height) / 16000));
-    puntos = Array.from({ length: cantidad }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4
-    }));
-  }
-
-  function dibujar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    puntos.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(0, 255, 156, 0.6)";
-      ctx.fill();
-    });
-
-    for (let i = 0; i < puntos.length; i++) {
-      for (let j = i + 1; j < puntos.length; j++) {
-        const a = puntos[i];
-        const b = puntos[j];
-        const distancia = Math.hypot(a.x - b.x, a.y - b.y);
-        if (distancia < 130) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(0, 255, 156, ${0.15 * (1 - distancia / 130)})`;
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(dibujar);
-  }
-
-  ajustar();
-  window.addEventListener("resize", ajustar);
-  dibujar();
-}
-
-// Cursor personalizado
-function iniciarCursor() {
-  if (!puntero_fino) return;
-
-  document.documentElement.classList.add("puntero-fino");
-  document.body.classList.add("cursor-activo");
-
-  const cursor = document.getElementById("cursor");
-  let x = 0;
-  let y = 0;
-  let cx = 0;
-  let cy = 0;
-
-  window.addEventListener("mousemove", (e) => {
-    x = e.clientX;
-    y = e.clientY;
-  });
-
-  function seguir() {
-    cx += (x - cx) * 0.2;
-    cy += (y - cy) * 0.2;
-    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-    requestAnimationFrame(seguir);
-  }
-  seguir();
-
-  document.addEventListener("mouseover", (e) => {
-    cursor.classList.toggle("hover", Boolean(e.target.closest("a, button, .proyecto, .chip, .apt")));
-  });
-}
-
-// Tarjetas con efecto 3D al pasar el ratón
-function iniciarTilt() {
-  if (!puntero_fino) return;
-
-  let activo = null;
-
-  document.addEventListener("mousemove", (e) => {
-    const el = e.target.closest?.(".proyecto, .chip");
-
-    if (activo && activo !== el) activo.style.transform = "";
-    activo = el;
-    if (!el) return;
-
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(600px) rotateX(${-py * 10}deg) rotateY(${px * 10}deg) translateZ(4px)`;
-  });
-}
-
-iniciarFondo();
 iniciarCursor();
-iniciarTilt();
+iniciarInclinacion();
+mostrarPanel("sobre");
 aplicarIdioma(idioma);
