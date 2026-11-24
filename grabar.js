@@ -166,7 +166,7 @@ if (contenedorGrabaciones) {
   function descargar(tarjeta) {
     const enlace = document.createElement("a");
     enlace.href = tarjeta.resultado.url;
-    enlace.download = `${tarjeta.lang}-${tarjeta.numero}.wav`;
+    enlace.download = `${tarjeta.lang}-${tarjeta.clave}.wav`;
     document.body.appendChild(enlace);
     enlace.click();
     enlace.remove();
@@ -219,13 +219,20 @@ if (contenedorGrabaciones) {
     tarjeta.elemento.classList.remove("en-grabacion");
   }
 
-  FRASES_ORDEN().forEach(({ lang, numero, texto }) => {
+  FRASES_ORDEN().forEach(({ lang, clave, texto, grupo, etiqueta }) => {
     const elemento = document.createElement("article");
     elemento.className = "toma";
 
     const titulo = document.createElement("p");
     titulo.className = "toma-texto";
     titulo.textContent = `“${texto}”`;
+
+    if (etiqueta) {
+      const rotulo = document.createElement("p");
+      rotulo.className = "toma-etiqueta";
+      rotulo.textContent = `› ${etiqueta}`;
+      elemento.appendChild(rotulo);
+    }
 
     const fila = document.createElement("div");
     fila.className = "toma-fila";
@@ -244,7 +251,7 @@ if (contenedorGrabaciones) {
     const bajar = document.createElement("button");
     bajar.type = "button";
     bajar.className = "boton-pildora";
-    bajar.textContent = `⬇ ${lang}-${numero}.wav`;
+    bajar.textContent = `⬇ ${lang}-${clave}.wav`;
     bajar.disabled = true;
 
     const medidor = document.createElement("span");
@@ -258,14 +265,14 @@ if (contenedorGrabaciones) {
     fila.append(grabar, escuchar, bajar, medidor, estado);
     elemento.append(titulo, fila);
 
-    const tarjeta = { lang, numero, elemento, grabar, escuchar, bajar, medidor, estado, resultado: null, grabador: null };
+    const tarjeta = { lang, clave, elemento, grabar, escuchar, bajar, medidor, estado, resultado: null, grabador: null };
     tarjetas.push(tarjeta);
 
     grabar.addEventListener("click", () => (grabando === tarjeta ? parar(tarjeta) : empezar(tarjeta)));
     escuchar.addEventListener("click", () => new Audio(tarjeta.resultado.url).play());
     bajar.addEventListener("click", () => descargar(tarjeta));
 
-    document.getElementById(`lista-${lang}`).appendChild(elemento);
+    document.getElementById(`lista-${lang}${grupo === "r" ? "-r" : ""}`).appendChild(elemento);
   });
 
   botonTodas.addEventListener("click", async () => {
@@ -278,11 +285,14 @@ if (contenedorGrabaciones) {
   actualizarGlobal();
 }
 
-// Lista plana de frases con idioma y número (el número es el de audio/es-N.wav)
+// Lista plana de lo que se graba: frases (audio/es-1.wav) y respuestas del avatar (audio/es-r1.wav)
 function FRASES_ORDEN() {
   const lista = [];
   ["es", "en"].forEach((lang) => {
-    FRASES[lang].forEach((texto, i) => lista.push({ lang, numero: i + 1, texto }));
+    FRASES[lang].forEach((texto, i) => lista.push({ lang, clave: String(i + 1), texto, grupo: "f" }));
+  });
+  ["es", "en"].forEach((lang) => {
+    PREGUNTAS[lang].forEach((q, i) => lista.push({ lang, clave: `r${i + 1}`, texto: q.r, grupo: "r", etiqueta: q.p }));
   });
   return lista;
 }

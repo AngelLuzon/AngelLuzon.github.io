@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>404 | Ángel Luzón Balanzá</title>
+  <meta name="theme-color" content="#07080f">
+  <link rel="icon" href="/img/favicon-32.png" sizes="32x32" type="image/png">
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem("tema"); } catch (e) {}
+      document.documentElement.setAttribute("data-theme", tema === "light" ? "light" : "dark");
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .perdido { min-height: 100vh; min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 1.1rem; padding: 2rem var(--gutter); text-align: center; }
+    .perdido .avatar { margin-bottom: 0.5rem; }
+    .perdido .codigo { font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.1em; color: var(--acento-2); }
+    .perdido h1 { font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; }
+    .perdido p { color: var(--texto-suave); max-width: 44ch; }
+  </style>
+</head>
+<body>
+  <div class="fondo" aria-hidden="true">
+    <div class="rejilla"></div>
+    <div class="orbe orbe-1"></div>
+    <div class="orbe orbe-2"></div>
+  </div>
+
+  <main class="perdido">
+    <figure class="avatar">
+      <div class="avatar-lienzo">
+        <img src="/img/avatar.jpg" alt="" width="480" height="480">
+      </div>
+    </figure>
+    <p class="codigo">404</p>
+    <h1><span class="degradado">Aquí no hay nada</span></h1>
+    <p>Esta página no existe o se ha movido. · This page doesn't exist or has moved.</p>
+    <a href="/" class="boton boton-primario">Volver al portfolio · Back home</a>
+  </main>
+</body>
+</html>

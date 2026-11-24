@@ -7,9 +7,6 @@
   <title>Grabar mi voz | Portfolio</title>
   <meta name="theme-color" content="#07080f">
   <link rel="icon" href="img/avatar.jpg" type="image/jpeg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
     .grabadora { max-width: 760px; margin: 0 auto; padding: 4rem var(--gutter) 5rem; }
@@ -22,6 +19,9 @@
     .toma { padding: 1.1rem 1.25rem; margin-bottom: 0.9rem; background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); transition: border-color 0.2s ease, box-shadow 0.25s ease; }
     .toma.hecha { border-color: color-mix(in srgb, var(--acento-2) 50%, transparent); }
     .toma.en-grabacion { border-color: #f87171; box-shadow: 0 0 0 1px #f87171, 0 10px 40px -12px rgba(248, 113, 113, 0.5); }
+    .grabadora h3 { font-size: 1rem; font-weight: 700; color: var(--texto-suave); margin: 1.5rem 0 0.8rem; }
+    .opcional { font-size: 0.85rem; font-weight: 500; color: var(--texto-tenue); }
+    .toma-etiqueta { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--acento) !important; margin-bottom: 0.35rem; }
     .toma-texto { color: var(--texto) !important; font-weight: 600; font-size: 1.05rem; margin-bottom: 0.9rem; }
     .toma-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
     .boton-pildora:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -55,11 +55,20 @@
 
     <p class="aviso">Para que el navegador deje usar el micrófono, abre esta página desde <code>https://</code> (por ejemplo, ya publicada en GitHub Pages) o desde <code>http://localhost</code>. Si grabas solo en español, en inglés el avatar usará la voz del sistema.</p>
 
-    <h2>Español</h2>
+    <h2>Frases · Español</h2>
     <div id="lista-es"></div>
 
-    <h2>English</h2>
+    <h2>Phrases · English</h2>
     <div id="lista-en"></div>
+
+    <h2>Respuestas del avatar <span class="opcional">(opcional)</span></h2>
+    <p>Son las respuestas a los botones «Pregúntame algo». Si no las grabas, el avatar las dirá con la voz del sistema; puedes grabar solo algunas.</p>
+
+    <h3>Español</h3>
+    <div id="lista-es-r"></div>
+
+    <h3>English</h3>
+    <div id="lista-en-r"></div>
 
     <div id="grabaciones" class="barra-global">
       <button type="button" id="descargar-todas" class="boton boton-primario" disabled>Descargar todas</button>

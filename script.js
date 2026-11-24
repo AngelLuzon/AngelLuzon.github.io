@@ -3,6 +3,14 @@ const puntero_fino = window.matchMedia("(pointer: fine)").matches && !reducirMov
 
 const CORREO = "angel.luzon.job@gmail.com";
 
+// Opcionales: rellena estas constantes para activarlos.
+// Tu perfil de LinkedIn (https://www.linkedin.com/in/...): muestra el enlace en la cabecera, en Contacto y en la paleta.
+const LINKEDIN = "";
+// Tu código de GoatCounter (por ejemplo "angelluzon" si tu panel es angelluzon.goatcounter.com): activa las estadísticas de visitas sin cookies.
+const GOATCOUNTER = "";
+// Ruta de tu currículum en PDF (por ejemplo "cv.pdf" si subes el archivo a la raíz): muestra los botones de descarga.
+const CV_PDF = "";
+
 const traducciones = {
   es: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -46,7 +54,6 @@ const traducciones = {
       { nombre: "Atento", cita: "La atención es la forma más rara y pura de generosidad.", autor: "Simone Weil" }
     ],
     proyectos_titulo: "Proyectos",
-    proyectos_vacio: "Próximamente.",
     contacto_titulo: "Contacto",
     correo_label: "Correo",
     copiar: "Copiar",
@@ -54,7 +61,6 @@ const traducciones = {
     copiar_error: "No se pudo copiar ❌",
     contacto_nota: "Si el enlace del correo no abre tu programa de correo, usa el botón Copiar.",
     contacto_intro: "¿Tienes una oferta, una idea o simplemente quieres saludar? Escríbeme.",
-    proyectos_texto: "Estoy preparando proyectos para enseñar aquí. Mientras tanto, puedes ver mi código en GitHub.",
     cv: "Descargar CV",
     cv_label: "Currículum",
     hablemos: "Hablemos",
@@ -76,7 +82,37 @@ const traducciones = {
     avatar_dibujo: "Avatar animado",
     avatar_voz: "Voz",
     avatar_alt_foto: "Foto de Ángel Luzón Balanzá",
-    avatar_alt_dibujo: "Avatar de dibujo animado de Ángel, que habla con las frases del bocadillo"
+    avatar_alt_dibujo: "Avatar de dibujo animado de Ángel, que habla con las frases del bocadillo",
+    saltar: "Saltar al contenido",
+    paleta_abrir: "Abrir la paleta de comandos",
+    paleta_titulo: "Paleta de comandos",
+    paleta_placeholder: "Escribe un comando o busca…",
+    paleta_vacio: "Sin resultados",
+    paleta_pie: "↑ ↓ moverse · Enter ejecutar · Esc cerrar",
+    paleta_ir: "Ir a",
+    paleta_acciones: "Acciones",
+    paleta_preguntar: "Preguntar al avatar",
+    cmd_idioma: "Cambiar idioma a English",
+    cmd_avatar_on: "Activar el avatar animado",
+    cmd_avatar_off: "Volver a mi foto",
+    cmd_copiar: "Copiar el correo",
+    cmd_github: "Abrir GitHub",
+    cmd_linkedin: "Abrir LinkedIn",
+    cmd_cv: "Descargar CV",
+    subir: "Volver arriba",
+    preguntas_titulo: "Pregúntame algo",
+    proyecto_destacado: "Destacado",
+    proy_portfolio_titulo: "Este portfolio",
+    proy_portfolio_desc: "Mi web personal, hecha a mano y sin frameworks: tema claro y oscuro, español e inglés, y un avatar animado que habla y responde a tus preguntas.",
+    proy_codigo: "Ver código",
+    proy_avatar: "Probar el avatar",
+    repos_cargando: "Cargando más proyectos de GitHub…",
+    repos_vacio: "Pronto habrá más proyectos aquí.",
+    repos_error: "No he podido cargar mis repositorios ahora mismo.",
+    repos_github: "Ver mi GitHub",
+    repo_sin_desc: "Sin descripción todavía.",
+    repo_actualizado: "Actualizado",
+    aviso_copiado: "Correo copiado ✅"
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -120,7 +156,6 @@ const traducciones = {
       { nombre: "Attentive", cita: "Attention is the rarest and purest form of generosity.", autor: "Simone Weil" }
     ],
     proyectos_titulo: "Projects",
-    proyectos_vacio: "Coming soon.",
     contacto_titulo: "Contact",
     correo_label: "Email",
     copiar: "Copy",
@@ -128,7 +163,6 @@ const traducciones = {
     copiar_error: "Copy failed ❌",
     contacto_nota: "If the email link doesn't open your mail app, use the Copy button.",
     contacto_intro: "Got an offer, an idea or just want to say hi? Drop me a line.",
-    proyectos_texto: "I'm preparing projects to showcase here. In the meantime, you can check out my code on GitHub.",
     cv: "Download CV",
     cv_label: "Résumé",
     hablemos: "Let's talk",
@@ -150,7 +184,37 @@ const traducciones = {
     avatar_dibujo: "Animated avatar",
     avatar_voz: "Voice",
     avatar_alt_foto: "Photo of Ángel Luzón Balanzá",
-    avatar_alt_dibujo: "Cartoon avatar of Ángel, speaking the phrases shown in the speech bubble"
+    avatar_alt_dibujo: "Cartoon avatar of Ángel, speaking the phrases shown in the speech bubble",
+    saltar: "Skip to content",
+    paleta_abrir: "Open the command palette",
+    paleta_titulo: "Command palette",
+    paleta_placeholder: "Type a command or search…",
+    paleta_vacio: "No results",
+    paleta_pie: "↑ ↓ move · Enter run · Esc close",
+    paleta_ir: "Go to",
+    paleta_acciones: "Actions",
+    paleta_preguntar: "Ask the avatar",
+    cmd_idioma: "Switch language to Español",
+    cmd_avatar_on: "Turn on the animated avatar",
+    cmd_avatar_off: "Back to my photo",
+    cmd_copiar: "Copy email",
+    cmd_github: "Open GitHub",
+    cmd_linkedin: "Open LinkedIn",
+    cmd_cv: "Download CV",
+    subir: "Back to top",
+    preguntas_titulo: "Ask me something",
+    proyecto_destacado: "Featured",
+    proy_portfolio_titulo: "This portfolio",
+    proy_portfolio_desc: "My personal website, handmade without frameworks: light and dark theme, Spanish and English, and an animated avatar that speaks and answers your questions.",
+    proy_codigo: "View code",
+    proy_avatar: "Try the avatar",
+    repos_cargando: "Loading more projects from GitHub…",
+    repos_vacio: "More projects will appear here soon.",
+    repos_error: "I couldn't load my repositories right now.",
+    repos_github: "See my GitHub",
+    repo_sin_desc: "No description yet.",
+    repo_actualizado: "Updated",
+    aviso_copiado: "Email copied ✅"
   }
 };
 
@@ -399,6 +463,7 @@ async function copiarCorreo() {
   try {
     await navigator.clipboard.writeText(CORREO);
     botonCopiar.textContent = traducciones[idioma].copiado;
+    mostrarAviso(traducciones[idioma].aviso_copiado);
   } catch {
     botonCopiar.textContent = traducciones[idioma].copiar_error;
   }
@@ -430,6 +495,9 @@ function aplicarIdioma(lang) {
   actualizarBotonTema();
   actualizarBotonMenu();
   actualizarTextosAvatar();
+  renderPreguntas(lang);
+  renderRepos(lang);
+  actualizarAtributosI18n(t);
 
   botonIdioma.textContent = lang === "es" ? "EN" : "ES";
   botonIdioma.setAttribute("aria-label", lang === "es" ? "Change language to English" : "Cambiar idioma a español");
@@ -524,16 +592,15 @@ function iniciarRevelado() {
   document.querySelectorAll(".revelar").forEach((el) => observador.observe(el));
 }
 
-// ---------- CV: oculta los enlaces si cv.pdf aún no existe ----------
-async function comprobarCV() {
-  try {
-    const respuesta = await fetch("cv.pdf", { method: "HEAD", cache: "no-store" });
-    if (respuesta.ok) return;
-  } catch {
-    // Sin servidor (file://) o sin red: se oculta igualmente
-  }
-  document.querySelectorAll(".enlace-cv").forEach((el) => {
-    (el.closest(".enlace-cv-item") || el).hidden = true;
+// ---------- CV: los enlaces se muestran cuando CV_PDF tiene la ruta del archivo ----------
+function configurarCV() {
+  if (!CV_PDF) return;
+  cvDisponible = true;
+  document.querySelectorAll(".enlace-cv").forEach((a) => {
+    a.href = CV_PDF;
+  });
+  document.querySelectorAll(".enlace-cv, .enlace-cv-item").forEach((el) => {
+    el.hidden = false;
   });
 }
 
@@ -672,7 +739,7 @@ function cargarAudio(lang, n) {
 
 // Si falta la primera grabación del idioma, se asume que no hay voz propia y no se piden las demás
 async function vozGrabada(lang, n) {
-  if (n !== 1 && (await cargarAudio(lang, 1)) === null) return null;
+  if (n !== "1" && (await cargarAudio(lang, "1")) === null) return null;
   return cargarAudio(lang, n);
 }
 
@@ -694,6 +761,10 @@ function silenciar() {
 
 function detenerHabla() {
   tokenHabla++;
+  // La rotación de frases del modo foto no debe pisar lo que dice el avatar
+  clearInterval(timerFrases);
+  clearTimeout(timerFraseSalida);
+  elementoFrase.classList.remove("salida");
   clearTimeout(timerHabla);
   clearInterval(timerBoca);
   silenciar();
@@ -704,8 +775,8 @@ function detenerHabla() {
 
 // Escribe el texto en el bocadillo letra a letra, moviendo la boca.
 // Con la voz activa habla con tu grabación (si existe) o con la voz del sistema.
-async function decir(texto, token, indice) {
-  const grabada = vozActiva ? await vozGrabada(idioma, indice) : null;
+async function decir(texto, token, clave, etiqueta = "") {
+  const grabada = vozActiva ? await vozGrabada(idioma, clave) : null;
   if (token !== tokenHabla) return;
 
   return new Promise((resolve) => {
@@ -721,9 +792,17 @@ async function decir(texto, token, indice) {
 
     const lector = document.createElement("span");
     lector.className = "sr-only";
-    lector.textContent = texto;
+    lector.textContent = etiqueta ? `${etiqueta} ${texto}` : texto;
 
-    elementoFrase.replaceChildren(visible, reserva, lector);
+    const piezas = [visible, reserva, lector];
+    if (etiqueta) {
+      const rotulo = document.createElement("span");
+      rotulo.className = "frase-etiqueta";
+      rotulo.setAttribute("aria-hidden", "true");
+      rotulo.textContent = `› ${etiqueta}`;
+      piezas.unshift(rotulo);
+    }
+    elementoFrase.replaceChildren(...piezas);
     elementoFrase.classList.add("escribiendo");
     dibujoAvatar.classList.add("hablando");
 
@@ -818,7 +897,7 @@ async function bucleHabla(token) {
   let i = 0;
   while (token === tokenHabla) {
     const posicion = i % frases.length;
-    await decir(frases[posicion], token, posicion + 1);
+    await decir(frases[posicion], token, String(posicion + 1));
     if (token !== tokenHabla) return;
     await esperar(2400);
     i++;
@@ -883,12 +962,485 @@ document.addEventListener("visibilitychange", () => {
 
 window.addEventListener("pagehide", silenciar);
 
+// ---------- Extras: preguntas al avatar, proyectos de GitHub, paleta de comandos y detalles ----------
+const listaPreguntas = document.getElementById("lista-preguntas");
+const gridProyectos = document.getElementById("lista-proyectos");
+const estadoRepos = document.getElementById("repos-estado");
+const barraProgreso = document.getElementById("progreso");
+const botonSubir = document.getElementById("subir");
+const avisoFlotante = document.getElementById("aviso");
+
+const USUARIO_GITHUB = "AngelLuzon";
+const REPO_PORTFOLIO = "AngelLuzon.github.io";
+
+let cvDisponible = false;
+let repos = null; // null = cargando, "error" = fallo, o lista de repositorios
+let timerAviso = null;
+
+// Atributos traducibles (aria-label y placeholder)
+function actualizarAtributosI18n(t) {
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    el.setAttribute("aria-label", t[el.dataset.i18nAria]);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    el.placeholder = t[el.dataset.i18nPlaceholder];
+  });
+}
+
+// ---------- Aviso flotante ----------
+function mostrarAviso(texto) {
+  clearTimeout(timerAviso);
+  avisoFlotante.textContent = texto;
+  avisoFlotante.classList.add("visible");
+  timerAviso = setTimeout(() => avisoFlotante.classList.remove("visible"), 2200);
+}
+
+// ---------- Preguntas al avatar ----------
+function renderPreguntas(lang) {
+  listaPreguntas.textContent = "";
+
+  PREGUNTAS[lang].forEach((q, i) => {
+    const li = document.createElement("li");
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "pregunta";
+    boton.textContent = q.p;
+    boton.setAttribute("aria-pressed", "false");
+    boton.addEventListener("click", () => preguntar(i));
+    li.appendChild(boton);
+    listaPreguntas.appendChild(li);
+  });
+}
+
+function marcarPregunta(indice) {
+  listaPreguntas.querySelectorAll(".pregunta").forEach((b, i) => {
+    b.setAttribute("aria-pressed", String(i === indice));
+  });
+}
+
+// El avatar responde en el bocadillo (con voz si está activada) y después retoma sus frases
+async function preguntar(indice, desdePaleta = false) {
+  const q = PREGUNTAS[idioma][indice];
+  if (!q) return;
+
+  // Para "hablar" el avatar tiene que estar en modo dibujo (sin guardar la preferencia)
+  if (modoAvatar !== "dibujo") {
+    modoAvatar = "dibujo";
+    aplicarModoAvatar();
+  }
+
+  if (desdePaleta) {
+    document.getElementById("sobre").scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth" });
+  }
+
+  detenerHabla();
+  elementoFrase.classList.add("burbuja");
+  elementoFrase.setAttribute("aria-live", "off");
+  marcarPregunta(indice);
+
+  // Con movimiento reducido no hay animación: se muestra la respuesta tal cual
+  if (reducirMovimiento) {
+    const rotulo = document.createElement("span");
+    rotulo.className = "frase-etiqueta";
+    rotulo.textContent = `› ${q.p}`;
+    const texto = document.createElement("span");
+    texto.className = "frase-visible";
+    texto.textContent = q.r;
+    elementoFrase.replaceChildren(rotulo, texto);
+    return;
+  }
+
+  const token = tokenHabla;
+  await decir(q.r, token, `r${indice + 1}`, q.p);
+  if (token !== tokenHabla) return;
+
+  await esperar(3500);
+  if (token !== tokenHabla) return;
+
+  marcarPregunta(-1);
+  iniciarFrases(idioma);
+}
+
+// ---------- Proyectos: ficha propia + repositorios de GitHub ----------
+const COLORES_LENGUAJE = {
+  JavaScript: "#f1e05a",
+  TypeScript: "#3178c6",
+  "C#": "#178600",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  Python: "#3572a5",
+  Java: "#b07219",
+  Kotlin: "#a97bff"
+};
+
+async function cargarRepos() {
+  try {
+    let datos = null;
+
+    // Caché de sesión para no gastar el límite de peticiones de GitHub
+    try {
+      const guardado = JSON.parse(sessionStorage.getItem("repos") || "null");
+      if (guardado && Date.now() - guardado.hora < 10 * 60 * 1000) datos = guardado.datos;
+    } catch {
+      // sin sessionStorage, se pide siempre
+    }
+
+    if (!datos) {
+      const respuesta = await fetch(`https://api.github.com/users/${USUARIO_GITHUB}/repos?per_page=100&sort=updated`, {
+        headers: { Accept: "application/vnd.github+json" }
+      });
+      if (!respuesta.ok) throw new Error(String(respuesta.status));
+      datos = await respuesta.json();
+      try {
+        sessionStorage.setItem("repos", JSON.stringify({ hora: Date.now(), datos }));
+      } catch {
+        // no pasa nada si no se puede guardar
+      }
+    }
+
+    repos = datos
+      .filter((r) => !r.fork && !r.archived && r.name !== REPO_PORTFOLIO)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at));
+  } catch {
+    repos = "error";
+  }
+
+  renderRepos(idioma);
+}
+
+function crearTarjetaRepo(r, t, lang) {
+  const tarjeta = document.createElement("article");
+  tarjeta.className = "proyecto tarjeta repo";
+
+  const titulo = document.createElement("h3");
+  const enlace = document.createElement("a");
+  enlace.href = r.html_url;
+  enlace.target = "_blank";
+  enlace.rel = "noopener";
+  enlace.textContent = r.name;
+  titulo.appendChild(enlace);
+
+  const descripcion = document.createElement("p");
+  if (r.description) {
+    descripcion.textContent = r.description;
+  } else {
+    descripcion.className = "proyecto-sin-desc";
+    descripcion.textContent = t.repo_sin_desc;
+  }
+
+  tarjeta.append(titulo, descripcion);
+
+  if (Array.isArray(r.topics) && r.topics.length) {
+    const temas = document.createElement("ul");
+    temas.className = "tecnologias";
+    r.topics.slice(0, 5).forEach((tema) => {
+      const li = document.createElement("li");
+      li.textContent = tema;
+      temas.appendChild(li);
+    });
+    tarjeta.appendChild(temas);
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "proyecto-meta";
+
+  if (r.language) {
+    const lenguaje = document.createElement("span");
+    lenguaje.className = "lenguaje";
+    lenguaje.style.setProperty("--color-lenguaje", COLORES_LENGUAJE[r.language] || "var(--acento)");
+    lenguaje.textContent = r.language;
+    meta.appendChild(lenguaje);
+  }
+
+  if (r.stargazers_count > 0) {
+    const estrellas = document.createElement("span");
+    estrellas.textContent = `★ ${r.stargazers_count}`;
+    meta.appendChild(estrellas);
+  }
+
+  if (r.pushed_at) {
+    const fecha = document.createElement("span");
+    const formato = new Intl.DateTimeFormat(lang, { year: "numeric", month: "short" });
+    fecha.textContent = `${t.repo_actualizado} ${formato.format(new Date(r.pushed_at))}`;
+    meta.appendChild(fecha);
+  }
+
+  tarjeta.appendChild(meta);
+  return tarjeta;
+}
+
+function renderRepos(lang) {
+  const t = traducciones[lang];
+  gridProyectos.querySelectorAll(".repo").forEach((el) => el.remove());
+  estadoRepos.textContent = "";
+
+  if (repos === null) {
+    estadoRepos.textContent = t.repos_cargando;
+    return;
+  }
+
+  if (Array.isArray(repos) && repos.length) {
+    repos.forEach((r) => gridProyectos.appendChild(crearTarjetaRepo(r, t, lang)));
+    return;
+  }
+
+  estadoRepos.textContent = `${repos === "error" ? t.repos_error : t.repos_vacio} `;
+  const enlace = document.createElement("a");
+  enlace.href = `https://github.com/${USUARIO_GITHUB}`;
+  enlace.target = "_blank";
+  enlace.rel = "noopener";
+  enlace.textContent = t.repos_github;
+  estadoRepos.appendChild(enlace);
+}
+
+// ---------- Paleta de comandos (Ctrl/Cmd + K) ----------
+const dialogoPaleta = document.getElementById("paleta");
+const entradaPaleta = document.getElementById("paleta-entrada");
+const listaPaleta = document.getElementById("paleta-lista");
+const botonPaleta = document.getElementById("paleta-abrir");
+
+let opcionesPaleta = [];
+
+function sinAcentos(texto) {
+  return texto.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+function irA(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "start" });
+}
+
+function comandosPaleta() {
+  const t = traducciones[idioma];
+  const lista = [];
+
+  [
+    ["sobre", "tab_sobre"],
+    ["trayectoria", "tab_trayectoria"],
+    ["competencias", "tab_competencias"],
+    ["aptitudes", "tab_aptitudes"],
+    ["proyectos", "tab_proyectos"],
+    ["contacto", "tab_contacto"]
+  ].forEach(([id, clave]) => lista.push({ grupo: t.paleta_ir, texto: t[clave], icono: "→", accion: () => irA(id) }));
+
+  const oscuro = temaActual() === "dark";
+  lista.push({ grupo: t.paleta_acciones, texto: oscuro ? t.tema_claro : t.tema_oscuro, icono: oscuro ? "☀" : "☾", accion: () => botonTema.click() });
+  lista.push({ grupo: t.paleta_acciones, texto: t.cmd_idioma, icono: "文", accion: () => botonIdioma.click() });
+  lista.push({
+    grupo: t.paleta_acciones,
+    texto: modoAvatar === "dibujo" ? t.cmd_avatar_off : t.cmd_avatar_on,
+    icono: "✦",
+    accion: () => botonDibujo.click()
+  });
+  lista.push({ grupo: t.paleta_acciones, texto: t.cmd_copiar, icono: "✉", accion: copiarCorreo });
+  lista.push({
+    grupo: t.paleta_acciones,
+    texto: t.cmd_github,
+    icono: "↗",
+    accion: () => window.open(`https://github.com/${USUARIO_GITHUB}`, "_blank", "noopener")
+  });
+  if (LINKEDIN) {
+    lista.push({ grupo: t.paleta_acciones, texto: t.cmd_linkedin, icono: "↗", accion: () => window.open(LINKEDIN, "_blank", "noopener") });
+  }
+  if (cvDisponible) {
+    lista.push({
+      grupo: t.paleta_acciones,
+      texto: t.cmd_cv,
+      icono: "⬇",
+      accion: () => {
+        const a = document.createElement("a");
+        a.href = CV_PDF;
+        a.download = "";
+        a.click();
+      }
+    });
+  }
+
+  PREGUNTAS[idioma].forEach((q, i) =>
+    lista.push({ grupo: t.paleta_preguntar, texto: q.p, icono: "?", accion: () => preguntar(i, true) })
+  );
+
+  return lista;
+}
+
+function marcarOpcion(i) {
+  opcionesPaleta.forEach((o, j) => o.li.setAttribute("aria-selected", String(j === i)));
+  if (opcionesPaleta[i]) {
+    entradaPaleta.setAttribute("aria-activedescendant", opcionesPaleta[i].li.id);
+    opcionesPaleta[i].li.scrollIntoView({ block: "nearest" });
+  }
+}
+
+function ejecutarComando(comando) {
+  dialogoPaleta.close();
+  setTimeout(comando.accion, 60);
+}
+
+function pintarPaleta() {
+  const t = traducciones[idioma];
+  const consulta = sinAcentos(entradaPaleta.value.trim()).split(/\s+/).filter(Boolean);
+  const visibles = comandosPaleta().filter((c) => {
+    const texto = sinAcentos(`${c.grupo} ${c.texto}`);
+    return consulta.every((q) => texto.includes(q));
+  });
+
+  listaPaleta.textContent = "";
+  opcionesPaleta = [];
+  entradaPaleta.removeAttribute("aria-activedescendant");
+
+  if (!visibles.length) {
+    const vacio = document.createElement("li");
+    vacio.className = "paleta-vacio";
+    vacio.setAttribute("role", "presentation");
+    vacio.textContent = t.paleta_vacio;
+    listaPaleta.appendChild(vacio);
+    return;
+  }
+
+  let grupoActual = "";
+  visibles.forEach((c, i) => {
+    if (c.grupo !== grupoActual) {
+      grupoActual = c.grupo;
+      const cabecera = document.createElement("li");
+      cabecera.className = "paleta-grupo";
+      cabecera.setAttribute("role", "presentation");
+      cabecera.textContent = grupoActual;
+      listaPaleta.appendChild(cabecera);
+    }
+
+    const li = document.createElement("li");
+    li.id = `paleta-op-${i}`;
+    li.className = "paleta-opcion";
+    li.setAttribute("role", "option");
+    li.setAttribute("aria-selected", "false");
+
+    const icono = document.createElement("span");
+    icono.className = "paleta-icono";
+    icono.setAttribute("aria-hidden", "true");
+    icono.textContent = c.icono;
+
+    const texto = document.createElement("span");
+    texto.textContent = c.texto;
+
+    li.append(icono, texto);
+    li.addEventListener("click", () => ejecutarComando(c));
+    li.addEventListener("mousemove", () => marcarOpcion(i));
+    listaPaleta.appendChild(li);
+    opcionesPaleta.push({ li, comando: c });
+  });
+
+  marcarOpcion(0);
+}
+
+function alternarPaleta() {
+  if (dialogoPaleta.open) {
+    dialogoPaleta.close();
+    return;
+  }
+  entradaPaleta.value = "";
+  pintarPaleta();
+  dialogoPaleta.showModal();
+  entradaPaleta.focus();
+}
+
+function iniciarPaleta() {
+  if (typeof dialogoPaleta.showModal !== "function") {
+    botonPaleta.hidden = true;
+    return;
+  }
+
+  botonPaleta.addEventListener("click", alternarPaleta);
+  entradaPaleta.addEventListener("input", pintarPaleta);
+
+  entradaPaleta.addEventListener("keydown", (e) => {
+    if (!opcionesPaleta.length) return;
+    const actual = opcionesPaleta.findIndex((o) => o.li.getAttribute("aria-selected") === "true");
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      marcarOpcion((actual + 1) % opcionesPaleta.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      marcarOpcion((actual - 1 + opcionesPaleta.length) % opcionesPaleta.length);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (opcionesPaleta[actual]) ejecutarComando(opcionesPaleta[actual].comando);
+    }
+  });
+
+  // Clic fuera de la caja (en el fondo oscuro) cierra la paleta
+  dialogoPaleta.addEventListener("click", (e) => {
+    if (e.target === dialogoPaleta) dialogoPaleta.close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      alternarPaleta();
+    }
+  });
+}
+
+// ---------- Progreso de scroll y botón de volver arriba ----------
+function iniciarProgreso() {
+  let pendiente = false;
+
+  const actualizar = () => {
+    pendiente = false;
+    const maximo = document.documentElement.scrollHeight - window.innerHeight;
+    const avance = maximo > 0 ? Math.min(1, window.scrollY / maximo) : 0;
+    barraProgreso.style.transform = `scaleX(${avance})`;
+    botonSubir.hidden = window.scrollY < 700;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!pendiente) {
+        pendiente = true;
+        requestAnimationFrame(actualizar);
+      }
+    },
+    { passive: true }
+  );
+  window.addEventListener("resize", actualizar);
+  actualizar();
+
+  botonSubir.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reducirMovimiento ? "auto" : "smooth" });
+  });
+}
+
+// ---------- Opcionales que se activan rellenando una constante al principio del archivo ----------
+function iniciarOpcionales() {
+  if (LINKEDIN) {
+    document.querySelectorAll(".enlace-linkedin").forEach((a) => {
+      a.href = LINKEDIN;
+    });
+    document.querySelectorAll(".enlace-linkedin, .enlace-linkedin-item").forEach((el) => {
+      el.hidden = false;
+    });
+  }
+
+  // Estadísticas de visitas sin cookies (GoatCounter); respeta "No rastrear"
+  if (GOATCOUNTER && navigator.doNotTrack !== "1") {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://gc.zgo.at/count.js";
+    script.dataset.goatcounter = `https://${GOATCOUNTER}.goatcounter.com/count`;
+    document.head.appendChild(script);
+  }
+}
+
 // ---------- Arranque ----------
 document.getElementById("anio").textContent = new Date().getFullYear();
 iniciarCursor();
 iniciarInclinacion();
 iniciarScrollspy();
 iniciarRevelado();
-comprobarCV();
+configurarCV();
 aplicarModoAvatar();
+iniciarPaleta();
+iniciarProgreso();
+iniciarOpcionales();
 aplicarIdioma(idioma);
+cargarRepos();
