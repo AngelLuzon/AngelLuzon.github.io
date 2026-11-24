@@ -8,7 +8,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ángel Luzón Balanzá | Portfolio">
-  <meta property="og:description" content="Desarrollador full stack junior · IA y automatización. Prueba la demo de OCR en el navegador.">
+  <meta property="og:description" content="Desarrollador full stack junior · IA y automatización.">
   <meta property="og:url" content="https://angelluzon.github.io">
   <meta property="og:image" content="https://angelluzon.github.io/og.png">
   <meta property="og:image:width" content="1200">
@@ -38,17 +38,40 @@
       <button type="button" class="tab activo" role="tab" data-tab="sobre" data-i18n="tab_sobre">Sobre mí</button>
       <button type="button" class="tab" role="tab" data-tab="competencias" data-i18n="tab_competencias">Competencias</button>
       <button type="button" class="tab" role="tab" data-tab="aptitudes" data-i18n="tab_aptitudes">Aptitudes</button>
-      <button type="button" class="tab" role="tab" data-tab="ocr" data-i18n="tab_ocr">Demo OCR</button>
       <button type="button" class="tab" role="tab" data-tab="proyectos" data-i18n="tab_proyectos">Proyectos</button>
       <button type="button" class="tab" role="tab" data-tab="contacto" data-i18n="tab_contacto">Contacto</button>
     </nav>
 
     <section id="sobre" class="panel" role="tabpanel">
       <h2 data-i18n="sobre_titulo">Sobre mí</h2>
-      <p data-i18n="sobre_1">Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.</p>
-      <p data-i18n="sobre_2">Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.</p>
-      <p data-i18n="sobre_3">Trabajo con JavaScript y estoy aprendiendo TypeScript y C#. Mis herramientas habituales son Visual Studio Code, Visual Studio y Git/GitHub.</p>
-      <p data-i18n="sobre_4">Idiomas: español nativo, inglés bilingüe (certificado Cambridge B2) y nivel básico de portugués y francés.</p>
+
+      <dl class="ficha">
+        <div class="ficha-fila">
+          <dt data-i18n="ficha_rol_label">Rol</dt>
+          <dd data-i18n="ficha_rol">Desarrollador full stack junior</dd>
+        </div>
+        <div class="ficha-fila">
+          <dt data-i18n="ficha_ubicacion_label">Ubicación</dt>
+          <dd data-i18n="ficha_ubicacion">Zaragoza, España</dd>
+        </div>
+        <div class="ficha-fila">
+          <dt data-i18n="ficha_formacion_label">Formación</dt>
+          <dd data-i18n="ficha_formacion">Grado en Desarrollo de Aplicaciones Multiplataforma, con cursos de IA, Big Data, Cloud y Machine Learning</dd>
+        </div>
+        <div class="ficha-fila">
+          <dt data-i18n="ficha_experiencia_label">Experiencia</dt>
+          <dd data-i18n="ficha_experiencia">Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure</dd>
+        </div>
+        <div class="ficha-fila">
+          <dt data-i18n="ficha_intereses_label">Intereses</dt>
+          <dd data-i18n="ficha_intereses">IA, automatización, arquitectura de software y agentes inteligentes</dd>
+        </div>
+      </dl>
+
+      <p id="frase" class="frase" aria-live="polite"></p>
+
+      <p data-i18n="sobre_1">¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.</p>
+      <p data-i18n="sobre_2">Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.</p>
     </section>
 
     <section id="competencias" class="panel" role="tabpanel" hidden>
@@ -65,42 +88,6 @@
     <section id="aptitudes" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
       <ul id="lista-aptitudes" class="libros"></ul>
-    </section>
-
-    <section id="ocr" class="panel" role="tabpanel" hidden>
-      <h2 data-i18n="ocr_titulo">Demo de OCR</h2>
-      <p data-i18n="ocr_intro">Sube una imagen con texto y extraeré el contenido directamente en tu navegador.</p>
-
-      <div class="ocr-card">
-        <label id="dropzone" class="dropzone" for="ocr-archivo">
-          <span class="dropzone-icono" aria-hidden="true">🖼️</span>
-          <span data-i18n="ocr_soltar">Arrastra una imagen aquí o haz clic para elegirla</span>
-          <input id="ocr-archivo" type="file" accept="image/*" hidden>
-        </label>
-
-        <div id="ocr-vista" class="ocr-vista" hidden>
-          <img id="ocr-preview" alt="">
-        </div>
-
-        <div class="ocr-acciones">
-          <button id="ocr-analizar" type="button" class="boton-principal" disabled data-i18n="ocr_analizar">Analizar imagen</button>
-          <span id="ocr-estado" class="hint" role="status" aria-live="polite"></span>
-        </div>
-
-        <div id="ocr-progreso" class="progreso" hidden>
-          <div id="ocr-barra" class="barra"></div>
-        </div>
-
-        <div class="ocr-resultado">
-          <div class="ocr-resultado-cabecera">
-            <span class="contacto-label" data-i18n="ocr_resultado">Texto extraído</span>
-            <button id="ocr-copiar" type="button" class="boton-copiar" data-i18n="copiar">Copiar</button>
-          </div>
-          <textarea id="ocr-salida" rows="8" data-i18n-placeholder="ocr_vacio" placeholder="El texto aparecerá aquí."></textarea>
-        </div>
-
-        <p class="ocr-privacidad" data-i18n="ocr_privacidad">La imagen no sale de tu equipo. La primera vez se descargan los datos del idioma, que pueden tardar unos segundos.</p>
-      </div>
     </section>
 
     <section id="proyectos" class="panel" role="tabpanel" hidden>
@@ -134,7 +121,6 @@
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

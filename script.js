@@ -12,14 +12,27 @@ const traducciones = {
     tab_sobre: "Sobre mí",
     tab_competencias: "Competencias",
     tab_aptitudes: "Aptitudes",
-    tab_ocr: "Demo OCR",
     tab_proyectos: "Proyectos",
     tab_contacto: "Contacto",
     sobre_titulo: "Sobre mí",
-    sobre_1: "Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.",
-    sobre_2: "Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.",
-    sobre_3: "Trabajo con JavaScript y estoy aprendiendo TypeScript y C#. Mis herramientas habituales son Visual Studio Code, Visual Studio y Git/GitHub.",
-    sobre_4: "Idiomas: español nativo, inglés bilingüe (certificado Cambridge B2) y nivel básico de portugués y francés.",
+    ficha_rol_label: "Rol",
+    ficha_rol: "Desarrollador full stack junior",
+    ficha_ubicacion_label: "Ubicación",
+    ficha_ubicacion: "Zaragoza, España",
+    ficha_formacion_label: "Formación",
+    ficha_formacion: "Grado en Desarrollo de Aplicaciones Multiplataforma, con cursos de IA, Big Data, Cloud y Machine Learning",
+    ficha_experiencia_label: "Experiencia",
+    ficha_experiencia: "Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure",
+    ficha_intereses_label: "Intereses",
+    ficha_intereses: "IA, automatización, arquitectura de software y agentes inteligentes",
+    frases: [
+      "Busco un equipo donde aprender y aportar desde el primer día.",
+      "Me motiva ayudar a la gente a estar más conectada.",
+      "Me gusta convertir lo repetitivo en automatizaciones.",
+      "Creo que el buen código se entiende a la primera."
+    ],
+    sobre_1: "¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.",
+    sobre_2: "Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.",
     competencias_titulo: "Competencias",
     filtro_todas: "Todas",
     filtro_lenguajes: "Lenguajes",
@@ -37,18 +50,6 @@ const traducciones = {
       { nombre: "Proactivo", cita: "Fallas el 100% de los tiros que no intentas.", autor: "Wayne Gretzky" },
       { nombre: "Atento", cita: "La atención es la forma más rara y pura de generosidad.", autor: "Simone Weil" }
     ],
-    ocr_titulo: "Demo de OCR",
-    ocr_intro: "Sube una imagen con texto y extraeré el contenido directamente en tu navegador.",
-    ocr_soltar: "Arrastra una imagen aquí o haz clic para elegirla",
-    ocr_analizar: "Analizar imagen",
-    ocr_resultado: "Texto extraído",
-    ocr_vacio: "El texto aparecerá aquí.",
-    ocr_privacidad: "La imagen no sale de tu equipo. La primera vez se descargan los datos del idioma, que pueden tardar unos segundos.",
-    ocr_cargando: "Analizando",
-    ocr_listo: "Análisis completado ✅",
-    ocr_error: "No se pudo analizar la imagen ❌",
-    ocr_no_disponible: "La librería de OCR no se ha cargado. Revisa tu conexión ❌",
-    ocr_formato: "Elige un archivo de imagen ⚠️",
     proyectos_titulo: "Proyectos",
     proyectos_vacio: "Próximamente.",
     contacto_titulo: "Contacto",
@@ -66,14 +67,27 @@ const traducciones = {
     tab_sobre: "About me",
     tab_competencias: "Skills",
     tab_aptitudes: "Soft skills",
-    tab_ocr: "OCR demo",
     tab_proyectos: "Projects",
     tab_contacto: "Contact",
     sobre_titulo: "About me",
-    sobre_1: "I'm Ángel Luzón, a junior full stack developer with a degree in Multiplatform Application Development. I enjoy building web and mobile applications, especially automation and integrating artificial intelligence into real projects.",
-    sobre_2: "I worked as a junior software developer at AIQUBE Labs, where I built AI automations, optical character recognition (OCR), automated bots and Azure solutions with Logic Apps. I have also developed CRMs.",
-    sobre_3: "I work with JavaScript and I'm learning TypeScript and C#. My usual tools are Visual Studio Code, Visual Studio and Git/GitHub.",
-    sobre_4: "Languages: native Spanish, bilingual English (Cambridge B2 certificate) and basic Portuguese and French.",
+    ficha_rol_label: "Role",
+    ficha_rol: "Junior full stack developer",
+    ficha_ubicacion_label: "Location",
+    ficha_ubicacion: "Zaragoza, Spain",
+    ficha_formacion_label: "Education",
+    ficha_formacion: "Degree in Multiplatform Application Development, plus courses in AI, Big Data, Cloud and Machine Learning",
+    ficha_experiencia_label: "Experience",
+    ficha_experiencia: "Junior software developer at AIQUBE Labs: AI, OCR, bots and Azure",
+    ficha_intereses_label: "Interests",
+    ficha_intereses: "AI, automation, software architecture and intelligent agents",
+    frases: [
+      "I'm looking for a team where I can learn and contribute from day one.",
+      "I'm motivated by helping people stay more connected.",
+      "I enjoy turning repetitive work into automation.",
+      "I believe good code should be understood at first sight."
+    ],
+    sobre_1: "Hi! I'm Ángel. I like building things that work and, above all, that are useful. I move between the web, automation and AI, and I enjoy when something that seemed complicated turns out to be simple.",
+    sobre_2: "If you're looking for someone who learns fast, asks the right questions and gets involved from day one, I think we could work well together.",
     competencias_titulo: "Skills",
     filtro_todas: "All",
     filtro_lenguajes: "Languages",
@@ -91,18 +105,6 @@ const traducciones = {
       { nombre: "Proactive", cita: "You miss 100% of the shots you don't take.", autor: "Wayne Gretzky" },
       { nombre: "Attentive", cita: "Attention is the rarest and purest form of generosity.", autor: "Simone Weil" }
     ],
-    ocr_titulo: "OCR demo",
-    ocr_intro: "Upload an image with text and I'll extract its content directly in your browser.",
-    ocr_soltar: "Drag an image here or click to choose one",
-    ocr_analizar: "Analyze image",
-    ocr_resultado: "Extracted text",
-    ocr_vacio: "The text will appear here.",
-    ocr_privacidad: "The image never leaves your device. The first time, the language data is downloaded, which can take a few seconds.",
-    ocr_cargando: "Analyzing",
-    ocr_listo: "Analysis complete ✅",
-    ocr_error: "Could not analyze the image ❌",
-    ocr_no_disponible: "The OCR library did not load. Check your connection ❌",
-    ocr_formato: "Please choose an image file ⚠️",
     proyectos_titulo: "Projects",
     proyectos_vacio: "Coming soon.",
     contacto_titulo: "Contact",
@@ -135,6 +137,7 @@ const competencias = [
 ];
 
 const elementoRol = document.getElementById("rol");
+const elementoFrase = document.getElementById("frase");
 const botonIdioma = document.getElementById("idioma");
 const listaCompetencias = document.getElementById("lista-competencias");
 const listaAptitudes = document.getElementById("lista-aptitudes");
@@ -142,18 +145,6 @@ const botonesFiltro = document.querySelectorAll(".filtro");
 const pestanas = document.querySelectorAll(".tab");
 const paneles = document.querySelectorAll(".panel");
 const botonCopiar = document.getElementById("copiar");
-
-// Elementos de la demo OCR
-const ocrArchivo = document.getElementById("ocr-archivo");
-const ocrDropzone = document.getElementById("dropzone");
-const ocrVista = document.getElementById("ocr-vista");
-const ocrPreview = document.getElementById("ocr-preview");
-const ocrAnalizar = document.getElementById("ocr-analizar");
-const ocrEstado = document.getElementById("ocr-estado");
-const ocrProgreso = document.getElementById("ocr-progreso");
-const ocrBarra = document.getElementById("ocr-barra");
-const ocrSalida = document.getElementById("ocr-salida");
-const ocrCopiar = document.getElementById("ocr-copiar");
 
 // Idioma inicial: guardado > idioma del navegador > español
 function idiomaInicial() {
@@ -169,10 +160,9 @@ function idiomaInicial() {
 let idioma = idiomaInicial();
 let filtroActual = "todas";
 let timerRol = null;
+let timerFrases = null;
+let indiceFrase = 0;
 let timerCopiar = null;
-let timerOcrCopiar = null;
-let archivoActual = null;
-let urlPrevia = null;
 
 // Efecto de escritura en el rol
 function escribirTexto(elemento, texto, velocidad = 35) {
@@ -190,6 +180,25 @@ function escribirTexto(elemento, texto, velocidad = 35) {
     i++;
     if (i === texto.length) clearInterval(timerRol);
   }, velocidad);
+}
+
+// Frases de Sobre mí que rotan cada pocos segundos
+function iniciarFrases(lang) {
+  clearInterval(timerFrases);
+  const frases = traducciones[lang].frases;
+  indiceFrase = 0;
+  elementoFrase.textContent = frases[0];
+
+  if (reducirMovimiento) return;
+
+  timerFrases = setInterval(() => {
+    elementoFrase.classList.add("salida");
+    setTimeout(() => {
+      indiceFrase = (indiceFrase + 1) % frases.length;
+      elementoFrase.textContent = frases[indiceFrase];
+      elementoFrase.classList.remove("salida");
+    }, 400);
+  }, 4000);
 }
 
 // Pestañas: muestra un único panel a la vez
@@ -292,116 +301,22 @@ function renderAptitudes(lang) {
 }
 
 // Copiar el correo al portapapeles con confirmación visual
-async function copiarTexto(texto, boton, timerActual) {
-  const t = traducciones[idioma];
-  clearTimeout(timerActual);
+async function copiarCorreo() {
+  clearTimeout(timerCopiar);
 
   try {
-    await navigator.clipboard.writeText(texto);
-    boton.textContent = t.copiado;
+    await navigator.clipboard.writeText(CORREO);
+    botonCopiar.textContent = traducciones[idioma].copiado;
   } catch {
-    boton.textContent = t.copiar_error;
+    botonCopiar.textContent = traducciones[idioma].copiar_error;
   }
 
-  return setTimeout(() => {
-    boton.textContent = traducciones[idioma].copiar;
+  timerCopiar = setTimeout(() => {
+    botonCopiar.textContent = traducciones[idioma].copiar;
   }, 2000);
 }
 
-botonCopiar.addEventListener("click", async () => {
-  timerCopiar = await copiarTexto(CORREO, botonCopiar, timerCopiar);
-});
-
-// Demo OCR: gestión del archivo elegido (clic o arrastrar)
-function mostrarEstado(clave) {
-  ocrEstado.textContent = traducciones[idioma][clave] ?? "";
-}
-
-function cargarArchivo(file) {
-  if (!file || !file.type.startsWith("image/")) {
-    archivoActual = null;
-    ocrAnalizar.disabled = true;
-    mostrarEstado("ocr_formato");
-    return;
-  }
-
-  archivoActual = file;
-
-  if (urlPrevia) URL.revokeObjectURL(urlPrevia);
-  urlPrevia = URL.createObjectURL(file);
-
-  ocrPreview.src = urlPrevia;
-  ocrVista.hidden = false;
-  ocrAnalizar.disabled = false;
-  ocrEstado.textContent = "";
-}
-
-ocrArchivo.addEventListener("change", () => {
-  cargarArchivo(ocrArchivo.files[0]);
-});
-
-["dragenter", "dragover"].forEach((evento) => {
-  ocrDropzone.addEventListener(evento, (e) => {
-    e.preventDefault();
-    ocrDropzone.classList.add("arrastrando");
-  });
-});
-
-["dragleave", "drop"].forEach((evento) => {
-  ocrDropzone.addEventListener(evento, (e) => {
-    e.preventDefault();
-    ocrDropzone.classList.remove("arrastrando");
-  });
-});
-
-ocrDropzone.addEventListener("drop", (e) => {
-  cargarArchivo(e.dataTransfer.files[0]);
-});
-
-// Ejecuta el OCR en el navegador con Tesseract.js
-async function analizarImagen() {
-  if (!archivoActual) return;
-
-  if (typeof Tesseract === "undefined") {
-    mostrarEstado("ocr_no_disponible");
-    return;
-  }
-
-  ocrAnalizar.disabled = true;
-  ocrProgreso.hidden = false;
-  ocrBarra.style.width = "0%";
-  ocrSalida.value = "";
-
-  try {
-    const lenguajes = idioma === "en" ? "eng" : "spa+eng";
-
-    const { data } = await Tesseract.recognize(archivoActual, lenguajes, {
-      logger: (m) => {
-        if (m.status) {
-          ocrEstado.textContent = `${traducciones[idioma].ocr_cargando}… ${Math.round((m.progress || 0) * 100)}%`;
-        }
-        if (typeof m.progress === "number") {
-          ocrBarra.style.width = `${Math.round(m.progress * 100)}%`;
-        }
-      }
-    });
-
-    ocrSalida.value = data.text.trim();
-    mostrarEstado("ocr_listo");
-  } catch {
-    mostrarEstado("ocr_error");
-  } finally {
-    ocrAnalizar.disabled = false;
-    ocrProgreso.hidden = true;
-  }
-}
-
-ocrAnalizar.addEventListener("click", analizarImagen);
-
-ocrCopiar.addEventListener("click", async () => {
-  if (!ocrSalida.value) return;
-  timerOcrCopiar = await copiarTexto(ocrSalida.value, ocrCopiar, timerOcrCopiar);
-});
+botonCopiar.addEventListener("click", copiarCorreo);
 
 function aplicarIdioma(lang) {
   const t = traducciones[lang];
@@ -414,11 +329,8 @@ function aplicarIdioma(lang) {
     el.textContent = t[el.dataset.i18n];
   });
 
-  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-    el.placeholder = t[el.dataset.i18nPlaceholder];
-  });
-
   escribirTexto(elementoRol, t.rol);
+  iniciarFrases(lang);
   renderCompetencias(lang);
   renderAptitudes(lang);
 
@@ -478,7 +390,7 @@ function iniciarCursor() {
   }
   seguirAnillo();
 
-  const interactivos = "a, button, label, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item, textarea";
+  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item";
 
   document.addEventListener("mouseover", (e) => {
     anillo.classList.toggle("hover", Boolean(e.target.closest(interactivos)));
