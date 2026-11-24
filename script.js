@@ -77,7 +77,11 @@ const traducciones = {
     tl_2_titulo: "Grado en Desarrollo de Aplicaciones Multiplataforma",
     tl_2_desc: "Desarrollo de aplicaciones para web, móvil y escritorio.",
     tl_3_titulo: "Cursos de especialización",
-    tl_3_desc: "IA, Big Data, Cloud y Machine Learning."
+    tl_3_desc: "IA, Big Data, Cloud y Machine Learning.",
+    avatar_dibujo: "Avatar animado",
+    avatar_voz: "Voz",
+    avatar_alt_foto: "Foto de Ángel Luzón Balanzá",
+    avatar_alt_dibujo: "Avatar de dibujo animado de Ángel, que habla con las frases del bocadillo"
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -152,7 +156,11 @@ const traducciones = {
     tl_2_titulo: "Degree in Multiplatform Application Development",
     tl_2_desc: "Application development for web, mobile and desktop.",
     tl_3_titulo: "Specialization courses",
-    tl_3_desc: "AI, Big Data, Cloud and Machine Learning."
+    tl_3_desc: "AI, Big Data, Cloud and Machine Learning.",
+    avatar_dibujo: "Animated avatar",
+    avatar_voz: "Voice",
+    avatar_alt_foto: "Photo of Ángel Luzón Balanzá",
+    avatar_alt_dibujo: "Cartoon avatar of Ángel, speaking the phrases shown in the speech bubble"
   }
 };
 
@@ -266,6 +274,16 @@ function iniciarFrases(lang) {
   clearInterval(timerFrases);
   clearTimeout(timerFraseSalida);
   elementoFrase.classList.remove("salida");
+
+  // En modo dibujo, el avatar es quien "dice" las frases (en un bocadillo)
+  detenerHabla();
+  const dibujo = modoAvatar === "dibujo";
+  elementoFrase.classList.toggle("burbuja", dibujo);
+  elementoFrase.setAttribute("aria-live", dibujo ? "off" : "polite");
+  if (dibujo && !reducirMovimiento) {
+    iniciarHabla();
+    return;
+  }
 
   const frases = traducciones[lang].frases;
   indiceFrase = 0;
@@ -421,6 +439,7 @@ function aplicarIdioma(lang) {
   renderAptitudes(lang);
   actualizarBotonTema();
   actualizarBotonMenu();
+  actualizarTextosAvatar();
 
   botonIdioma.textContent = lang === "es" ? "EN" : "ES";
   botonIdioma.setAttribute("aria-label", lang === "es" ? "Change language to English" : "Cambiar idioma a español");
@@ -593,6 +612,211 @@ function iniciarInclinacion() {
   });
 }
 
+// ---------- Avatar de dibujo animado (opción extra) ----------
+const zonaAvatar = document.getElementById("avatar-zona");
+const dibujoAvatar = document.getElementById("avatar-dibujo");
+const imgAvatar = zonaAvatar.querySelector("img");
+const botonDibujo = document.getElementById("modo-dibujo");
+const botonVoz = document.getElementById("voz");
+const sintetizador =
+  "speechSynthesis" in window && "SpeechSynthesisUtterance" in window ? window.speechSynthesis : null;
+
+let modoAvatar = leer("avatar") === "dibujo" ? "dibujo" : "foto";
+let vozActiva = false;
+let avatarVisible = true;
+let pestanaVisible = !document.hidden;
+let tokenHabla = 0;
+let timerHabla = null;
+let timerBoca = null;
+
+// Forma de la boca según la letra: a abierta, o/u redonda, e/i media, b/m/p y signos cerrada
+function visema(ch) {
+  const c = ch.toLowerCase();
+  if ("aáàä".includes(c)) return "a";
+  if ("oóòöuúùü".includes(c)) return "o";
+  if ("eéèëiíìï".includes(c)) return "m";
+  if ("bmp".includes(c) || !/\p{L}/u.test(c)) return "c";
+  return "m";
+}
+
+function setBoca(forma) {
+  dibujoAvatar.dataset.boca = forma;
+}
+
+function esperar(ms) {
+  return new Promise((resolve) => {
+    timerHabla = setTimeout(resolve, ms);
+  });
+}
+
+function elegirVoz(lang) {
+  const voces = sintetizador.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang));
+  return voces.find((v) => v.localService) || voces[0] || null;
+}
+
+function detenerHabla() {
+  tokenHabla++;
+  clearTimeout(timerHabla);
+  clearInterval(timerBoca);
+  if (sintetizador) sintetizador.cancel();
+  setBoca("c");
+  dibujoAvatar.classList.remove("hablando");
+  elementoFrase.classList.remove("escribiendo");
+}
+
+// Escribe el texto en el bocadillo letra a letra, moviendo la boca (y hablando si la voz está activa)
+function decir(texto, token) {
+  return new Promise((resolve) => {
+    const visible = document.createElement("span");
+    visible.className = "frase-visible";
+    visible.setAttribute("aria-hidden", "true");
+
+    // Reserva el espacio final para que el bocadillo no cambie de tamaño al escribir
+    const reserva = document.createElement("span");
+    reserva.className = "frase-reserva";
+    reserva.setAttribute("aria-hidden", "true");
+    reserva.textContent = texto;
+
+    const lector = document.createElement("span");
+    lector.className = "sr-only";
+    lector.textContent = texto;
+
+    elementoFrase.replaceChildren(visible, reserva, lector);
+    elementoFrase.classList.add("escribiendo");
+    dibujoAvatar.classList.add("hablando");
+
+    let tecleoFin = false;
+    let vozFin = !(vozActiva && sintetizador);
+
+    const terminar = () => {
+      if (token !== tokenHabla) return resolve();
+      if (!tecleoFin || !vozFin) return;
+      clearInterval(timerBoca);
+      setBoca("c");
+      dibujoAvatar.classList.remove("hablando");
+      elementoFrase.classList.remove("escribiendo");
+      resolve();
+    };
+
+    if (!vozFin) {
+      const u = new SpeechSynthesisUtterance(texto);
+      u.lang = idioma === "es" ? "es-ES" : "en-US";
+      const voz = elegirVoz(idioma);
+      if (voz) u.voice = voz;
+      u.pitch = 1.15;
+      u.onend = u.onerror = () => {
+        vozFin = true;
+        terminar();
+      };
+      sintetizador.speak(u);
+      // Red de seguridad por si el navegador nunca avisa del final de la voz
+      setTimeout(() => {
+        vozFin = true;
+        terminar();
+      }, texto.length * 130 + 4000);
+    }
+
+    let i = 0;
+    const paso = () => {
+      if (token !== tokenHabla) return resolve();
+
+      // Si no se ve el avatar o la pestaña, se pausa
+      if (!avatarVisible || !pestanaVisible) {
+        timerHabla = setTimeout(paso, 300);
+        return;
+      }
+
+      if (i >= texto.length) {
+        tecleoFin = true;
+        // Si la voz sigue hablando, la boca sigue moviéndose
+        if (!vozFin) {
+          clearInterval(timerBoca);
+          timerBoca = setInterval(() => setBoca("mao"[Math.floor(Math.random() * 3)]), 130);
+        }
+        terminar();
+        return;
+      }
+
+      const ch = texto[i++];
+      visible.textContent += ch;
+      setBoca(visema(ch));
+      timerHabla = setTimeout(paso, ".,;:!?".includes(ch) ? 240 : 62);
+    };
+    paso();
+  });
+}
+
+async function bucleHabla(token) {
+  const frases = traducciones[idioma].frases;
+  let i = 0;
+  while (token === tokenHabla) {
+    await decir(frases[i % frases.length], token);
+    if (token !== tokenHabla) return;
+    await esperar(2400);
+    i++;
+  }
+}
+
+function iniciarHabla() {
+  const token = tokenHabla;
+  // Pequeña espera: algunos navegadores ignoran speak() justo después de cancel()
+  timerHabla = setTimeout(() => bucleHabla(token), 150);
+}
+
+function actualizarTextosAvatar() {
+  const t = traducciones[idioma];
+  imgAvatar.alt = t.avatar_alt_foto;
+  dibujoAvatar.setAttribute("aria-label", t.avatar_alt_dibujo);
+}
+
+function aplicarModoAvatar() {
+  const dibujo = modoAvatar === "dibujo";
+  zonaAvatar.dataset.avatar = modoAvatar;
+  botonDibujo.setAttribute("aria-pressed", String(dibujo));
+  imgAvatar.setAttribute("aria-hidden", String(dibujo));
+  dibujoAvatar.setAttribute("aria-hidden", String(!dibujo));
+  botonVoz.hidden = !(dibujo && sintetizador && !reducirMovimiento);
+  if (!dibujo) {
+    vozActiva = false;
+    botonVoz.setAttribute("aria-pressed", "false");
+  }
+}
+
+botonDibujo.addEventListener("click", () => {
+  modoAvatar = modoAvatar === "dibujo" ? "foto" : "dibujo";
+  guardar("avatar", modoAvatar);
+  aplicarModoAvatar();
+  iniciarFrases(idioma);
+});
+
+// La voz solo se activa con un clic (los navegadores no permiten hablar solos)
+botonVoz.addEventListener("click", () => {
+  vozActiva = !vozActiva;
+  botonVoz.setAttribute("aria-pressed", String(vozActiva));
+  iniciarFrases(idioma);
+});
+
+// Deja de hablar si el avatar sale de pantalla o se cambia de pestaña
+const zonaTexto = document.querySelector(".sobre-texto");
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(
+    ([entrada]) => {
+      avatarVisible = entrada.isIntersecting;
+      if (!avatarVisible && sintetizador) sintetizador.cancel();
+    },
+    { threshold: 0.1 }
+  ).observe(zonaTexto);
+}
+
+document.addEventListener("visibilitychange", () => {
+  pestanaVisible = !document.hidden;
+  if (document.hidden && sintetizador) sintetizador.cancel();
+});
+
+window.addEventListener("pagehide", () => {
+  if (sintetizador) sintetizador.cancel();
+});
+
 // ---------- Arranque ----------
 document.getElementById("anio").textContent = new Date().getFullYear();
 iniciarCursor();
@@ -600,4 +824,5 @@ iniciarInclinacion();
 iniciarScrollspy();
 iniciarRevelado();
 comprobarCV();
+aplicarModoAvatar();
 aplicarIdioma(idioma);
