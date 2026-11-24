@@ -146,6 +146,22 @@ a:focus-visible {
   z-index: 10;
 }
 
+/* Botón de idioma */
+#idioma {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: var(--surface);
+  border: 1px solid #2a2e3d;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  z-index: 10;
+}
+
 /* Tema claro: redefine las variables */
 body.claro {
   --bg: #f5f6fa;
@@ -155,5 +171,62 @@ body.claro {
 }
 
 body.claro .proyecto {
+  border-color: #d9dce6;
+}
+
+/* Competencias */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filtro {
+  font: inherit;
+  font-size: 0.9rem;
+  background: var(--surface);
+  color: var(--muted);
+  border: 1px solid #2a2e3d;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.filtro:hover,
+.filtro.activo {
+  color: var(--text);
+  border-color: var(--accent-2);
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.chip {
+  background: var(--surface);
+  border: 1px solid #2a2e3d;
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  color: var(--text);
+}
+
+.chip small {
+  color: var(--accent-1);
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+}
+
+#competencias h3 {
+  font-size: 1.1rem;
+  margin: 1.75rem 0 0.75rem;
+}
+
+body.claro .filtro,
+body.claro .chip {
   border-color: #d9dce6;
 }

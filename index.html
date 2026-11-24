@@ -8,28 +8,46 @@
 </head>
 <body>
   <header>
+    <button id="idioma" type="button" aria-label="Change language">EN</button>
     <button id="tema" type="button" aria-label="Cambiar tema">☀️</button>
     <h1>Ángel Luzón Balanzá</h1>
-    <p id="rol">Desarrollador full stack junior · IA y automatización</p>
+    <p id="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</p>
   </header>
 
   <main>
     <section id="sobre-mi">
-      <h2>Sobre mí</h2>
-      <p>Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.</p>
-      <p>Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.</p>
-      <p>Trabajo con JavaScript y estoy aprendiendo TypeScript y C#. Mis herramientas habituales son Visual Studio Code, Visual Studio y Git/GitHub.</p>
-      <p>Idiomas: español nativo, inglés bilingüe (certificado Cambridge B2) y nivel básico de portugués y francés.</p>
+      <h2 data-i18n="sobre_titulo">Sobre mí</h2>
+      <p data-i18n="sobre_1">Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.</p>
+      <p data-i18n="sobre_2">Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.</p>
+      <p data-i18n="sobre_3">Trabajo con JavaScript y estoy aprendiendo TypeScript y C#. Mis herramientas habituales son Visual Studio Code, Visual Studio y Git/GitHub.</p>
+      <p data-i18n="sobre_4">Idiomas: español nativo, inglés bilingüe (certificado Cambridge B2) y nivel básico de portugués y francés.</p>
+    </section>
+
+    <section id="competencias">
+      <h2 data-i18n="competencias_titulo">Competencias</h2>
+      <div class="filtros" role="group" aria-label="Filtrar competencias">
+        <button type="button" class="filtro activo" data-filtro="todas" data-i18n="filtro_todas">Todas</button>
+        <button type="button" class="filtro" data-filtro="lenguajes" data-i18n="filtro_lenguajes">Lenguajes</button>
+        <button type="button" class="filtro" data-filtro="frameworks" data-i18n="filtro_frameworks">Frameworks y datos</button>
+        <button type="button" class="filtro" data-filtro="herramientas" data-i18n="filtro_herramientas">Herramientas</button>
+      </div>
+      <ul id="lista-competencias" class="chips"></ul>
+
+      <h3 data-i18n="aptitudes_titulo">Aptitudes</h3>
+      <ul id="lista-aptitudes" class="chips"></ul>
     </section>
 
     <section id="proyectos">
-      <h2>Proyectos</h2>
-      <p>Próximamente.</p>
+      <h2 data-i18n="proyectos_titulo">Proyectos</h2>
+      <p data-i18n="proyectos_vacio">Próximamente.</p>
     </section>
 
     <section id="contacto">
-      <h2>Contacto</h2>
-      <p><a href="mailto:angel.luzon.job@gmail.com">Correo</a> · <a href="https://github.com/AngelLuzon">GitHub</a></p>
+      <h2 data-i18n="contacto_titulo">Contacto</h2>
+      <p>
+        <a href="mailto:angel.luzon.job@gmail.com" data-i18n="correo">Correo</a> ·
+        <a href="https://github.com/AngelLuzon">GitHub</a>
+      </p>
     </section>
   </main>
 
