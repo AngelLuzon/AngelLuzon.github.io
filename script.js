@@ -19,7 +19,15 @@ const traducciones = {
     nivel_intermedio: "intermedio",
     nivel_inicial: "inicial",
     aptitudes_titulo: "Aptitudes",
-    aptitudes: ["Compromiso", "Trabajo en equipo", "Resolutivo", "Simpático", "Proactivo", "Atento"],
+    aptitud_hint: "Pulsa para ver la cita",
+    aptitudes: [
+      { nombre: "Compromiso", cita: "La perfección no se puede alcanzar, pero si persigues la perfección puedes alcanzar la excelencia.", autor: "Vince Lombardi" },
+      { nombre: "Trabajo en equipo", cita: "Juntarse es un comienzo, mantenerse juntos es un progreso, trabajar juntos es un éxito.", autor: "Henry Ford" },
+      { nombre: "Resolutivo", cita: "No he fracasado. Solo he encontrado 10.000 formas que no funcionan.", autor: "Thomas Edison" },
+      { nombre: "Simpático", cita: "La gente olvidará lo que dijiste y lo que hiciste, pero nunca olvidará cómo la hiciste sentir.", autor: "Maya Angelou" },
+      { nombre: "Proactivo", cita: "Fallas el 100% de los tiros que no intentas.", autor: "Wayne Gretzky" },
+      { nombre: "Atento", cita: "La atención es la forma más rara y pura de generosidad.", autor: "Simone Weil" }
+    ],
     proyectos_titulo: "Proyectos",
     proyectos_vacio: "Próximamente.",
     contacto_titulo: "Contacto",
@@ -42,7 +50,15 @@ const traducciones = {
     nivel_intermedio: "intermediate",
     nivel_inicial: "beginner",
     aptitudes_titulo: "Soft skills",
-    aptitudes: ["Commitment", "Teamwork", "Problem solver", "Friendly", "Proactive", "Attentive"],
+    aptitud_hint: "Click to see the quote",
+    aptitudes: [
+      { nombre: "Commitment", cita: "Perfection is not attainable, but if we chase perfection we can catch excellence.", autor: "Vince Lombardi" },
+      { nombre: "Teamwork", cita: "Coming together is a beginning, keeping together is progress, working together is success.", autor: "Henry Ford" },
+      { nombre: "Problem solver", cita: "I have not failed. I've just found 10,000 ways that won't work.", autor: "Thomas Edison" },
+      { nombre: "Friendly", cita: "People will forget what you said and what you did, but they will never forget how you made them feel.", autor: "Maya Angelou" },
+      { nombre: "Proactive", cita: "You miss 100% of the shots you don't take.", autor: "Wayne Gretzky" },
+      { nombre: "Attentive", cita: "Attention is the rarest and purest form of generosity.", autor: "Simone Weil" }
+    ],
     proyectos_titulo: "Projects",
     proyectos_vacio: "Coming soon.",
     contacto_titulo: "Contact",
@@ -131,15 +147,48 @@ function renderCompetencias(lang) {
     });
 }
 
-// Aptitudes según el idioma
+// Aptitudes: tarjetas que giran al pulsarlas y muestran la cita con su autor
 function renderAptitudes(lang) {
   const t = traducciones[lang];
   listaAptitudes.textContent = "";
 
-  t.aptitudes.forEach((aptitud) => {
+  t.aptitudes.forEach((apt) => {
     const li = document.createElement("li");
-    li.className = "chip";
-    li.textContent = aptitud;
+
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "apt";
+    boton.dataset.hint = t.aptitud_hint;
+    boton.setAttribute("aria-expanded", "false");
+
+    const inner = document.createElement("span");
+    inner.className = "apt-inner";
+
+    const frente = document.createElement("span");
+    frente.className = "apt-frente";
+    frente.textContent = apt.nombre;
+
+    const dorso = document.createElement("span");
+    dorso.className = "apt-dorso";
+
+    const cita = document.createElement("span");
+    cita.className = "apt-cita";
+    cita.textContent = `"${apt.cita}"`;
+
+    const autor = document.createElement("span");
+    autor.className = "apt-autor";
+    autor.textContent = `— ${apt.autor}`;
+
+    dorso.append(cita, autor);
+    inner.append(frente, dorso);
+    boton.appendChild(inner);
+
+    boton.addEventListener("click", () => {
+      const abierta = boton.classList.toggle("volteada");
+      boton.setAttribute("aria-expanded", String(abierta));
+    });
+
+    li.appendChild(boton);
     listaAptitudes.appendChild(li);
   });
 }
@@ -292,7 +341,7 @@ function iniciarCursor() {
   seguir();
 
   document.addEventListener("mouseover", (e) => {
-    cursor.classList.toggle("hover", Boolean(e.target.closest("a, button, .proyecto, .chip")));
+    cursor.classList.toggle("hover", Boolean(e.target.closest("a, button, .proyecto, .chip, .apt")));
   });
 }
 
