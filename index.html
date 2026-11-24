@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ángel Luzón Balanzá | Portfolio</title>
   <meta name="description" content="Portfolio de Ángel Luzón Balanzá, desarrollador full stack junior con foco en IA y automatización.">
+  <meta name="theme-color" content="#07080f">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ángel Luzón Balanzá | Portfolio">
@@ -15,92 +16,172 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
 
+  <!-- Aplica el tema antes de pintar para evitar el parpadeo -->
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem("tema"); } catch (e) {}
+      if (tema !== "light" && tema !== "dark") tema = "dark";
+      document.documentElement.setAttribute("data-theme", tema);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="cursor-punto" aria-hidden="true"></div>
   <div id="cursor-anillo" aria-hidden="true"></div>
 
-  <button id="idioma" type="button" aria-label="Change language">EN</button>
+  <div class="fondo" aria-hidden="true">
+    <div class="rejilla"></div>
+    <div class="orbe orbe-1"></div>
+    <div class="orbe orbe-2"></div>
+    <div class="orbe orbe-3"></div>
+  </div>
 
-  <header class="hero">
-    <p class="etiqueta" data-i18n="etiqueta">Portfolio</p>
-    <h1 class="nombre">Ángel Luzón Balanzá</h1>
-    <p id="rol" class="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</p>
-    <a href="#tabs" class="scroll" data-i18n="scroll">Explorar</a>
+  <header class="barra" id="barra">
+    <div class="barra-interior">
+      <a href="#inicio" class="logo" aria-label="Inicio">
+        <span class="logo-marca">ÁL</span>
+      </a>
+
+      <nav class="menu" id="menu" aria-label="Principal">
+        <a href="#sobre" class="menu-enlace" data-i18n="tab_sobre">Sobre mí</a>
+        <a href="#competencias" class="menu-enlace" data-i18n="tab_competencias">Competencias</a>
+        <a href="#aptitudes" class="menu-enlace" data-i18n="tab_aptitudes">Aptitudes</a>
+        <a href="#proyectos" class="menu-enlace" data-i18n="tab_proyectos">Proyectos</a>
+        <a href="#contacto" class="menu-enlace" data-i18n="tab_contacto">Contacto</a>
+      </nav>
+
+      <div class="acciones">
+        <button id="tema" type="button" class="boton-icono" aria-label="Cambiar tema">
+          <svg class="icono-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icono-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button id="idioma" type="button" class="boton-icono boton-idioma" aria-label="Change language">EN</button>
+        <button id="hamburguesa" type="button" class="boton-icono hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
   </header>
 
+  <section class="hero" id="inicio">
+    <p class="etiqueta"><span class="punto-pulso" aria-hidden="true"></span><span data-i18n="etiqueta">Portfolio</span></p>
+    <h1 class="nombre">Ángel<br><span class="degradado">Luzón Balanzá</span></h1>
+    <p class="rol"><span class="prompt" aria-hidden="true">&gt;</span> <span id="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</span><span class="caret" aria-hidden="true"></span></p>
+
+    <div class="cta">
+      <a href="cv.pdf" download class="boton boton-primario enlace-cv">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        <span data-i18n="cv">Descargar CV</span>
+      </a>
+      <a href="#contacto" class="boton boton-secundario"><span data-i18n="hablemos">Hablemos</span></a>
+      <a href="https://github.com/AngelLuzon" target="_blank" rel="noopener" class="boton-icono boton-social" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="relleno"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+      </a>
+    </div>
+
+    <a href="#sobre" class="scroll" aria-label="Explorar">
+      <span data-i18n="scroll">Explorar</span>
+      <span class="raton" aria-hidden="true"><span></span></span>
+    </a>
+  </section>
+
   <main>
-    <nav id="tabs" class="tabs" role="tablist" aria-label="Secciones">
-      <button type="button" class="tab activo" role="tab" data-tab="sobre" data-i18n="tab_sobre">Sobre mí</button>
-      <button type="button" class="tab" role="tab" data-tab="competencias" data-i18n="tab_competencias">Competencias</button>
-      <button type="button" class="tab" role="tab" data-tab="aptitudes" data-i18n="tab_aptitudes">Aptitudes</button>
-      <button type="button" class="tab" role="tab" data-tab="proyectos" data-i18n="tab_proyectos">Proyectos</button>
-      <button type="button" class="tab" role="tab" data-tab="contacto" data-i18n="tab_contacto">Contacto</button>
-    </nav>
+    <section id="sobre" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">01</span>
+        <h2 data-i18n="sobre_titulo">Sobre mí</h2>
+      </header>
 
-    <section id="sobre" class="panel" role="tabpanel">
-      <h2 data-i18n="sobre_titulo">Sobre mí</h2>
+      <div class="sobre-grid">
+        <div class="sobre-texto revelar">
+          <p id="frase" class="frase" aria-live="polite"></p>
+          <p data-i18n="sobre_1">¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.</p>
+          <p data-i18n="sobre_2">Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.</p>
+        </div>
 
-      <dl class="ficha">
-        <div class="ficha-fila">
-          <dt data-i18n="ficha_rol_label">Rol</dt>
-          <dd data-i18n="ficha_rol">Desarrollador full stack junior</dd>
-        </div>
-        <div class="ficha-fila">
-          <dt data-i18n="ficha_ubicacion_label">Ubicación</dt>
-          <dd data-i18n="ficha_ubicacion">Zaragoza, España</dd>
-        </div>
-        <div class="ficha-fila">
-          <dt data-i18n="ficha_formacion_label">Formación</dt>
-          <dd data-i18n="ficha_formacion">Grado en Desarrollo de Aplicaciones Multiplataforma, con cursos de IA, Big Data, Cloud y Machine Learning</dd>
-        </div>
-        <div class="ficha-fila">
-          <dt data-i18n="ficha_experiencia_label">Experiencia</dt>
-          <dd data-i18n="ficha_experiencia">Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure</dd>
-        </div>
-        <div class="ficha-fila">
-          <dt data-i18n="ficha_intereses_label">Intereses</dt>
-          <dd data-i18n="ficha_intereses">IA, automatización, arquitectura de software y agentes inteligentes</dd>
-        </div>
-      </dl>
-
-      <p id="frase" class="frase" aria-live="polite"></p>
-
-      <p data-i18n="sobre_1">¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.</p>
-      <p data-i18n="sobre_2">Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.</p>
+        <dl class="ficha tarjeta revelar">
+          <div class="ficha-fila">
+            <dt data-i18n="ficha_rol_label">Rol</dt>
+            <dd data-i18n="ficha_rol">Desarrollador full stack junior</dd>
+          </div>
+          <div class="ficha-fila">
+            <dt data-i18n="ficha_ubicacion_label">Ubicación</dt>
+            <dd data-i18n="ficha_ubicacion">Zaragoza, España</dd>
+          </div>
+          <div class="ficha-fila">
+            <dt data-i18n="ficha_formacion_label">Formación</dt>
+            <dd data-i18n="ficha_formacion">Grado en Desarrollo de Aplicaciones Multiplataforma, con cursos de IA, Big Data, Cloud y Machine Learning</dd>
+          </div>
+          <div class="ficha-fila">
+            <dt data-i18n="ficha_experiencia_label">Experiencia</dt>
+            <dd data-i18n="ficha_experiencia">Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure</dd>
+          </div>
+          <div class="ficha-fila">
+            <dt data-i18n="ficha_intereses_label">Intereses</dt>
+            <dd data-i18n="ficha_intereses">IA, automatización, arquitectura de software y agentes inteligentes</dd>
+          </div>
+        </dl>
+      </div>
     </section>
 
-    <section id="competencias" class="panel" role="tabpanel" hidden>
-      <h2 data-i18n="competencias_titulo">Competencias</h2>
-      <div class="filtros" role="group" aria-label="Filtrar competencias">
+    <section id="competencias" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">02</span>
+        <h2 data-i18n="competencias_titulo">Competencias</h2>
+      </header>
+
+      <div class="filtros revelar" role="group" aria-label="Filtrar competencias">
         <button type="button" class="filtro activo" data-filtro="todas" aria-pressed="true" data-i18n="filtro_todas">Todas</button>
         <button type="button" class="filtro" data-filtro="lenguajes" aria-pressed="false" data-i18n="filtro_lenguajes">Lenguajes</button>
         <button type="button" class="filtro" data-filtro="frameworks" aria-pressed="false" data-i18n="filtro_frameworks">Frameworks y datos</button>
         <button type="button" class="filtro" data-filtro="herramientas" aria-pressed="false" data-i18n="filtro_herramientas">Herramientas</button>
       </div>
-      <ul id="lista-competencias" class="chips"></ul>
+      <ul id="lista-competencias" class="chips revelar"></ul>
     </section>
 
-    <section id="aptitudes" class="panel" role="tabpanel" hidden>
-      <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
-      <ul id="lista-aptitudes" class="libros"></ul>
+    <section id="aptitudes" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">03</span>
+        <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
+      </header>
+      <ul id="lista-aptitudes" class="libros revelar"></ul>
     </section>
 
-    <section id="proyectos" class="panel" role="tabpanel" hidden>
-      <h2 data-i18n="proyectos_titulo">Proyectos</h2>
-      <p data-i18n="proyectos_vacio">Próximamente.</p>
+    <section id="proyectos" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">04</span>
+        <h2 data-i18n="proyectos_titulo">Proyectos</h2>
+      </header>
+
+      <div class="proximamente tarjeta revelar">
+        <div class="proximamente-icono" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        </div>
+        <p class="proximamente-titulo" data-i18n="proyectos_vacio">Próximamente.</p>
+        <p class="proximamente-texto" data-i18n="proyectos_texto">Estoy preparando proyectos para enseñar aquí. Mientras tanto, puedes ver mi código en GitHub.</p>
+        <a href="https://github.com/AngelLuzon" target="_blank" rel="noopener" class="boton boton-secundario">github.com/AngelLuzon</a>
+      </div>
     </section>
 
-    <section id="contacto" class="panel" role="tabpanel" hidden>
-      <h2 data-i18n="contacto_titulo">Contacto</h2>
+    <section id="contacto" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">05</span>
+        <h2 data-i18n="contacto_titulo">Contacto</h2>
+      </header>
 
-      <ul class="contacto-lista">
-        <li class="contacto-item">
-          <span class="contacto-emoji" aria-hidden="true">✉️</span>
+      <p class="contacto-intro revelar" data-i18n="contacto_intro">¿Tienes una oferta, una idea o simplemente quieres saludar? Escríbeme.</p>
+
+      <ul class="contacto-lista revelar">
+        <li class="contacto-item tarjeta">
+          <span class="contacto-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </span>
           <div class="contacto-texto">
             <span class="contacto-label" data-i18n="correo_label">Correo</span>
             <a href="mailto:angel.luzon.job@gmail.com">angel.luzon.job@gmail.com</a>
@@ -108,11 +189,23 @@
           <button id="copiar" type="button" class="boton-copiar" data-i18n="copiar">Copiar</button>
         </li>
 
-        <li class="contacto-item">
-          <span class="contacto-emoji" aria-hidden="true">💻</span>
+        <li class="contacto-item tarjeta">
+          <span class="contacto-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="relleno"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          </span>
           <div class="contacto-texto">
             <span class="contacto-label">GitHub</span>
             <a href="https://github.com/AngelLuzon" target="_blank" rel="noopener">github.com/AngelLuzon</a>
+          </div>
+        </li>
+
+        <li class="contacto-item tarjeta enlace-cv-item">
+          <span class="contacto-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15l3 3 3-3"/></svg>
+          </span>
+          <div class="contacto-texto">
+            <span class="contacto-label" data-i18n="cv_label">Currículum</span>
+            <a href="cv.pdf" download class="enlace-cv" data-i18n="cv">Descargar CV</a>
           </div>
         </li>
       </ul>
@@ -120,6 +213,10 @@
       <p class="contacto-nota" data-i18n="contacto_nota">Si el enlace del correo no abre tu programa de correo, usa el botón Copiar.</p>
     </section>
   </main>
+
+  <footer class="pie">
+    <p>© <span id="anio"></span> Ángel Luzón Balanzá · <span data-i18n="pie">Hecho a mano con HTML, CSS y JavaScript</span></p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

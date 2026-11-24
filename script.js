@@ -57,7 +57,17 @@ const traducciones = {
     copiar: "Copiar",
     copiado: "¡Copiado! ✅",
     copiar_error: "No se pudo copiar ❌",
-    contacto_nota: "Si el enlace del correo no abre tu programa de correo, usa el botón Copiar."
+    contacto_nota: "Si el enlace del correo no abre tu programa de correo, usa el botón Copiar.",
+    contacto_intro: "¿Tienes una oferta, una idea o simplemente quieres saludar? Escríbeme.",
+    proyectos_texto: "Estoy preparando proyectos para enseñar aquí. Mientras tanto, puedes ver mi código en GitHub.",
+    cv: "Descargar CV",
+    cv_label: "Currículum",
+    hablemos: "Hablemos",
+    pie: "Hecho a mano con HTML, CSS y JavaScript",
+    tema_claro: "Cambiar a tema claro",
+    tema_oscuro: "Cambiar a tema oscuro",
+    menu_abrir: "Abrir menú",
+    menu_cerrar: "Cerrar menú"
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -112,7 +122,17 @@ const traducciones = {
     copiar: "Copy",
     copiado: "Copied! ✅",
     copiar_error: "Copy failed ❌",
-    contacto_nota: "If the email link doesn't open your mail app, use the Copy button."
+    contacto_nota: "If the email link doesn't open your mail app, use the Copy button.",
+    contacto_intro: "Got an offer, an idea or just want to say hi? Drop me a line.",
+    proyectos_texto: "I'm preparing projects to showcase here. In the meantime, you can check out my code on GitHub.",
+    cv: "Download CV",
+    cv_label: "Résumé",
+    hablemos: "Let's talk",
+    pie: "Handmade with HTML, CSS and JavaScript",
+    tema_claro: "Switch to light theme",
+    tema_oscuro: "Switch to dark theme",
+    menu_abrir: "Open menu",
+    menu_cerrar: "Close menu"
   }
 };
 
@@ -136,24 +156,42 @@ const competencias = [
   { nombre: "Git / GitHub", categoria: "herramientas" }
 ];
 
+
+const raiz = document.documentElement;
 const elementoRol = document.getElementById("rol");
 const elementoFrase = document.getElementById("frase");
 const botonIdioma = document.getElementById("idioma");
+const botonTema = document.getElementById("tema");
+const botonMenu = document.getElementById("hamburguesa");
+const menu = document.getElementById("menu");
+const barra = document.getElementById("barra");
 const listaCompetencias = document.getElementById("lista-competencias");
 const listaAptitudes = document.getElementById("lista-aptitudes");
 const botonesFiltro = document.querySelectorAll(".filtro");
-const pestanas = document.querySelectorAll(".tab");
-const paneles = document.querySelectorAll(".panel");
+const enlacesMenu = document.querySelectorAll(".menu-enlace");
 const botonCopiar = document.getElementById("copiar");
+
+// Guardado seguro (localStorage puede no estar disponible)
+function leer(clave) {
+  try {
+    return localStorage.getItem(clave);
+  } catch {
+    return null;
+  }
+}
+
+function guardar(clave, valor) {
+  try {
+    localStorage.setItem(clave, valor);
+  } catch {
+    // Si no se puede guardar, solo se pierde la preferencia
+  }
+}
 
 // Idioma inicial: guardado > idioma del navegador > español
 function idiomaInicial() {
-  try {
-    const guardado = localStorage.getItem("idioma");
-    if (guardado) return guardado;
-  } catch {
-    // localStorage puede no estar disponible
-  }
+  const guardado = leer("idioma");
+  if (guardado === "es" || guardado === "en") return guardado;
   return navigator.language?.startsWith("en") ? "en" : "es";
 }
 
@@ -161,10 +199,31 @@ let idioma = idiomaInicial();
 let filtroActual = "todas";
 let timerRol = null;
 let timerFrases = null;
+let timerFraseSalida = null;
 let indiceFrase = 0;
 let timerCopiar = null;
 
-// Efecto de escritura en el rol
+// ---------- Tema claro / oscuro ----------
+function temaActual() {
+  return raiz.getAttribute("data-theme") === "light" ? "light" : "dark";
+}
+
+function actualizarBotonTema() {
+  const t = traducciones[idioma];
+  const oscuro = temaActual() === "dark";
+  botonTema.setAttribute("aria-label", oscuro ? t.tema_claro : t.tema_oscuro);
+  const meta = document.querySelector("meta[name=theme-color]");
+  if (meta) meta.setAttribute("content", oscuro ? "#07080f" : "#f7f8fc");
+}
+
+botonTema.addEventListener("click", () => {
+  const nuevo = temaActual() === "dark" ? "light" : "dark";
+  raiz.setAttribute("data-theme", nuevo);
+  guardar("tema", nuevo);
+  actualizarBotonTema();
+});
+
+// ---------- Efecto de escritura en el rol ----------
 function escribirTexto(elemento, texto, velocidad = 35) {
   clearInterval(timerRol);
 
@@ -178,13 +237,16 @@ function escribirTexto(elemento, texto, velocidad = 35) {
   timerRol = setInterval(() => {
     elemento.textContent += texto.charAt(i);
     i++;
-    if (i === texto.length) clearInterval(timerRol);
+    if (i >= texto.length) clearInterval(timerRol);
   }, velocidad);
 }
 
-// Frases de Sobre mí que rotan cada pocos segundos
+// ---------- Frases de Sobre mí que rotan ----------
 function iniciarFrases(lang) {
   clearInterval(timerFrases);
+  clearTimeout(timerFraseSalida);
+  elementoFrase.classList.remove("salida");
+
   const frases = traducciones[lang].frases;
   indiceFrase = 0;
   elementoFrase.textContent = frases[0];
@@ -193,54 +255,55 @@ function iniciarFrases(lang) {
 
   timerFrases = setInterval(() => {
     elementoFrase.classList.add("salida");
-    setTimeout(() => {
+    timerFraseSalida = setTimeout(() => {
       indiceFrase = (indiceFrase + 1) % frases.length;
       elementoFrase.textContent = frases[indiceFrase];
       elementoFrase.classList.remove("salida");
     }, 400);
-  }, 4000);
+  }, 4500);
 }
 
-// Pestañas: muestra un único panel a la vez
-function mostrarPanel(id) {
-  paneles.forEach((p) => {
-    p.hidden = p.id !== id;
-  });
-
-  pestanas.forEach((t) => {
-    const activa = t.dataset.tab === id;
-    t.classList.toggle("activo", activa);
-    t.setAttribute("aria-selected", String(activa));
-  });
-}
-
-pestanas.forEach((t) => {
-  t.addEventListener("click", () => mostrarPanel(t.dataset.tab));
-});
-
-// Competencias técnicas según el filtro y el idioma
+// ---------- Competencias técnicas según filtro e idioma ----------
 function renderCompetencias(lang) {
   const t = traducciones[lang];
   listaCompetencias.textContent = "";
 
   competencias
     .filter((c) => filtroActual === "todas" || c.categoria === filtroActual)
-    .forEach((c) => {
+    .forEach((c, i) => {
       const li = document.createElement("li");
       li.className = "chip";
-      li.textContent = c.nombre;
+      li.dataset.categoria = c.categoria;
+      li.style.animationDelay = `${i * 35}ms`;
+
+      const nombre = document.createElement("span");
+      nombre.className = "chip-nombre";
+      nombre.textContent = c.nombre;
+      li.appendChild(nombre);
 
       if (c.nivel) {
         const nivel = document.createElement("small");
         nivel.textContent = t[`nivel_${c.nivel}`];
-        li.append(" ", nivel);
+        li.appendChild(nivel);
       }
 
       listaCompetencias.appendChild(li);
     });
 }
 
-// Aptitudes como libros: la tapa se abre y deja ver la cita
+botonesFiltro.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    filtroActual = boton.dataset.filtro;
+    botonesFiltro.forEach((b) => {
+      const activo = b === boton;
+      b.classList.toggle("activo", activo);
+      b.setAttribute("aria-pressed", String(activo));
+    });
+    renderCompetencias(idioma);
+  });
+});
+
+// ---------- Aptitudes como libros: la tapa se abre y deja ver la cita ----------
 function renderAptitudes(lang) {
   const t = traducciones[lang];
   listaAptitudes.textContent = "";
@@ -254,6 +317,7 @@ function renderAptitudes(lang) {
     libro.tabIndex = 0;
     libro.setAttribute("role", "button");
     libro.setAttribute("aria-expanded", "false");
+    libro.setAttribute("aria-label", apt.nombre);
 
     const pagina = document.createElement("div");
     pagina.className = "pagina";
@@ -300,7 +364,7 @@ function renderAptitudes(lang) {
   });
 }
 
-// Copiar el correo al portapapeles con confirmación visual
+// ---------- Copiar el correo con confirmación visual ----------
 async function copiarCorreo() {
   clearTimeout(timerCopiar);
 
@@ -318,55 +382,137 @@ async function copiarCorreo() {
 
 botonCopiar.addEventListener("click", copiarCorreo);
 
+// ---------- Idioma ----------
 function aplicarIdioma(lang) {
   const t = traducciones[lang];
 
-  document.documentElement.lang = lang;
+  raiz.lang = lang;
   document.title = t.titulo;
 
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     if (el === elementoRol) return;
-    el.textContent = t[el.dataset.i18n];
+    const texto = t[el.dataset.i18n];
+    if (typeof texto === "string") el.textContent = texto;
   });
 
   escribirTexto(elementoRol, t.rol);
   iniciarFrases(lang);
   renderCompetencias(lang);
   renderAptitudes(lang);
+  actualizarBotonTema();
+  actualizarBotonMenu();
 
   botonIdioma.textContent = lang === "es" ? "EN" : "ES";
-  botonIdioma.setAttribute("aria-label", lang === "es" ? "Change language" : "Cambiar idioma");
+  botonIdioma.setAttribute("aria-label", lang === "es" ? "Change language to English" : "Cambiar idioma a español");
 }
 
-// Botón de idioma
 botonIdioma.addEventListener("click", () => {
   idioma = idioma === "es" ? "en" : "es";
-  try {
-    localStorage.setItem("idioma", idioma);
-  } catch {
-    // Si no se puede guardar, solo se pierde la preferencia
-  }
+  guardar("idioma", idioma);
   aplicarIdioma(idioma);
 });
 
-// Filtros de competencias técnicas
-botonesFiltro.forEach((boton) => {
-  boton.addEventListener("click", () => {
-    filtroActual = boton.dataset.filtro;
-    botonesFiltro.forEach((b) => {
-      const activo = b === boton;
-      b.classList.toggle("activo", activo);
-      b.setAttribute("aria-pressed", String(activo));
-    });
-    renderCompetencias(idioma);
-  });
+// ---------- Menú móvil ----------
+function actualizarBotonMenu() {
+  const abierto = menu.classList.contains("abierto");
+  const t = traducciones[idioma];
+  botonMenu.setAttribute("aria-expanded", String(abierto));
+  botonMenu.setAttribute("aria-label", abierto ? t.menu_cerrar : t.menu_abrir);
+}
+
+function cerrarMenu() {
+  menu.classList.remove("abierto");
+  actualizarBotonMenu();
+}
+
+botonMenu.addEventListener("click", () => {
+  menu.classList.toggle("abierto");
+  actualizarBotonMenu();
 });
 
-// Cursor: punto que sigue al ratón al instante y anillo con retardo suave
+enlacesMenu.forEach((a) => a.addEventListener("click", cerrarMenu));
+
+document.addEventListener("click", (e) => {
+  if (!barra.contains(e.target)) cerrarMenu();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") cerrarMenu();
+});
+
+// ---------- Barra con fondo al hacer scroll ----------
+function actualizarBarra() {
+  barra.classList.toggle("con-scroll", window.scrollY > 20);
+}
+window.addEventListener("scroll", actualizarBarra, { passive: true });
+actualizarBarra();
+
+// ---------- Resalta en el menú la sección visible ----------
+function marcarEnlace(id) {
+  enlacesMenu.forEach((a) => {
+    const activo = id !== null && a.getAttribute("href") === `#${id}`;
+    a.classList.toggle("activo", activo);
+    if (activo) a.setAttribute("aria-current", "true");
+    else a.removeAttribute("aria-current");
+  });
+}
+
+function iniciarScrollspy() {
+  if (!("IntersectionObserver" in window)) return;
+
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        // Al volver al hero, ninguna sección queda marcada
+        marcarEnlace(entrada.target.id === "inicio" ? null : entrada.target.id);
+      });
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
+
+  document.querySelectorAll("#inicio, main .seccion").forEach((s) => observador.observe(s));
+}
+
+// ---------- Elementos que aparecen al hacer scroll ----------
+function iniciarRevelado() {
+  if (reducirMovimiento || !("IntersectionObserver" in window)) return;
+
+  raiz.classList.add("js-revelar");
+
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add("visible");
+          observador.unobserve(entrada.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  document.querySelectorAll(".revelar").forEach((el) => observador.observe(el));
+}
+
+// ---------- CV: oculta los enlaces si cv.pdf aún no existe ----------
+async function comprobarCV() {
+  try {
+    const respuesta = await fetch("cv.pdf", { method: "HEAD", cache: "no-store" });
+    if (respuesta.ok) return;
+  } catch {
+    // Sin servidor (file://) o sin red: se oculta igualmente
+  }
+  document.querySelectorAll(".enlace-cv").forEach((el) => {
+    (el.closest(".enlace-cv-item") || el).hidden = true;
+  });
+}
+
+// ---------- Cursor: punto que sigue al ratón y anillo con retardo ----------
 function iniciarCursor() {
   if (!puntero_fino) return;
 
-  document.documentElement.classList.add("puntero-fino");
+  raiz.classList.add("puntero-fino");
 
   const punto = document.getElementById("cursor-punto");
   const anillo = document.getElementById("cursor-anillo");
@@ -390,13 +536,11 @@ function iniciarCursor() {
   }
   seguirAnillo();
 
-  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item";
+  const interactivos = "a, button, .libro, .chip, .contacto-item";
 
   document.addEventListener("mouseover", (e) => {
     anillo.classList.toggle("hover", Boolean(e.target.closest(interactivos)));
   });
-
-  const raiz = document.documentElement;
 
   raiz.addEventListener("mouseleave", () => {
     punto.style.opacity = "0";
@@ -409,14 +553,14 @@ function iniciarCursor() {
   });
 }
 
-// Tarjetas con inclinación sutil al pasar el ratón
+// ---------- Inclinación sutil de las competencias al pasar el ratón ----------
 function iniciarInclinacion() {
   if (!puntero_fino) return;
 
   let activa = null;
 
   document.addEventListener("mousemove", (e) => {
-    const el = e.target.closest?.(".proyecto, .chip");
+    const el = e.target.closest?.(".chip");
 
     if (activa && activa !== el) activa.style.transform = "";
     activa = el;
@@ -425,31 +569,15 @@ function iniciarInclinacion() {
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(700px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-2px)`;
+    el.style.transform = `perspective(700px) rotateX(${-py * 8}deg) rotateY(${px * 8}deg) translateY(-2px)`;
   });
 }
 
-// Secciones que aparecen al hacer scroll (la cabecera no se anima)
-if (!reducirMovimiento) {
-  const secciones = document.querySelectorAll("main .panel");
-  secciones.forEach((s) => s.classList.add("oculta"));
-
-  const observador = new IntersectionObserver(
-    (entradas) => {
-      entradas.forEach((entrada) => {
-        if (entrada.isIntersecting) {
-          entrada.target.classList.add("visible");
-          observador.unobserve(entrada.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  secciones.forEach((s) => observador.observe(s));
-}
-
+// ---------- Arranque ----------
+document.getElementById("anio").textContent = new Date().getFullYear();
 iniciarCursor();
 iniciarInclinacion();
-mostrarPanel("sobre");
+iniciarScrollspy();
+iniciarRevelado();
+comprobarCV();
 aplicarIdioma(idioma);
