@@ -67,7 +67,17 @@ const traducciones = {
     tema_claro: "Cambiar a tema claro",
     tema_oscuro: "Cambiar a tema oscuro",
     menu_abrir: "Abrir menú",
-    menu_cerrar: "Cerrar menú"
+    menu_cerrar: "Cerrar menú",
+    tab_trayectoria: "Trayectoria",
+    trayectoria_titulo: "Trayectoria",
+    tl_tipo_exp: "Experiencia",
+    tl_tipo_form: "Formación",
+    tl_1_titulo: "Desarrollador software junior",
+    tl_1_desc: "Trabajo con IA, OCR, bots y servicios de Azure.",
+    tl_2_titulo: "Grado en Desarrollo de Aplicaciones Multiplataforma",
+    tl_2_desc: "Desarrollo de aplicaciones para web, móvil y escritorio.",
+    tl_3_titulo: "Cursos de especialización",
+    tl_3_desc: "IA, Big Data, Cloud y Machine Learning."
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -132,7 +142,17 @@ const traducciones = {
     tema_claro: "Switch to light theme",
     tema_oscuro: "Switch to dark theme",
     menu_abrir: "Open menu",
-    menu_cerrar: "Close menu"
+    menu_cerrar: "Close menu",
+    tab_trayectoria: "Journey",
+    trayectoria_titulo: "Journey",
+    tl_tipo_exp: "Experience",
+    tl_tipo_form: "Education",
+    tl_1_titulo: "Junior software developer",
+    tl_1_desc: "Working with AI, OCR, bots and Azure services.",
+    tl_2_titulo: "Degree in Multiplatform Application Development",
+    tl_2_desc: "Application development for web, mobile and desktop.",
+    tl_3_titulo: "Specialization courses",
+    tl_3_desc: "AI, Big Data, Cloud and Machine Learning."
   }
 };
 

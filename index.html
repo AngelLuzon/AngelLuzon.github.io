@@ -6,6 +6,7 @@
   <title>Ángel Luzón Balanzá | Portfolio</title>
   <meta name="description" content="Portfolio de Ángel Luzón Balanzá, desarrollador full stack junior con foco en IA y automatización.">
   <meta name="theme-color" content="#07080f">
+  <link rel="icon" href="img/avatar.jpg" type="image/jpeg">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ángel Luzón Balanzá | Portfolio">
@@ -14,7 +15,9 @@
   <meta property="og:image" content="https://angelluzon.github.io/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ángel Luzón Balanzá, desarrollador full stack junior">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://angelluzon.github.io/og.png">
 
   <!-- Aplica el tema antes de pintar para evitar el parpadeo -->
   <script>
@@ -45,11 +48,12 @@
   <header class="barra" id="barra">
     <div class="barra-interior">
       <a href="#inicio" class="logo" aria-label="Inicio">
-        <span class="logo-marca">ÁL</span>
+        <img class="logo-marca" src="img/avatar.jpg" alt="" width="36" height="36">
       </a>
 
       <nav class="menu" id="menu" aria-label="Principal">
         <a href="#sobre" class="menu-enlace" data-i18n="tab_sobre">Sobre mí</a>
+        <a href="#trayectoria" class="menu-enlace" data-i18n="tab_trayectoria">Trayectoria</a>
         <a href="#competencias" class="menu-enlace" data-i18n="tab_competencias">Competencias</a>
         <a href="#aptitudes" class="menu-enlace" data-i18n="tab_aptitudes">Aptitudes</a>
         <a href="#proyectos" class="menu-enlace" data-i18n="tab_proyectos">Proyectos</a>
@@ -100,6 +104,9 @@
 
       <div class="sobre-grid">
         <div class="sobre-texto revelar">
+          <figure class="avatar">
+            <img src="img/avatar.jpg" alt="Foto de Ángel Luzón Balanzá" width="480" height="480" loading="lazy" decoding="async">
+          </figure>
           <p id="frase" class="frase" aria-live="polite"></p>
           <p data-i18n="sobre_1">¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.</p>
           <p data-i18n="sobre_2">Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.</p>
@@ -130,9 +137,35 @@
       </div>
     </section>
 
-    <section id="competencias" class="seccion">
+    <section id="trayectoria" class="seccion">
       <header class="seccion-cabecera revelar">
         <span class="seccion-num">02</span>
+        <h2 data-i18n="trayectoria_titulo">Trayectoria</h2>
+      </header>
+
+      <ol class="linea">
+        <li class="hito revelar">
+          <span class="hito-tipo" data-i18n="tl_tipo_exp">Experiencia</span>
+          <h3 data-i18n="tl_1_titulo">Desarrollador software junior</h3>
+          <p class="hito-lugar">AIQUBE Labs</p>
+          <p class="hito-desc" data-i18n="tl_1_desc">Trabajo con IA, OCR, bots y servicios de Azure.</p>
+        </li>
+        <li class="hito revelar">
+          <span class="hito-tipo hito-tipo-form" data-i18n="tl_tipo_form">Formación</span>
+          <h3 data-i18n="tl_2_titulo">Grado en Desarrollo de Aplicaciones Multiplataforma</h3>
+          <p class="hito-desc" data-i18n="tl_2_desc">Desarrollo de aplicaciones para web, móvil y escritorio.</p>
+        </li>
+        <li class="hito revelar">
+          <span class="hito-tipo hito-tipo-form" data-i18n="tl_tipo_form">Formación</span>
+          <h3 data-i18n="tl_3_titulo">Cursos de especialización</h3>
+          <p class="hito-desc" data-i18n="tl_3_desc">IA, Big Data, Cloud y Machine Learning.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="competencias" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">03</span>
         <h2 data-i18n="competencias_titulo">Competencias</h2>
       </header>
 
@@ -147,7 +180,7 @@
 
     <section id="aptitudes" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">03</span>
+        <span class="seccion-num">04</span>
         <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
       </header>
       <ul id="lista-aptitudes" class="libros revelar"></ul>
@@ -155,7 +188,7 @@
 
     <section id="proyectos" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">04</span>
+        <span class="seccion-num">05</span>
         <h2 data-i18n="proyectos_titulo">Proyectos</h2>
       </header>
 
@@ -171,7 +204,7 @@
 
     <section id="contacto" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">05</span>
+        <span class="seccion-num">06</span>
         <h2 data-i18n="contacto_titulo">Contacto</h2>
       </header>
 
