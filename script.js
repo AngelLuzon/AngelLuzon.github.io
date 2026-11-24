@@ -1,44 +1,11 @@
 const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// 1. Efecto de escritura en el subtítulo
-function escribirTexto(elemento, velocidad = 50) {
-  if (reducirMovimiento) return;
-
-  const texto = elemento.textContent.trim();
-  elemento.textContent = "";
-  let i = 0;
-
-  const timer = setInterval(() => {
-    elemento.textContent += texto.charAt(i);
-    i++;
-    if (i === texto.length) clearInterval(timer);
-  }, velocidad);
-}
-
-const rol = document.getElementById("rol");
-if (rol) escribirTexto(rol);
-
-// 2. Secciones que aparecen al hacer scroll
-if (!reducirMovimiento) {
-  const secciones = document.querySelectorAll("section");
-  secciones.forEach((s) => s.classList.add("oculta"));
-
-  const observador = new IntersectionObserver(
-    (entradas) => {
-      entradas.forEach((entrada) => {
-        if (entrada.isIntersecting) {
-          entrada.target.classList.add("visible");
-          observador.unobserve(entrada.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const puntero_fino = window.matchMedia("(pointer: fine)").matches && !reducirMovimiento;
 
 const traducciones = {
   es: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
     rol: "Desarrollador full stack junior · IA y automatización",
+    scroll: "Explorar ↓",
     sobre_titulo: "Sobre mí",
     sobre_1: "Soy Ángel Luzón, desarrollador full stack junior con formación en Desarrollo de Aplicaciones Multiplataforma. Me interesa construir aplicaciones web y móviles, y especialmente la automatización y la integración de inteligencia artificial en proyectos reales.",
     sobre_2: "Tengo experiencia como desarrollador software junior en AIQUBE Labs, donde he trabajado en automatizaciones con IA, reconocimiento óptico de caracteres (OCR), bots automatizados y soluciones en Azure con Logic Apps. También he desarrollado CRMs.",
@@ -61,6 +28,7 @@ const traducciones = {
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
     rol: "Junior full stack developer · AI and automation",
+    scroll: "Explore ↓",
     sobre_titulo: "About me",
     sobre_1: "I'm Ángel Luzón, a junior full stack developer with a degree in Multiplatform Application Development. I enjoy building web and mobile applications, especially automation and integrating artificial intelligence into real projects.",
     sobre_2: "I worked as a junior software developer at AIQUBE Labs, where I built AI automations, optical character recognition (OCR), automated bots and Azure solutions with Logic Apps. I have also developed CRMs.",
@@ -104,7 +72,6 @@ const competencias = [
 
 const elementoRol = document.getElementById("rol");
 const botonIdioma = document.getElementById("idioma");
-const botonTema = document.getElementById("tema");
 const listaCompetencias = document.getElementById("lista-competencias");
 const listaAptitudes = document.getElementById("lista-aptitudes");
 const botonesFiltro = document.querySelectorAll(".filtro");
@@ -220,15 +187,9 @@ botonesFiltro.forEach((boton) => {
   });
 });
 
-// Botón de tema
-botonTema.addEventListener("click", () => {
-  document.body.classList.toggle("claro");
-  botonTema.textContent = document.body.classList.contains("claro") ? "🌙" : "☀️";
-});
-
-// Secciones que aparecen al hacer scroll
+// Secciones que aparecen al hacer scroll (no incluye la portada)
 if (!reducirMovimiento) {
-  const secciones = document.querySelectorAll("section");
+  const secciones = document.querySelectorAll("main section");
   secciones.forEach((s) => s.classList.add("oculta"));
 
   const observador = new IntersectionObserver(
@@ -246,14 +207,116 @@ if (!reducirMovimiento) {
   secciones.forEach((s) => observador.observe(s));
 }
 
-aplicarIdioma(idioma);
+// Fondo animado: red de nodos
+function iniciarFondo() {
+  const canvas = document.getElementById("fondo");
+  if (!canvas || reducirMovimiento) return;
 
-  secciones.forEach((s) => observador.observe(s));
+  const ctx = canvas.getContext("2d");
+  let puntos = [];
+
+  function ajustar() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cantidad = Math.min(80, Math.floor((canvas.width * canvas.height) / 16000));
+    puntos = Array.from({ length: cantidad }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4
+    }));
+  }
+
+  function dibujar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    puntos.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(0, 255, 156, 0.6)";
+      ctx.fill();
+    });
+
+    for (let i = 0; i < puntos.length; i++) {
+      for (let j = i + 1; j < puntos.length; j++) {
+        const a = puntos[i];
+        const b = puntos[j];
+        const distancia = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distancia < 130) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(0, 255, 156, ${0.15 * (1 - distancia / 130)})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(dibujar);
+  }
+
+  ajustar();
+  window.addEventListener("resize", ajustar);
+  dibujar();
 }
 
-// 3. Cambio de tema claro/oscuro
-const botonTema = document.getElementById("tema");
-botonTema?.addEventListener("click", () => {
-  document.body.classList.toggle("claro");
-  botonTema.textContent = document.body.classList.contains("claro") ? "🌙" : "☀️";
-});
+// Cursor personalizado
+function iniciarCursor() {
+  if (!puntero_fino) return;
+
+  document.documentElement.classList.add("puntero-fino");
+  document.body.classList.add("cursor-activo");
+
+  const cursor = document.getElementById("cursor");
+  let x = 0;
+  let y = 0;
+  let cx = 0;
+  let cy = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    x = e.clientX;
+    y = e.clientY;
+  });
+
+  function seguir() {
+    cx += (x - cx) * 0.2;
+    cy += (y - cy) * 0.2;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(seguir);
+  }
+  seguir();
+
+  document.addEventListener("mouseover", (e) => {
+    cursor.classList.toggle("hover", Boolean(e.target.closest("a, button, .proyecto, .chip")));
+  });
+}
+
+// Tarjetas con efecto 3D al pasar el ratón
+function iniciarTilt() {
+  if (!puntero_fino) return;
+
+  let activo = null;
+
+  document.addEventListener("mousemove", (e) => {
+    const el = e.target.closest?.(".proyecto, .chip");
+
+    if (activo && activo !== el) activo.style.transform = "";
+    activo = el;
+    if (!el) return;
+
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(600px) rotateX(${-py * 10}deg) rotateY(${px * 10}deg) translateZ(4px)`;
+  });
+}
+
+iniciarFondo();
+iniciarCursor();
+iniciarTilt();
+aplicarIdioma(idioma);

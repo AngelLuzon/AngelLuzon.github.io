@@ -4,15 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ángel Luzón Balanzá | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <button id="idioma" type="button" aria-label="Change language">EN</button>
-    <button id="tema" type="button" aria-label="Cambiar tema">☀️</button>
-    <h1>Ángel Luzón Balanzá</h1>
-    <p id="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</p>
-  </header>
+  <canvas id="fondo" aria-hidden="true"></canvas>
+  <div id="cursor" aria-hidden="true"></div>
+
+  <button id="idioma" type="button" aria-label="Change language">EN</button>
+
+  <section id="inicio" class="hero">
+    <p class="prompt">visitor@portfolio:~$ whoami</p>
+    <h1 class="nombre">Ángel Luzón Balanzá</h1>
+    <p id="rol" class="rol" data-i18n="rol">Desarrollador full stack junior · IA y automatización</p>
+    <a href="#sobre-mi" class="scroll" data-i18n="scroll">Explorar ↓</a>
+  </section>
 
   <main>
     <section id="sobre-mi">
