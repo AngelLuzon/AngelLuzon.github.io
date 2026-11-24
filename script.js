@@ -12,6 +12,7 @@ const traducciones = {
     tab_sobre: "Sobre mí",
     tab_competencias: "Competencias",
     tab_aptitudes: "Aptitudes",
+    tab_ocr: "Demo OCR",
     tab_proyectos: "Proyectos",
     tab_contacto: "Contacto",
     sobre_titulo: "Sobre mí",
@@ -36,6 +37,18 @@ const traducciones = {
       { nombre: "Proactivo", cita: "Fallas el 100% de los tiros que no intentas.", autor: "Wayne Gretzky" },
       { nombre: "Atento", cita: "La atención es la forma más rara y pura de generosidad.", autor: "Simone Weil" }
     ],
+    ocr_titulo: "Demo de OCR",
+    ocr_intro: "Sube una imagen con texto y extraeré el contenido directamente en tu navegador.",
+    ocr_soltar: "Arrastra una imagen aquí o haz clic para elegirla",
+    ocr_analizar: "Analizar imagen",
+    ocr_resultado: "Texto extraído",
+    ocr_vacio: "El texto aparecerá aquí.",
+    ocr_privacidad: "La imagen no sale de tu equipo. La primera vez se descargan los datos del idioma, que pueden tardar unos segundos.",
+    ocr_cargando: "Analizando",
+    ocr_listo: "Análisis completado ✅",
+    ocr_error: "No se pudo analizar la imagen ❌",
+    ocr_no_disponible: "La librería de OCR no se ha cargado. Revisa tu conexión ❌",
+    ocr_formato: "Elige un archivo de imagen ⚠️",
     proyectos_titulo: "Proyectos",
     proyectos_vacio: "Próximamente.",
     contacto_titulo: "Contacto",
@@ -53,6 +66,7 @@ const traducciones = {
     tab_sobre: "About me",
     tab_competencias: "Skills",
     tab_aptitudes: "Soft skills",
+    tab_ocr: "OCR demo",
     tab_proyectos: "Projects",
     tab_contacto: "Contact",
     sobre_titulo: "About me",
@@ -77,6 +91,18 @@ const traducciones = {
       { nombre: "Proactive", cita: "You miss 100% of the shots you don't take.", autor: "Wayne Gretzky" },
       { nombre: "Attentive", cita: "Attention is the rarest and purest form of generosity.", autor: "Simone Weil" }
     ],
+    ocr_titulo: "OCR demo",
+    ocr_intro: "Upload an image with text and I'll extract its content directly in your browser.",
+    ocr_soltar: "Drag an image here or click to choose one",
+    ocr_analizar: "Analyze image",
+    ocr_resultado: "Extracted text",
+    ocr_vacio: "The text will appear here.",
+    ocr_privacidad: "The image never leaves your device. The first time, the language data is downloaded, which can take a few seconds.",
+    ocr_cargando: "Analyzing",
+    ocr_listo: "Analysis complete ✅",
+    ocr_error: "Could not analyze the image ❌",
+    ocr_no_disponible: "The OCR library did not load. Check your connection ❌",
+    ocr_formato: "Please choose an image file ⚠️",
     proyectos_titulo: "Projects",
     proyectos_vacio: "Coming soon.",
     contacto_titulo: "Contact",
@@ -117,6 +143,18 @@ const pestanas = document.querySelectorAll(".tab");
 const paneles = document.querySelectorAll(".panel");
 const botonCopiar = document.getElementById("copiar");
 
+// Elementos de la demo OCR
+const ocrArchivo = document.getElementById("ocr-archivo");
+const ocrDropzone = document.getElementById("dropzone");
+const ocrVista = document.getElementById("ocr-vista");
+const ocrPreview = document.getElementById("ocr-preview");
+const ocrAnalizar = document.getElementById("ocr-analizar");
+const ocrEstado = document.getElementById("ocr-estado");
+const ocrProgreso = document.getElementById("ocr-progreso");
+const ocrBarra = document.getElementById("ocr-barra");
+const ocrSalida = document.getElementById("ocr-salida");
+const ocrCopiar = document.getElementById("ocr-copiar");
+
 // Idioma inicial: guardado > idioma del navegador > español
 function idiomaInicial() {
   try {
@@ -132,6 +170,9 @@ let idioma = idiomaInicial();
 let filtroActual = "todas";
 let timerRol = null;
 let timerCopiar = null;
+let timerOcrCopiar = null;
+let archivoActual = null;
+let urlPrevia = null;
 
 // Efecto de escritura en el rol
 function escribirTexto(elemento, texto, velocidad = 35) {
@@ -251,23 +292,116 @@ function renderAptitudes(lang) {
 }
 
 // Copiar el correo al portapapeles con confirmación visual
-async function copiarCorreo() {
+async function copiarTexto(texto, boton, timerActual) {
   const t = traducciones[idioma];
-  clearTimeout(timerCopiar);
+  clearTimeout(timerActual);
 
   try {
-    await navigator.clipboard.writeText(CORREO);
-    botonCopiar.textContent = t.copiado;
+    await navigator.clipboard.writeText(texto);
+    boton.textContent = t.copiado;
   } catch {
-    botonCopiar.textContent = t.copiar_error;
+    boton.textContent = t.copiar_error;
   }
 
-  timerCopiar = setTimeout(() => {
-    botonCopiar.textContent = traducciones[idioma].copiar;
+  return setTimeout(() => {
+    boton.textContent = traducciones[idioma].copiar;
   }, 2000);
 }
 
-botonCopiar.addEventListener("click", copiarCorreo);
+botonCopiar.addEventListener("click", async () => {
+  timerCopiar = await copiarTexto(CORREO, botonCopiar, timerCopiar);
+});
+
+// Demo OCR: gestión del archivo elegido (clic o arrastrar)
+function mostrarEstado(clave) {
+  ocrEstado.textContent = traducciones[idioma][clave] ?? "";
+}
+
+function cargarArchivo(file) {
+  if (!file || !file.type.startsWith("image/")) {
+    archivoActual = null;
+    ocrAnalizar.disabled = true;
+    mostrarEstado("ocr_formato");
+    return;
+  }
+
+  archivoActual = file;
+
+  if (urlPrevia) URL.revokeObjectURL(urlPrevia);
+  urlPrevia = URL.createObjectURL(file);
+
+  ocrPreview.src = urlPrevia;
+  ocrVista.hidden = false;
+  ocrAnalizar.disabled = false;
+  ocrEstado.textContent = "";
+}
+
+ocrArchivo.addEventListener("change", () => {
+  cargarArchivo(ocrArchivo.files[0]);
+});
+
+["dragenter", "dragover"].forEach((evento) => {
+  ocrDropzone.addEventListener(evento, (e) => {
+    e.preventDefault();
+    ocrDropzone.classList.add("arrastrando");
+  });
+});
+
+["dragleave", "drop"].forEach((evento) => {
+  ocrDropzone.addEventListener(evento, (e) => {
+    e.preventDefault();
+    ocrDropzone.classList.remove("arrastrando");
+  });
+});
+
+ocrDropzone.addEventListener("drop", (e) => {
+  cargarArchivo(e.dataTransfer.files[0]);
+});
+
+// Ejecuta el OCR en el navegador con Tesseract.js
+async function analizarImagen() {
+  if (!archivoActual) return;
+
+  if (typeof Tesseract === "undefined") {
+    mostrarEstado("ocr_no_disponible");
+    return;
+  }
+
+  ocrAnalizar.disabled = true;
+  ocrProgreso.hidden = false;
+  ocrBarra.style.width = "0%";
+  ocrSalida.value = "";
+
+  try {
+    const lenguajes = idioma === "en" ? "eng" : "spa+eng";
+
+    const { data } = await Tesseract.recognize(archivoActual, lenguajes, {
+      logger: (m) => {
+        if (m.status) {
+          ocrEstado.textContent = `${traducciones[idioma].ocr_cargando}… ${Math.round((m.progress || 0) * 100)}%`;
+        }
+        if (typeof m.progress === "number") {
+          ocrBarra.style.width = `${Math.round(m.progress * 100)}%`;
+        }
+      }
+    });
+
+    ocrSalida.value = data.text.trim();
+    mostrarEstado("ocr_listo");
+  } catch {
+    mostrarEstado("ocr_error");
+  } finally {
+    ocrAnalizar.disabled = false;
+    ocrProgreso.hidden = true;
+  }
+}
+
+ocrAnalizar.addEventListener("click", analizarImagen);
+
+ocrCopiar.addEventListener("click", async () => {
+  if (!ocrSalida.value) return;
+  timerOcrCopiar = await copiarTexto(ocrSalida.value, ocrCopiar, timerOcrCopiar);
+});
 
 function aplicarIdioma(lang) {
   const t = traducciones[lang];
@@ -278,6 +412,10 @@ function aplicarIdioma(lang) {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     if (el === elementoRol) return;
     el.textContent = t[el.dataset.i18n];
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    el.placeholder = t[el.dataset.i18nPlaceholder];
   });
 
   escribirTexto(elementoRol, t.rol);
@@ -340,7 +478,7 @@ function iniciarCursor() {
   }
   seguirAnillo();
 
-  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item";
+  const interactivos = "a, button, label, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item, textarea";
 
   document.addEventListener("mouseover", (e) => {
     anillo.classList.toggle("hover", Boolean(e.target.closest(interactivos)));

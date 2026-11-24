@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ángel Luzón Balanzá | Portfolio</title>
+  <meta name="description" content="Portfolio de Ángel Luzón Balanzá, desarrollador full stack junior con foco en IA y automatización.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ángel Luzón Balanzá | Portfolio">
+  <meta property="og:description" content="Desarrollador full stack junior · IA y automatización. Prueba la demo de OCR en el navegador.">
+  <meta property="og:url" content="https://angelluzon.github.io">
+  <meta property="og:image" content="https://angelluzon.github.io/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,6 +38,7 @@
       <button type="button" class="tab activo" role="tab" data-tab="sobre" data-i18n="tab_sobre">Sobre mí</button>
       <button type="button" class="tab" role="tab" data-tab="competencias" data-i18n="tab_competencias">Competencias</button>
       <button type="button" class="tab" role="tab" data-tab="aptitudes" data-i18n="tab_aptitudes">Aptitudes</button>
+      <button type="button" class="tab" role="tab" data-tab="ocr" data-i18n="tab_ocr">Demo OCR</button>
       <button type="button" class="tab" role="tab" data-tab="proyectos" data-i18n="tab_proyectos">Proyectos</button>
       <button type="button" class="tab" role="tab" data-tab="contacto" data-i18n="tab_contacto">Contacto</button>
     </nav>
@@ -53,6 +65,42 @@
     <section id="aptitudes" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
       <ul id="lista-aptitudes" class="libros"></ul>
+    </section>
+
+    <section id="ocr" class="panel" role="tabpanel" hidden>
+      <h2 data-i18n="ocr_titulo">Demo de OCR</h2>
+      <p data-i18n="ocr_intro">Sube una imagen con texto y extraeré el contenido directamente en tu navegador.</p>
+
+      <div class="ocr-card">
+        <label id="dropzone" class="dropzone" for="ocr-archivo">
+          <span class="dropzone-icono" aria-hidden="true">🖼️</span>
+          <span data-i18n="ocr_soltar">Arrastra una imagen aquí o haz clic para elegirla</span>
+          <input id="ocr-archivo" type="file" accept="image/*" hidden>
+        </label>
+
+        <div id="ocr-vista" class="ocr-vista" hidden>
+          <img id="ocr-preview" alt="">
+        </div>
+
+        <div class="ocr-acciones">
+          <button id="ocr-analizar" type="button" class="boton-principal" disabled data-i18n="ocr_analizar">Analizar imagen</button>
+          <span id="ocr-estado" class="hint" role="status" aria-live="polite"></span>
+        </div>
+
+        <div id="ocr-progreso" class="progreso" hidden>
+          <div id="ocr-barra" class="barra"></div>
+        </div>
+
+        <div class="ocr-resultado">
+          <div class="ocr-resultado-cabecera">
+            <span class="contacto-label" data-i18n="ocr_resultado">Texto extraído</span>
+            <button id="ocr-copiar" type="button" class="boton-copiar" data-i18n="copiar">Copiar</button>
+          </div>
+          <textarea id="ocr-salida" rows="8" data-i18n-placeholder="ocr_vacio" placeholder="El texto aparecerá aquí."></textarea>
+        </div>
+
+        <p class="ocr-privacidad" data-i18n="ocr_privacidad">La imagen no sale de tu equipo. La primera vez se descargan los datos del idioma, que pueden tardar unos segundos.</p>
+      </div>
     </section>
 
     <section id="proyectos" class="panel" role="tabpanel" hidden>
@@ -86,6 +134,7 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
