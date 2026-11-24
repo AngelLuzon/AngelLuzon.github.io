@@ -1,6 +1,8 @@
 const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const puntero_fino = window.matchMedia("(pointer: fine)").matches && !reducirMovimiento;
 
+const CORREO = "angel.luzon.job@gmail.com";
+
 const traducciones = {
   es: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -9,6 +11,7 @@ const traducciones = {
     scroll: "Explorar",
     tab_sobre: "Sobre mí",
     tab_competencias: "Competencias",
+    tab_aptitudes: "Aptitudes",
     tab_proyectos: "Proyectos",
     tab_contacto: "Contacto",
     sobre_titulo: "Sobre mí",
@@ -36,7 +39,11 @@ const traducciones = {
     proyectos_titulo: "Proyectos",
     proyectos_vacio: "Próximamente.",
     contacto_titulo: "Contacto",
-    correo: "Correo"
+    correo_label: "Correo",
+    copiar: "Copiar",
+    copiado: "¡Copiado! ✅",
+    copiar_error: "No se pudo copiar ❌",
+    contacto_nota: "Si el enlace del correo no abre tu programa de correo, usa el botón Copiar."
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -45,6 +52,7 @@ const traducciones = {
     scroll: "Explore",
     tab_sobre: "About me",
     tab_competencias: "Skills",
+    tab_aptitudes: "Soft skills",
     tab_proyectos: "Projects",
     tab_contacto: "Contact",
     sobre_titulo: "About me",
@@ -72,7 +80,11 @@ const traducciones = {
     proyectos_titulo: "Projects",
     proyectos_vacio: "Coming soon.",
     contacto_titulo: "Contact",
-    correo: "Email"
+    correo_label: "Email",
+    copiar: "Copy",
+    copiado: "Copied! ✅",
+    copiar_error: "Copy failed ❌",
+    contacto_nota: "If the email link doesn't open your mail app, use the Copy button."
   }
 };
 
@@ -103,6 +115,7 @@ const listaAptitudes = document.getElementById("lista-aptitudes");
 const botonesFiltro = document.querySelectorAll(".filtro");
 const pestanas = document.querySelectorAll(".tab");
 const paneles = document.querySelectorAll(".panel");
+const botonCopiar = document.getElementById("copiar");
 
 // Idioma inicial: guardado > idioma del navegador > español
 function idiomaInicial() {
@@ -118,6 +131,7 @@ function idiomaInicial() {
 let idioma = idiomaInicial();
 let filtroActual = "todas";
 let timerRol = null;
+let timerCopiar = null;
 
 // Efecto de escritura en el rol
 function escribirTexto(elemento, texto, velocidad = 35) {
@@ -236,6 +250,25 @@ function renderAptitudes(lang) {
   });
 }
 
+// Copiar el correo al portapapeles con confirmación visual
+async function copiarCorreo() {
+  const t = traducciones[idioma];
+  clearTimeout(timerCopiar);
+
+  try {
+    await navigator.clipboard.writeText(CORREO);
+    botonCopiar.textContent = t.copiado;
+  } catch {
+    botonCopiar.textContent = t.copiar_error;
+  }
+
+  timerCopiar = setTimeout(() => {
+    botonCopiar.textContent = traducciones[idioma].copiar;
+  }, 2000);
+}
+
+botonCopiar.addEventListener("click", copiarCorreo);
+
 function aplicarIdioma(lang) {
   const t = traducciones[lang];
 
@@ -307,7 +340,7 @@ function iniciarCursor() {
   }
   seguirAnillo();
 
-  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro";
+  const interactivos = "a, button, .libro, .chip, .proyecto, .tab, .filtro, .contacto-item";
 
   document.addEventListener("mouseover", (e) => {
     anillo.classList.toggle("hover", Boolean(e.target.closest(interactivos)));

@@ -26,6 +26,7 @@
     <nav id="tabs" class="tabs" role="tablist" aria-label="Secciones">
       <button type="button" class="tab activo" role="tab" data-tab="sobre" data-i18n="tab_sobre">Sobre mí</button>
       <button type="button" class="tab" role="tab" data-tab="competencias" data-i18n="tab_competencias">Competencias</button>
+      <button type="button" class="tab" role="tab" data-tab="aptitudes" data-i18n="tab_aptitudes">Aptitudes</button>
       <button type="button" class="tab" role="tab" data-tab="proyectos" data-i18n="tab_proyectos">Proyectos</button>
       <button type="button" class="tab" role="tab" data-tab="contacto" data-i18n="tab_contacto">Contacto</button>
     </nav>
@@ -47,8 +48,10 @@
         <button type="button" class="filtro" data-filtro="herramientas" aria-pressed="false" data-i18n="filtro_herramientas">Herramientas</button>
       </div>
       <ul id="lista-competencias" class="chips"></ul>
+    </section>
 
-      <h3 data-i18n="aptitudes_titulo">Aptitudes</h3>
+    <section id="aptitudes" class="panel" role="tabpanel" hidden>
+      <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
       <ul id="lista-aptitudes" class="libros"></ul>
     </section>
 
@@ -59,10 +62,27 @@
 
     <section id="contacto" class="panel" role="tabpanel" hidden>
       <h2 data-i18n="contacto_titulo">Contacto</h2>
-      <p>
-        <a href="mailto:angel.luzon.job@gmail.com" data-i18n="correo">Correo</a> ·
-        <a href="https://github.com/AngelLuzon">GitHub</a>
-      </p>
+
+      <ul class="contacto-lista">
+        <li class="contacto-item">
+          <span class="contacto-emoji" aria-hidden="true">✉️</span>
+          <div class="contacto-texto">
+            <span class="contacto-label" data-i18n="correo_label">Correo</span>
+            <a href="mailto:angel.luzon.job@gmail.com">angel.luzon.job@gmail.com</a>
+          </div>
+          <button id="copiar" type="button" class="boton-copiar" data-i18n="copiar">Copiar</button>
+        </li>
+
+        <li class="contacto-item">
+          <span class="contacto-emoji" aria-hidden="true">💻</span>
+          <div class="contacto-texto">
+            <span class="contacto-label">GitHub</span>
+            <a href="https://github.com/AngelLuzon" target="_blank" rel="noopener">github.com/AngelLuzon</a>
+          </div>
+        </li>
+      </ul>
+
+      <p class="contacto-nota" data-i18n="contacto_nota">Si el enlace del correo no abre tu programa de correo, usa el botón Copiar.</p>
     </section>
   </main>
 

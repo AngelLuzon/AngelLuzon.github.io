@@ -225,13 +225,6 @@ main {
   max-width: 68ch;
 }
 
-#competencias h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  margin: 2.5rem 0 1rem;
-  color: var(--texto);
-}
-
 a {
   color: var(--acento);
   text-decoration: none;
@@ -241,10 +234,6 @@ a {
 a:hover,
 a:focus-visible {
   text-decoration: underline;
-}
-
-#contacto p {
-  font-size: 1.05rem;
 }
 
 /* Filtros */
@@ -464,6 +453,79 @@ a:focus-visible {
   }
 }
 
+/* Contacto */
+.contacto-lista {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  max-width: 560px;
+}
+
+.contacto-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.contacto-item:hover {
+  border-color: var(--acento);
+  transform: translateY(-2px);
+}
+
+.contacto-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.contacto-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.contacto-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.contacto-texto a {
+  overflow-wrap: anywhere;
+}
+
+.boton-copiar {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--acento);
+  background: transparent;
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.boton-copiar:hover {
+  background: var(--acento);
+  color: #ffffff;
+}
+
+.contacto-nota {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+}
+
 /* Revelado al hacer scroll */
 .oculta {
   opacity: 0;
@@ -487,6 +549,7 @@ a:focus-visible {
   .oculta,
   .chip,
   .proyecto,
+  .contacto-item,
   #cursor-anillo {
     animation: none;
     transition: none;
