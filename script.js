@@ -25,12 +25,7 @@ const traducciones = {
     ficha_experiencia: "Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure",
     ficha_intereses_label: "Intereses",
     ficha_intereses: "IA, automatización, arquitectura de software y agentes inteligentes",
-    frases: [
-      "Busco un equipo donde aprender y aportar desde el primer día.",
-      "Me motiva ayudar a la gente a estar más conectada.",
-      "Me gusta convertir lo repetitivo en automatizaciones.",
-      "Creo que el buen código se entiende a la primera."
-    ],
+    frases: FRASES.es,
     sobre_1: "¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.",
     sobre_2: "Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.",
     competencias_titulo: "Competencias",
@@ -104,12 +99,7 @@ const traducciones = {
     ficha_experiencia: "Junior software developer at AIQUBE Labs: AI, OCR, bots and Azure",
     ficha_intereses_label: "Interests",
     ficha_intereses: "AI, automation, software architecture and intelligent agents",
-    frases: [
-      "I'm looking for a team where I can learn and contribute from day one.",
-      "I'm motivated by helping people stay more connected.",
-      "I enjoy turning repetitive work into automation.",
-      "I believe good code should be understood at first sight."
-    ],
+    frases: FRASES.en,
     sobre_1: "Hi! I'm Ángel. I like building things that work and, above all, that are useful. I move between the web, automation and AI, and I enjoy when something that seemed complicated turns out to be simple.",
     sobre_2: "If you're looking for someone who learns fast, asks the right questions and gets involved from day one, I think we could work well together.",
     competencias_titulo: "Skills",
@@ -628,6 +618,9 @@ let pestanaVisible = !document.hidden;
 let tokenHabla = 0;
 let timerHabla = null;
 let timerBoca = null;
+let audioActual = null;
+
+const cacheVoz = new Map();
 
 // Forma de la boca según la letra: a abierta, o/u redonda, e/i media, b/m/p y signos cerrada
 function visema(ch) {
@@ -649,23 +642,72 @@ function esperar(ms) {
   });
 }
 
+// Voz propia: audio/es-1.wav, audio/es-2.wav... (se generan con grabar.html).
+// Devuelve el audio listo, o null si no existe ese archivo.
+function cargarAudio(lang, n) {
+  const clave = `${lang}-${n}`;
+  if (!cacheVoz.has(clave)) {
+    cacheVoz.set(
+      clave,
+      new Promise((resolve) => {
+        const audio = new Audio();
+        audio.preload = "auto";
+        const fin = (valido) => {
+          clearTimeout(limite);
+          resolve(valido ? audio : null);
+        };
+        const limite = setTimeout(() => fin(false), 3000);
+        audio.addEventListener(
+          "loadedmetadata",
+          () => fin(Number.isFinite(audio.duration) && audio.duration > 0),
+          { once: true }
+        );
+        audio.addEventListener("error", () => fin(false), { once: true });
+        audio.src = `audio/${clave}.wav`;
+      })
+    );
+  }
+  return cacheVoz.get(clave);
+}
+
+// Si falta la primera grabación del idioma, se asume que no hay voz propia y no se piden las demás
+async function vozGrabada(lang, n) {
+  if (n !== 1 && (await cargarAudio(lang, 1)) === null) return null;
+  return cargarAudio(lang, n);
+}
+
 function elegirVoz(lang) {
   const voces = sintetizador.getVoices().filter((v) => v.lang.toLowerCase().startsWith(lang));
   return voces.find((v) => v.localService) || voces[0] || null;
+}
+
+// Para la voz propia y la del sistema
+function silenciar() {
+  if (sintetizador) sintetizador.cancel();
+  if (audioActual) {
+    const audio = audioActual;
+    audioActual = null;
+    audio.pause();
+    audio.dispatchEvent(new Event("ended"));
+  }
 }
 
 function detenerHabla() {
   tokenHabla++;
   clearTimeout(timerHabla);
   clearInterval(timerBoca);
-  if (sintetizador) sintetizador.cancel();
+  silenciar();
   setBoca("c");
   dibujoAvatar.classList.remove("hablando");
   elementoFrase.classList.remove("escribiendo");
 }
 
-// Escribe el texto en el bocadillo letra a letra, moviendo la boca (y hablando si la voz está activa)
-function decir(texto, token) {
+// Escribe el texto en el bocadillo letra a letra, moviendo la boca.
+// Con la voz activa habla con tu grabación (si existe) o con la voz del sistema.
+async function decir(texto, token, indice) {
+  const grabada = vozActiva ? await vozGrabada(idioma, indice) : null;
+  if (token !== tokenHabla) return;
+
   return new Promise((resolve) => {
     const visible = document.createElement("span");
     visible.className = "frase-visible";
@@ -686,7 +728,7 @@ function decir(texto, token) {
     dibujoAvatar.classList.add("hablando");
 
     let tecleoFin = false;
-    let vozFin = !(vozActiva && sintetizador);
+    let vozFin = !(vozActiva && (grabada || sintetizador));
 
     const terminar = () => {
       if (token !== tokenHabla) return resolve();
@@ -699,22 +741,47 @@ function decir(texto, token) {
     };
 
     if (!vozFin) {
-      const u = new SpeechSynthesisUtterance(texto);
-      u.lang = idioma === "es" ? "es-ES" : "en-US";
-      const voz = elegirVoz(idioma);
-      if (voz) u.voice = voz;
-      u.pitch = 1.15;
-      u.onend = u.onerror = () => {
-        vozFin = true;
-        terminar();
-      };
-      sintetizador.speak(u);
+      let duracionMs = texto.length * 130;
+
+      if (grabada) {
+        duracionMs = grabada.duration * 1000;
+        audioActual = grabada;
+        grabada.currentTime = 0;
+        grabada.onended = () => {
+          if (audioActual === grabada) audioActual = null;
+          grabada.onended = null;
+          vozFin = true;
+          terminar();
+        };
+        grabada.play().catch(() => {
+          vozFin = true;
+          terminar();
+        });
+      } else {
+        const u = new SpeechSynthesisUtterance(texto);
+        u.lang = idioma === "es" ? "es-ES" : "en-US";
+        const voz = elegirVoz(idioma);
+        if (voz) u.voice = voz;
+        u.pitch = 1.15;
+        u.onend = u.onerror = () => {
+          vozFin = true;
+          terminar();
+        };
+        sintetizador.speak(u);
+      }
+
       // Red de seguridad por si el navegador nunca avisa del final de la voz
       setTimeout(() => {
         vozFin = true;
         terminar();
-      }, texto.length * 130 + 4000);
+      }, duracionMs + 4000);
     }
+
+    // Con voz grabada, el texto se escribe al ritmo real de tu voz
+    const pausas = [...texto].filter((c) => ".,;:!?".includes(c)).length;
+    const velocidad = grabada
+      ? Math.max(25, (grabada.duration * 1000 * 0.95 - pausas * 180) / texto.length)
+      : 62;
 
     let i = 0;
     const paso = () => {
@@ -740,7 +807,7 @@ function decir(texto, token) {
       const ch = texto[i++];
       visible.textContent += ch;
       setBoca(visema(ch));
-      timerHabla = setTimeout(paso, ".,;:!?".includes(ch) ? 240 : 62);
+      timerHabla = setTimeout(paso, ".,;:!?".includes(ch) ? velocidad + 180 : velocidad);
     };
     paso();
   });
@@ -750,7 +817,8 @@ async function bucleHabla(token) {
   const frases = traducciones[idioma].frases;
   let i = 0;
   while (token === tokenHabla) {
-    await decir(frases[i % frases.length], token);
+    const posicion = i % frases.length;
+    await decir(frases[posicion], token, posicion + 1);
     if (token !== tokenHabla) return;
     await esperar(2400);
     i++;
@@ -775,7 +843,7 @@ function aplicarModoAvatar() {
   botonDibujo.setAttribute("aria-pressed", String(dibujo));
   imgAvatar.setAttribute("aria-hidden", String(dibujo));
   dibujoAvatar.setAttribute("aria-hidden", String(!dibujo));
-  botonVoz.hidden = !(dibujo && sintetizador && !reducirMovimiento);
+  botonVoz.hidden = !(dibujo && !reducirMovimiento);
   if (!dibujo) {
     vozActiva = false;
     botonVoz.setAttribute("aria-pressed", "false");
@@ -789,7 +857,7 @@ botonDibujo.addEventListener("click", () => {
   iniciarFrases(idioma);
 });
 
-// La voz solo se activa con un clic (los navegadores no permiten hablar solos)
+// La voz solo se activa con un clic (los navegadores no permiten sonar solos)
 botonVoz.addEventListener("click", () => {
   vozActiva = !vozActiva;
   botonVoz.setAttribute("aria-pressed", String(vozActiva));
@@ -802,7 +870,7 @@ if ("IntersectionObserver" in window) {
   new IntersectionObserver(
     ([entrada]) => {
       avatarVisible = entrada.isIntersecting;
-      if (!avatarVisible && sintetizador) sintetizador.cancel();
+      if (!avatarVisible) silenciar();
     },
     { threshold: 0.1 }
   ).observe(zonaTexto);
@@ -810,12 +878,10 @@ if ("IntersectionObserver" in window) {
 
 document.addEventListener("visibilitychange", () => {
   pestanaVisible = !document.hidden;
-  if (document.hidden && sintetizador) sintetizador.cancel();
+  if (document.hidden) silenciar();
 });
 
-window.addEventListener("pagehide", () => {
-  if (sintetizador) sintetizador.cancel();
-});
+window.addEventListener("pagehide", silenciar);
 
 // ---------- Arranque ----------
 document.getElementById("anio").textContent = new Date().getFullYear();

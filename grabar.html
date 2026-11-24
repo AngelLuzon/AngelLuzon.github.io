@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Grabar mi voz | Portfolio</title>
+  <meta name="theme-color" content="#07080f">
+  <link rel="icon" href="img/avatar.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .grabadora { max-width: 760px; margin: 0 auto; padding: 4rem var(--gutter) 5rem; }
+    .grabadora h1 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin: 1.5rem 0 1rem; }
+    .grabadora h2 { font-size: 1.25rem; font-weight: 700; margin: 2.5rem 0 1rem; }
+    .grabadora p, .grabadora li { color: var(--texto-suave); }
+    .pasos { display: grid; gap: 0.5rem; margin: 1.25rem 0 0.5rem; padding-left: 1.2rem; }
+    .pasos code { font-family: var(--mono); font-size: 0.85em; color: var(--acento-2); background: var(--superficie); padding: 0.1rem 0.4rem; border-radius: 6px; }
+    .aviso { margin-top: 1rem; padding: 0.9rem 1.1rem; border: 1px solid var(--borde-fuerte); border-radius: var(--radio); background: var(--superficie); font-size: 0.92rem; }
+    .toma { padding: 1.1rem 1.25rem; margin-bottom: 0.9rem; background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); transition: border-color 0.2s ease, box-shadow 0.25s ease; }
+    .toma.hecha { border-color: color-mix(in srgb, var(--acento-2) 50%, transparent); }
+    .toma.en-grabacion { border-color: #f87171; box-shadow: 0 0 0 1px #f87171, 0 10px 40px -12px rgba(248, 113, 113, 0.5); }
+    .toma-texto { color: var(--texto) !important; font-weight: 600; font-size: 1.05rem; margin-bottom: 0.9rem; }
+    .toma-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+    .boton-pildora:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .boton-pildora.grabando { color: #fff; background: #ef4444; border-color: transparent; }
+    .medidor { position: relative; width: 70px; height: 6px; border-radius: 6px; background: var(--borde); overflow: hidden; --nivel: 0; }
+    .medidor::after { content: ""; position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--nivel)); background: linear-gradient(90deg, var(--acento-2), #f87171); }
+    .toma-estado { font-size: 0.85rem; color: var(--texto-tenue); }
+    .toma-estado.error { color: #f87171; }
+    .barra-global { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 2rem; }
+    .volver { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="fondo" aria-hidden="true">
+    <div class="rejilla"></div>
+    <div class="orbe orbe-1"></div>
+    <div class="orbe orbe-2"></div>
+  </div>
+
+  <main class="grabadora">
+    <a href="index.html" class="volver">← Volver al portfolio</a>
+    <h1><span class="degradado">Graba tu voz</span> para el avatar</h1>
+    <p>Lee cada frase en voz alta. El avatar animado las dirá con tu voz y moverá la boca al ritmo de tu grabación. Todo se procesa en tu navegador: no se sube nada a ningún sitio.</p>
+
+    <ol class="pasos">
+      <li>Pulsa <strong>Grabar</strong>, lee la frase y pulsa <strong>Parar</strong>. Se recortan los silencios solos y se ajusta el volumen.</li>
+      <li>Pulsa <strong>Escuchar</strong>. Si no te convence, <strong>Repetir</strong>.</li>
+      <li>Pulsa <strong>Descargar todas</strong> y guarda los archivos en la carpeta <code>audio/</code> del proyecto (hay que crearla).</li>
+      <li>Súbelos junto con el resto de la web. El avatar los detecta solo.</li>
+    </ol>
+
+    <p class="aviso">Para que el navegador deje usar el micrófono, abre esta página desde <code>https://</code> (por ejemplo, ya publicada en GitHub Pages) o desde <code>http://localhost</code>. Si grabas solo en español, en inglés el avatar usará la voz del sistema.</p>
+
+    <h2>Español</h2>
+    <div id="lista-es"></div>
+
+    <h2>English</h2>
+    <div id="lista-en"></div>
+
+    <div id="grabaciones" class="barra-global">
+      <button type="button" id="descargar-todas" class="boton boton-primario" disabled>Descargar todas</button>
+      <span id="estado-global" class="toma-estado" role="status"></span>
+    </div>
+  </main>
+
+  <script src="frases.js"></script>
+  <script src="grabar.js"></script>
+</body>
+</html>
