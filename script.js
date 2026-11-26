@@ -17,6 +17,8 @@ const traducciones = {
     etiqueta: "Portfolio",
     rol: "Desarrollador full stack junior · IA y automatización",
     scroll: "Explorar",
+    qa_titulo: "Preguntas y respuestas",
+    qa_intro: "Lo que suelen preguntarme, con respuestas directas. Elige un tema y abre la pregunta.",
     tab_sobre: "Sobre mí",
     tab_preguntas: "Preguntas",
     tab_competencias: "Competencias",
@@ -126,6 +128,8 @@ const traducciones = {
     etiqueta: "Portfolio",
     rol: "Junior full stack developer · AI and automation",
     scroll: "Explore",
+    qa_titulo: "Questions & answers",
+    qa_intro: "What people usually ask me, with straight answers. Pick a topic and open a question.",
     tab_sobre: "About me",
     tab_preguntas: "Q&A",
     tab_competencias: "Skills",
@@ -1128,36 +1132,64 @@ function renderPreguntas(lang) {
     tab.textContent = t[`grupo_${g}`];
     tab.addEventListener("click", () => {
       grupoPreguntas = g;
+      preguntaActiva = -1;
       renderPreguntas(idioma);
     });
     tabsPreguntas.appendChild(tab);
   });
 
+  // Cada pregunta es un desplegable con su propia respuesta
   listaPreguntas.textContent = "";
   PREGUNTAS[lang].forEach((q, i) => {
     if (q.g !== grupoPreguntas) return;
-    const li = document.createElement("li");
+    const abierta = i === preguntaActiva;
+
+    const item = document.createElement("div");
+    item.className = "qa-item" + (abierta ? " abierta" : "");
+    item.dataset.indice = String(i);
+
     const boton = document.createElement("button");
     boton.type = "button";
-    boton.className = "pregunta";
-    boton.dataset.indice = String(i);
-    boton.textContent = q.p;
-    boton.setAttribute("aria-pressed", String(i === preguntaActiva));
-    boton.addEventListener("click", () => preguntar(i));
-    li.appendChild(boton);
-    listaPreguntas.appendChild(li);
+    boton.className = "qa-pregunta";
+    boton.id = `qa-p-${i}`;
+    boton.setAttribute("aria-expanded", String(abierta));
+    boton.setAttribute("aria-controls", `qa-r-${i}`);
+    const texto = document.createElement("span");
+    texto.textContent = q.p;
+    const icono = document.createElement("span");
+    icono.className = "qa-icono";
+    icono.setAttribute("aria-hidden", "true");
+    boton.append(texto, icono);
+    boton.addEventListener("click", () => abrirPregunta(preguntaActiva === i ? -1 : i));
+
+    const panel = document.createElement("div");
+    panel.className = "qa-respuesta";
+    panel.id = `qa-r-${i}`;
+    panel.setAttribute("role", "region");
+    panel.setAttribute("aria-labelledby", boton.id);
+    const cuerpo = document.createElement("p");
+    cuerpo.textContent = q.r;
+    const interior = document.createElement("div");
+    interior.appendChild(cuerpo);
+    panel.appendChild(interior);
+
+    item.append(boton, panel);
+    listaPreguntas.appendChild(item);
   });
 }
 
-function marcarPregunta(indice) {
+// Abre una pregunta (o cierra todas con -1) sin volver a pintar la lista
+function abrirPregunta(indice) {
   preguntaActiva = indice;
-  listaPreguntas.querySelectorAll(".pregunta").forEach((b) => {
-    b.setAttribute("aria-pressed", String(Number(b.dataset.indice) === indice));
+  listaPreguntas.querySelectorAll(".qa-item").forEach((item) => {
+    const abierta = Number(item.dataset.indice) === indice;
+    item.classList.toggle("abierta", abierta);
+    item.querySelector(".qa-pregunta").setAttribute("aria-expanded", String(abierta));
   });
 }
 
-// El avatar responde en el bocadillo (con voz si está activada) y después retoma sus frases
-async function preguntar(indice, desdePaleta = false) {
+// Desde la paleta de comandos: va a la sección, cambia de tema y abre la pregunta
+function preguntar(indice, desdePaleta = false) {
   const q = PREGUNTAS[idioma][indice];
   if (!q) return;
 
@@ -1165,49 +1197,10 @@ async function preguntar(indice, desdePaleta = false) {
     grupoPreguntas = q.g;
     renderPreguntas(idioma);
   }
+  abrirPregunta(indice);
 
-  // Para "hablar" el avatar tiene que estar en modo dibujo (sin guardar la preferencia)
-  if (modoAvatar !== "dibujo") {
-    modoAvatar = "dibujo";
-    aplicarModoAvatar();
-  }
-
-  if (desdePaleta) {
-    document.getElementById("sobre").scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth" });
-  }
-
-  detenerHabla();
-  elementoFrase.classList.add("burbuja");
-  elementoFrase.setAttribute("aria-live", "off");
-  marcarPregunta(indice);
-
-  // Si el bocadillo queda fuera de pantalla (o bajo la barra), se lleva a la vista
-  const caja = elementoFrase.getBoundingClientRect();
-  if (caja.top < 90 || caja.bottom > window.innerHeight) {
-    elementoFrase.scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "center" });
-  }
-
-  // Con movimiento reducido no hay animación: se muestra la respuesta tal cual
-  if (reducirMovimiento) {
-    const rotulo = document.createElement("span");
-    rotulo.className = "frase-etiqueta";
-    rotulo.textContent = `› ${q.p}`;
-    const texto = document.createElement("span");
-    texto.className = "frase-visible";
-    texto.textContent = q.r;
-    elementoFrase.replaceChildren(rotulo, texto);
-    return;
-  }
-
-  const token = tokenHabla;
-  await decir(q.r, token, `r${indice + 1}`, q.p);
-  if (token !== tokenHabla) return;
-
-  await esperar(3500);
-  if (token !== tokenHabla) return;
-
-  marcarPregunta(-1);
-  iniciarFrases(idioma);
+  const destino = desdePaleta ? document.getElementById(`qa-p-${indice}`) : null;
+  if (destino) destino.scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "center" });
 }
 
 // ---------- Proyectos: ficha propia + repositorios de GitHub ----------

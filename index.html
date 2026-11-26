@@ -40,7 +40,7 @@
 
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 
   <script type="application/ld+json">
   {
@@ -138,7 +138,7 @@
       </header>
 
       <div class="sobre-grid">
-        <div class="sobre-texto revelar" id="preguntas">
+        <div class="sobre-texto revelar">
           <div class="avatar-zona" id="avatar-zona" data-avatar="foto">
             <figure class="avatar">
               <div class="avatar-lienzo">
@@ -397,11 +397,6 @@
           </div>
           <p id="frase" class="frase" aria-live="polite"></p>
 
-          <div class="preguntas">
-            <p class="preguntas-titulo" data-i18n="preguntas_titulo">Pregúntame algo</p>
-            <div id="tabs-preguntas" class="filtros tabs-preguntas" role="group" data-i18n-aria="preguntas_titulo"></div>
-            <ul id="lista-preguntas" class="preguntas-lista"></ul>
-          </div>
           <p data-i18n="sobre_1">¡Hola! Soy Ángel. Me gusta construir cosas que funcionan y que, sobre todo, sirven para algo. Me muevo entre la web, la automatización y la IA, y disfruto cuando algo que parecía complicado se vuelve sencillo.</p>
           <p data-i18n="sobre_2">Si buscas a alguien que aprenda rápido, pregunte lo necesario y se implique desde el primer día, creo que podemos entendernos.</p>
         </div>
@@ -435,9 +430,21 @@
       </div>
     </section>
 
-    <section id="trayectoria" class="seccion">
+    <section id="preguntas" class="seccion" aria-labelledby="titulo-preguntas">
       <header class="seccion-cabecera revelar">
         <span class="seccion-num">02</span>
+        <h2 id="titulo-preguntas" data-i18n="qa_titulo">Preguntas y respuestas</h2>
+      </header>
+      <p class="qa-intro revelar" data-i18n="qa_intro">Lo que suelen preguntarme, con respuestas directas. Elige un tema y abre la pregunta.</p>
+      <div class="preguntas revelar">
+        <div id="tabs-preguntas" class="filtros tabs-preguntas" role="group" data-i18n-aria="qa_titulo"></div>
+        <div id="lista-preguntas" class="qa-lista"></div>
+      </div>
+    </section>
+
+    <section id="trayectoria" class="seccion">
+      <header class="seccion-cabecera revelar">
+        <span class="seccion-num">03</span>
         <h2 data-i18n="trayectoria_titulo">Trayectoria</h2>
       </header>
 
@@ -462,7 +469,7 @@
 
     <section id="competencias" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">03</span>
+        <span class="seccion-num">04</span>
         <h2 data-i18n="competencias_titulo">Competencias</h2>
       </header>
 
@@ -477,7 +484,7 @@
 
     <section id="aptitudes" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">04</span>
+        <span class="seccion-num">05</span>
         <h2 data-i18n="aptitudes_titulo">Aptitudes</h2>
       </header>
       <ul id="lista-aptitudes" class="libros revelar"></ul>
@@ -485,7 +492,7 @@
 
     <section id="proyectos" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">05</span>
+        <span class="seccion-num">06</span>
         <h2 data-i18n="proyectos_titulo">Proyectos</h2>
       </header>
 
@@ -513,7 +520,7 @@
 
     <section id="contacto" class="seccion">
       <header class="seccion-cabecera revelar">
-        <span class="seccion-num">06</span>
+        <span class="seccion-num">07</span>
         <h2 data-i18n="contacto_titulo">Contacto</h2>
       </header>
 
@@ -582,7 +589,7 @@
     </div>
   </dialog>
 
-  <script src="frases.js?v=3"></script>
-  <script src="script.js?v=3"></script>
+  <script src="frases.js?v=4"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
