@@ -632,6 +632,9 @@ function configurarCV() {
 
 // ---------- Cursor: punto que sigue al ratón y anillo con retardo ----------
 function iniciarCursor() {
+  // Cursor personalizado desactivado: se usa el puntero normal del sistema.
+  // Para volver a activarlo, quita la línea siguiente.
+  return;
   if (!puntero_fino) return;
 
   raiz.classList.add("puntero-fino");
