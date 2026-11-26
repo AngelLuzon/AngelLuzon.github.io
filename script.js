@@ -18,6 +18,7 @@ const traducciones = {
     rol: "Desarrollador full stack junior · IA y automatización",
     scroll: "Explorar",
     tab_sobre: "Sobre mí",
+    tab_preguntas: "Preguntas",
     tab_competencias: "Competencias",
     tab_aptitudes: "Aptitudes",
     tab_proyectos: "Proyectos",
@@ -126,6 +127,7 @@ const traducciones = {
     rol: "Junior full stack developer · AI and automation",
     scroll: "Explore",
     tab_sobre: "About me",
+    tab_preguntas: "Q&A",
     tab_competencias: "Skills",
     tab_aptitudes: "Soft skills",
     tab_proyectos: "Projects",
@@ -1356,6 +1358,7 @@ function comandosPaleta() {
 
   [
     ["sobre", "tab_sobre"],
+    ["preguntas", "tab_preguntas"],
     ["trayectoria", "tab_trayectoria"],
     ["competencias", "tab_competencias"],
     ["aptitudes", "tab_aptitudes"],
