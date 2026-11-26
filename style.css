@@ -2189,3 +2189,25 @@ html.puntero-fino .paleta-opcion {
     background: none !important;
   }
 }
+
+/* Preguntas al avatar por pestañas */
+.tabs-preguntas {
+  margin-bottom: 0.9rem;
+}
+
+.tabs-preguntas .filtro {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.82rem;
+}
+
+.preguntas-lista {
+  min-height: 8rem;
+  align-content: flex-start;
+}
+
+/* Las respuestas a preguntas son más largas: letra algo menor que en las frases cortas */
+.frase.burbuja:has(.frase-etiqueta) {
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem) !important;
+  font-weight: 600;
+  line-height: 1.45;
+}

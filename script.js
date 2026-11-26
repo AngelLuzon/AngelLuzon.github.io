@@ -30,7 +30,7 @@ const traducciones = {
     ficha_formacion_label: "Formación",
     ficha_formacion: "Grado en Desarrollo de Aplicaciones Multiplataforma, con cursos de IA, Big Data, Cloud y Machine Learning",
     ficha_experiencia_label: "Experiencia",
-    ficha_experiencia: "Desarrollador software junior en AIQUBE Labs: IA, OCR, bots y Azure",
+    ficha_experiencia: "Desarrollador software junior: Azure y DevOps, OCR, bots, apps móviles con MAUI y automatizaciones",
     ficha_intereses_label: "Intereses",
     ficha_intereses: "IA, automatización, arquitectura de software y agentes inteligentes",
     frases: FRASES.es,
@@ -74,11 +74,11 @@ const traducciones = {
     tl_tipo_exp: "Experiencia",
     tl_tipo_form: "Formación",
     tl_1_titulo: "Desarrollador software junior",
-    tl_1_desc: "Trabajo con IA, OCR, bots y servicios de Azure.",
+    tl_1_desc: "Azure y DevOps, Logic Apps, OCR, bots con y sin IA, apps móviles con MAUI y automatizaciones con n8n y Make.",
     tl_2_titulo: "Grado en Desarrollo de Aplicaciones Multiplataforma",
     tl_2_desc: "Desarrollo de aplicaciones para web, móvil y escritorio.",
     tl_3_titulo: "Cursos de especialización",
-    tl_3_desc: "IA, Big Data, Cloud y Machine Learning.",
+    tl_3_desc: "IA, Big Data, Cloud y Machine Learning, y un curso de liderazgo.",
     avatar_dibujo: "Avatar animado",
     avatar_voz: "Voz",
     avatar_alt_foto: "Foto de Ángel Luzón Balanzá",
@@ -112,7 +112,13 @@ const traducciones = {
     repos_github: "Ver mi GitHub",
     repo_sin_desc: "Sin descripción todavía.",
     repo_actualizado: "Actualizado",
-    aviso_copiado: "Correo copiado ✅"
+    aviso_copiado: "Correo copiado ✅",
+    ficha_idiomas_label: "Idiomas",
+    ficha_idiomas: "Español · Inglés B2 (preparando el C1)",
+    grupo_perfil: "Perfil",
+    grupo_tecnico: "Técnico",
+    grupo_personal: "Personal",
+    grupo_trabajo: "Trabajo"
   },
   en: {
     titulo: "Ángel Luzón Balanzá | Portfolio",
@@ -132,7 +138,7 @@ const traducciones = {
     ficha_formacion_label: "Education",
     ficha_formacion: "Degree in Multiplatform Application Development, plus courses in AI, Big Data, Cloud and Machine Learning",
     ficha_experiencia_label: "Experience",
-    ficha_experiencia: "Junior software developer at AIQUBE Labs: AI, OCR, bots and Azure",
+    ficha_experiencia: "Junior software developer: Azure and DevOps, OCR, bots, mobile apps with MAUI and automation",
     ficha_intereses_label: "Interests",
     ficha_intereses: "AI, automation, software architecture and intelligent agents",
     frases: FRASES.en,
@@ -176,11 +182,11 @@ const traducciones = {
     tl_tipo_exp: "Experience",
     tl_tipo_form: "Education",
     tl_1_titulo: "Junior software developer",
-    tl_1_desc: "Working with AI, OCR, bots and Azure services.",
+    tl_1_desc: "Azure and DevOps, Logic Apps, OCR, bots with and without AI, mobile apps with MAUI and automation with n8n and Make.",
     tl_2_titulo: "Degree in Multiplatform Application Development",
     tl_2_desc: "Application development for web, mobile and desktop.",
     tl_3_titulo: "Specialization courses",
-    tl_3_desc: "AI, Big Data, Cloud and Machine Learning.",
+    tl_3_desc: "AI, Big Data, Cloud and Machine Learning, and a leadership course.",
     avatar_dibujo: "Animated avatar",
     avatar_voz: "Voice",
     avatar_alt_foto: "Photo of Ángel Luzón Balanzá",
@@ -214,7 +220,13 @@ const traducciones = {
     repos_github: "See my GitHub",
     repo_sin_desc: "No description yet.",
     repo_actualizado: "Updated",
-    aviso_copiado: "Email copied ✅"
+    aviso_copiado: "Email copied ✅",
+    ficha_idiomas_label: "Languages",
+    ficha_idiomas: "Spanish · English B2 (working towards C1)",
+    grupo_perfil: "Profile",
+    grupo_tecnico: "Technical",
+    grupo_personal: "Personal",
+    grupo_trabajo: "Work"
   }
 };
 
@@ -230,7 +242,14 @@ const competencias = [
   { nombre: "MongoDB", categoria: "frameworks" },
   { nombre: "eXist-DB", categoria: "frameworks" },
   { nombre: "Odoo", categoria: "frameworks" },
+  { nombre: "Angular", categoria: "frameworks" },
+  { nombre: "Radzen Blazor", categoria: "frameworks" },
+  { nombre: ".NET MAUI", categoria: "frameworks" },
   { nombre: "Azure Logic Apps", categoria: "herramientas" },
+  { nombre: "Azure DevOps", categoria: "herramientas" },
+  { nombre: "n8n", categoria: "herramientas" },
+  { nombre: "Make", categoria: "herramientas" },
+  { nombre: "OCR", categoria: "herramientas" },
   { nombre: "Visual Studio Code", categoria: "herramientas" },
   { nombre: "Visual Studio", categoria: "herramientas" },
   { nombre: "NetBeans", categoria: "herramientas" },
@@ -495,6 +514,7 @@ function aplicarIdioma(lang) {
   actualizarBotonTema();
   actualizarBotonMenu();
   actualizarTextosAvatar();
+  preguntaActiva = -1;
   renderPreguntas(lang);
   renderRepos(lang);
   actualizarAtributosI18n(t);
@@ -1056,6 +1076,7 @@ window.addEventListener("pagehide", silenciar);
 
 // ---------- Extras: preguntas al avatar, proyectos de GitHub, paleta de comandos y detalles ----------
 const listaPreguntas = document.getElementById("lista-preguntas");
+const tabsPreguntas = document.getElementById("tabs-preguntas");
 const gridProyectos = document.getElementById("lista-proyectos");
 const estadoRepos = document.getElementById("repos-estado");
 const barraProgreso = document.getElementById("progreso");
@@ -1088,16 +1109,38 @@ function mostrarAviso(texto) {
 }
 
 // ---------- Preguntas al avatar ----------
-function renderPreguntas(lang) {
-  listaPreguntas.textContent = "";
+const GRUPOS_PREGUNTAS = ["perfil", "tecnico", "personal", "trabajo"];
+let grupoPreguntas = "perfil";
+let preguntaActiva = -1;
 
+function renderPreguntas(lang) {
+  const t = traducciones[lang];
+
+  tabsPreguntas.textContent = "";
+  GRUPOS_PREGUNTAS.forEach((g) => {
+    const activo = g === grupoPreguntas;
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = activo ? "filtro activo" : "filtro";
+    tab.setAttribute("aria-pressed", String(activo));
+    tab.textContent = t[`grupo_${g}`];
+    tab.addEventListener("click", () => {
+      grupoPreguntas = g;
+      renderPreguntas(idioma);
+    });
+    tabsPreguntas.appendChild(tab);
+  });
+
+  listaPreguntas.textContent = "";
   PREGUNTAS[lang].forEach((q, i) => {
+    if (q.g !== grupoPreguntas) return;
     const li = document.createElement("li");
     const boton = document.createElement("button");
     boton.type = "button";
     boton.className = "pregunta";
+    boton.dataset.indice = String(i);
     boton.textContent = q.p;
-    boton.setAttribute("aria-pressed", "false");
+    boton.setAttribute("aria-pressed", String(i === preguntaActiva));
     boton.addEventListener("click", () => preguntar(i));
     li.appendChild(boton);
     listaPreguntas.appendChild(li);
@@ -1105,8 +1148,9 @@ function renderPreguntas(lang) {
 }
 
 function marcarPregunta(indice) {
-  listaPreguntas.querySelectorAll(".pregunta").forEach((b, i) => {
-    b.setAttribute("aria-pressed", String(i === indice));
+  preguntaActiva = indice;
+  listaPreguntas.querySelectorAll(".pregunta").forEach((b) => {
+    b.setAttribute("aria-pressed", String(Number(b.dataset.indice) === indice));
   });
 }
 
@@ -1114,6 +1158,11 @@ function marcarPregunta(indice) {
 async function preguntar(indice, desdePaleta = false) {
   const q = PREGUNTAS[idioma][indice];
   if (!q) return;
+
+  if (q.g !== grupoPreguntas) {
+    grupoPreguntas = q.g;
+    renderPreguntas(idioma);
+  }
 
   // Para "hablar" el avatar tiene que estar en modo dibujo (sin guardar la preferencia)
   if (modoAvatar !== "dibujo") {
