@@ -440,27 +440,79 @@ html.puntero-fino #cursor-anillo {
   box-shadow: 0 6px 18px -8px var(--acento-fuerte);
 }
 
+/* El estilo global de los iconos (trazo del color del texto, sin relleno) no debe heredarse en el dibujo */
+#avatar-dibujo {
+  fill: initial;
+  stroke: none;
+  stroke-width: 1;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
 /* Partes del personaje dibujado */
 .av-boca > * {
-  display: none;
+  opacity: 0;
+  transition: opacity 0.07s linear;
 }
 
 #avatar-dibujo[data-boca="c"] .b-c,
 #avatar-dibujo[data-boca="m"] .b-m,
 #avatar-dibujo[data-boca="a"] .b-a,
-#avatar-dibujo[data-boca="o"] .b-o {
-  display: inline;
+#avatar-dibujo[data-boca="o"] .b-o,
+#avatar-dibujo[data-boca="s"] .b-s {
+  opacity: 1;
 }
 
-.av-ojos {
+/* Parpadeo: el ojo se cierra y aparece la línea de las pestañas */
+.av-ojo {
   transform-box: fill-box;
   transform-origin: center;
-  animation: guino 5s ease-in-out infinite;
 }
 
-@keyframes guino {
-  0%, 90%, 100% { transform: scaleY(1); }
-  94% { transform: scaleY(0.08); }
+.av-cierre {
+  opacity: 0;
+}
+
+#avatar-dibujo.parpadeando .av-ojo {
+  animation: parpadeo-ojo 0.18s ease-in-out;
+}
+
+#avatar-dibujo.parpadeando .av-cierre {
+  animation: parpadeo-linea 0.18s ease-in-out;
+}
+
+@keyframes parpadeo-ojo {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.05); }
+}
+
+@keyframes parpadeo-linea {
+  0%, 100% { opacity: 0; }
+  35%, 65% { opacity: 1; }
+}
+
+/* Mirada y giro de cabeza (los valores los pone el JavaScript) */
+.av-iris {
+  transform: translate(var(--mx, 0px), var(--my, 0px));
+  transition: transform 0.14s ease-out;
+}
+
+.av-giro {
+  transform-origin: 100px 140px;
+  transform: rotate(var(--giro, 0deg)) translate(0, var(--cabeceo, 0px));
+  transition: transform 0.45s ease-out;
+}
+
+/* Una animación continua sobre todo el dibujo (con sus filtros de desenfoque) lo dejaba lavado, así que la
+   sensación de respirar se consigue con el giro suave de la cabeza y el parpadeo, sin animación infinita */
+
+/* Cejas expresivas */
+.av-cejas {
+  transition: transform 0.28s ease-out;
+}
+
+#avatar-dibujo[data-ceja="arriba"] .av-cejas {
+  transform: translateY(-2.4px);
 }
 
 #avatar-dibujo.hablando .av-cabeza {

@@ -144,76 +144,240 @@
                 <img src="img/avatar.jpg" alt="Foto de Ángel Luzón Balanzá" width="480" height="480" loading="lazy" decoding="async">
                 <svg id="avatar-dibujo" viewBox="20 10 160 160" role="img" aria-label="Avatar de dibujo animado de Ángel" data-boca="c" focusable="false">
                   <defs>
-                    <linearGradient id="av-fondo" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#c7d2fe"/>
-                      <stop offset="1" stop-color="#a5f3fc"/>
+                    <linearGradient id="av-fondo" x1="0" y1="0" x2="0.6" y2="1">
+                      <stop offset="0" stop-color="#e8e4df"/>
+                      <stop offset="1" stop-color="#bcb6af"/>
                     </linearGradient>
-                  </defs>
-                  <rect x="0" y="0" width="200" height="200" fill="url(#av-fondo)"/>
+                    <radialGradient id="av-vineta" cx="0.5" cy="0.42" r="0.78">
+                      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+                      <stop offset="1" stop-color="#000" stop-opacity="0.3"/>
+                    </radialGradient>
+                    <radialGradient id="av-piel" gradientUnits="userSpaceOnUse" cx="98" cy="88" r="72">
+                      <stop offset="0" stop-color="#efc6a4"/>
+                      <stop offset="0.55" stop-color="#dfac86"/>
+                      <stop offset="1" stop-color="#c3885f"/>
+                    </radialGradient>
+                    <linearGradient id="av-cuello" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#b9805d"/>
+                      <stop offset="0.5" stop-color="#d49b77"/>
+                      <stop offset="1" stop-color="#dda57f"/>
+                    </linearGradient>
+                    <linearGradient id="av-camisa" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#2b2b36"/>
+                      <stop offset="1" stop-color="#121217"/>
+                    </linearGradient>
+                    <radialGradient id="av-iris" cx="0.5" cy="0.5" r="0.5">
+                      <stop offset="0" stop-color="#85552f"/>
+                      <stop offset="0.55" stop-color="#50301b"/>
+                      <stop offset="0.9" stop-color="#2c180d"/>
+                      <stop offset="1" stop-color="#170b05"/>
+                    </radialGradient>
+                    <linearGradient id="av-esclera" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#cdc3b9"/>
+                      <stop offset="0.4" stop-color="#f6f1ea"/>
+                      <stop offset="1" stop-color="#e9e0d6"/>
+                    </linearGradient>
+                    <linearGradient id="av-diente" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#fbf8f2"/>
+                      <stop offset="1" stop-color="#dad3c8"/>
+                    </linearGradient>
+                    <radialGradient id="av-lengua" cx="0.5" cy="0.35" r="0.75">
+                      <stop offset="0" stop-color="#e78896"/>
+                      <stop offset="1" stop-color="#b44f5e"/>
+                    </radialGradient>
+                    <linearGradient id="av-plata" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#f1f4fa"/>
+                      <stop offset="1" stop-color="#9aa3b3"/>
+                    </linearGradient>
 
-                  <!-- cuello y camisa negra de cuello abierto -->
-                  <path d="M82 118 V152 L100 177 L118 152 V118 Z" fill="#d9a27d"/>
-                  <ellipse cx="100" cy="142" rx="19" ry="9" fill="#bf855f" opacity=".5"/>
-                  <path d="M4 200 C8 168 44 154 80 149 L100 177 L120 149 C156 154 192 168 196 200 Z" fill="#1b1b22"/>
-                  <path d="M40 192 Q60 178 78 174 M160 192 Q140 178 122 174" stroke="#2b2b37" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-                  <path d="M79 147 L100 177 L68 175 Z" fill="#2a2a35" stroke="#3c3c4d" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M121 147 L100 177 L132 175 Z" fill="#2a2a35" stroke="#3c3c4d" stroke-width="1.2" stroke-linejoin="round"/>
-                  <path d="M100 179 V200" stroke="#33333f" stroke-width="1.6"/>
-                  <circle cx="100" cy="187" r="2.1" fill="#d6dae2"/>
-                  <circle cx="100" cy="197" r="2.1" fill="#d6dae2"/>
+                    <filter id="av-b1" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1"/></filter>
+                    <filter id="av-b2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2"/></filter>
+                    <filter id="av-b4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter>
 
-                  <!-- cabeza -->
-                  <g class="av-cabeza">
-                    <!-- orejas algo salidas y pendiente -->
-                    <ellipse cx="53" cy="101" rx="8" ry="12.5" fill="#e9b793"/>
-                    <ellipse cx="54" cy="101" rx="3.4" ry="7" fill="#d9a07f"/>
-                    <ellipse cx="147" cy="101" rx="8" ry="12.5" fill="#e9b793"/>
-                    <ellipse cx="146" cy="101" rx="3.4" ry="7" fill="#d9a07f"/>
-                    <circle cx="148.5" cy="116" r="3.5" fill="none" stroke="#b7bfcc" stroke-width="1.8"/>
+                    <clipPath id="av-cara">
+                      <path d="M56 88 C56 57 77 40 100 40 C123 40 144 57 144 88 C144 112 138 128 127 140 C118 148 109 153 100 153 C91 153 82 148 73 140 C62 128 56 112 56 88 Z"/>
+                    </clipPath>
+                    <clipPath id="av-ojo-i"><path d="M72.5 91 Q81 82.5 89.5 91 Q81 99.5 72.5 91 Z"/></clipPath>
+                    <clipPath id="av-ojo-d"><path d="M110.5 91 Q119 82.5 127.5 91 Q119 99.5 110.5 91 Z"/></clipPath>
 
-                    <!-- cara ovalada de mandíbula marcada -->
-                    <path d="M54 88 C54 56 76 40 100 40 C124 40 146 56 146 88 C146 112 140 128 128 140 C119 148 110 153 100 153 C90 153 81 148 72 140 C60 128 54 112 54 88 Z" fill="#e9b793"/>
-
-                    <!-- sombra de barba y de bigote -->
-                    <path d="M64 124 C70 140 84 151 100 153 C116 151 130 140 136 124 C128 136 116 140 100 140 C84 140 72 136 64 124 Z" fill="#3b2a25" opacity=".1"/>
-                    <path d="M89 120 Q100 115 111 120 Q100 123 89 120 Z" fill="#3b2a25" opacity=".16"/>
-
-                    <!-- pelo: volumen arriba, flequillo ondulado y laterales cortos -->
-                    <path d="M54 94 C44 62 54 36 74 29 C84 22 94 28 102 24 C112 22 120 28 128 28 C146 34 156 62 146 94 C145 82 144 72 142 64 Q133 79 124 63 Q115 79 105 62 Q95 80 85 62 Q75 79 66 64 C60 73 56 83 54 94 Z" fill="#2a1c17"/>
-                    <path d="M70 44 Q80 33 94 36 M104 34 Q118 30 128 40 M120 48 Q132 42 140 52" stroke="#4d372d" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".85"/>
-                    <path d="M55 90 C55 98 56 102 58 105 C59 98 59 92 59 86 Z" fill="#2a1c17"/>
-                    <path d="M145 90 C145 98 144 102 142 105 C141 98 141 92 141 86 Z" fill="#2a1c17"/>
-
-                    <!-- cejas gruesas y rectas -->
-                    <path class="av-cejas" d="M68 81 Q80 75.5 93 79 M107 79 Q120 75.5 132 81" stroke="#2a1c17" stroke-width="5.2" fill="none" stroke-linecap="round"/>
-
-                    <!-- ojos castaños algo rasgados -->
-                    <g class="av-ojos">
-                      <ellipse cx="81" cy="91" rx="7.3" ry="6.2" fill="#fff"/>
-                      <circle cx="82" cy="91.4" r="4.5" fill="#3b2316"/>
-                      <circle cx="83.5" cy="89.7" r="1.5" fill="#fff"/>
-                      <ellipse cx="119" cy="91" rx="7.3" ry="6.2" fill="#fff"/>
-                      <circle cx="120" cy="91.4" r="4.5" fill="#3b2316"/>
-                      <circle cx="121.5" cy="89.7" r="1.5" fill="#fff"/>
-                      <path d="M72.5 89 Q81 82.8 89.5 89 M110.5 89 Q119 82.8 127.5 89" stroke="#2a1c17" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-                      <path d="M75 96 Q81 98.4 87 96 M113 96 Q119 98.4 125 96" stroke="#c58f70" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/>
-                    </g>
-
-                    <!-- nariz y mejillas -->
-                    <path d="M99.5 97 Q95 110 98 114 M98.2 114.5 Q101 116 104.5 114" stroke="#c1805f" stroke-width="2.3" fill="none" stroke-linecap="round"/>
-                    <circle cx="70" cy="115" r="8" fill="#e9806f" opacity=".2"/>
-                    <circle cx="130" cy="115" r="8" fill="#e9806f" opacity=".2"/>
-
-                    <!-- boca (una forma por sonido) -->
-                    <g class="av-boca">
-                      <path class="b-c" d="M90.5 128 Q100 130.6 109.5 128" stroke="#7a3434" stroke-width="3.1" fill="none" stroke-linecap="round"/>
-                      <ellipse class="b-m" cx="100" cy="129" rx="8.5" ry="4.4" fill="#6b1f2a"/>
-                      <g class="b-a">
-                        <path d="M87 124 Q100 122 113 124 Q111 143 100 143 Q89 143 87 124 Z" fill="#6b1f2a"/>
-                        <path d="M89 124.5 Q100 123 111 124.5 L110.5 128.5 Q100 127 89.5 128.5 Z" fill="#fff"/>
-                        <ellipse cx="100" cy="138" rx="7" ry="3.8" fill="#e4707f"/>
+                    <pattern id="av-barba" width="6" height="6" patternUnits="userSpaceOnUse">
+                      <circle cx="1" cy="1" r="0.36" fill="#2a1a14"/>
+                      <circle cx="4.1" cy="2.4" r="0.3" fill="#2a1a14"/>
+                      <circle cx="2.2" cy="4.6" r="0.34" fill="#2a1a14"/>
+                      <circle cx="5.2" cy="5.2" r="0.28" fill="#2a1a14"/>
+                      <circle cx="3.2" cy="0.4" r="0.26" fill="#2a1a14"/>
+                    </pattern>
+                    <mask id="av-mascara-barba" maskUnits="userSpaceOnUse" x="40" y="90" width="120" height="75">
+                      <g filter="url(#av-b2)" fill="#fff">
+                        <path d="M58 112 C60 134 78 150 100 154 C122 150 140 134 142 112 C134 126 120 132 100 132 C80 132 66 126 58 112 Z"/>
+                        <path d="M87 117 Q100 111 113 117 Q113 125 100 126 Q87 125 87 117 Z"/>
+                        <ellipse cx="100" cy="140" rx="14" ry="9"/>
                       </g>
-                      <ellipse class="b-o" cx="100" cy="130" rx="5.6" ry="7.4" fill="#6b1f2a"/>
+                    </mask>
+                  </defs>
+
+                  <!-- fondo de estudio -->
+                  <rect x="0" y="0" width="200" height="200" fill="url(#av-fondo)"/>
+                  <rect x="0" y="0" width="200" height="200" fill="url(#av-vineta)"/>
+
+                  <g class="av-respira">
+                    <!-- cuello y camisa negra de cuello abierto -->
+                    <path d="M82 112 V150 L100 177 L118 150 V112 Z" fill="url(#av-cuello)"/>
+                    <path d="M85 124 Q86 140 89 152 M115 124 Q114 140 111 152" stroke="#8d5236" stroke-width="3" fill="none" opacity=".3" filter="url(#av-b2)"/>
+                    <ellipse cx="100" cy="154" rx="21" ry="8" fill="#6e3f2a" opacity=".42" filter="url(#av-b4)"/>
+                    <path d="M90 161 Q95 163.4 100 161.4 Q105 163.4 110 161" stroke="#b07755" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".4"/>
+
+                    <path d="M4 200 C8 168 44 154 80 149 L100 177 L120 149 C156 154 192 168 196 200 Z" fill="url(#av-camisa)"/>
+                    <ellipse cx="42" cy="178" rx="27" ry="9" fill="#5a5a6c" opacity=".28" filter="url(#av-b4)" transform="rotate(-18 42 178)"/>
+                    <ellipse cx="158" cy="178" rx="27" ry="9" fill="#5a5a6c" opacity=".28" filter="url(#av-b4)" transform="rotate(18 158 178)"/>
+                    <path d="M30 195 Q48 179 74 173 M170 195 Q152 179 126 173 M52 200 Q66 187 84 181 M148 200 Q134 187 116 181" stroke="#3a3a48" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".7"/>
+                    <path d="M79 146 L100 177 L66 175 Q68 158 79 146 Z" fill="#242430" stroke="#3d3d4d" stroke-width="1.1" stroke-linejoin="round"/>
+                    <path d="M121 146 L100 177 L134 175 Q132 158 121 146 Z" fill="#242430" stroke="#3d3d4d" stroke-width="1.1" stroke-linejoin="round"/>
+                    <path d="M79.5 150.5 L94 172 M120.5 150.5 L106 172" stroke="#565668" stroke-width=".7" fill="none" stroke-dasharray="1.7 1.7" opacity=".8"/>
+                    <path d="M100 179 V200" stroke="#33333f" stroke-width="1.6"/>
+                    <circle cx="100" cy="186.5" r="2.5" fill="#d3d7e0" stroke="#8a90a0" stroke-width=".6"/>
+                    <circle cx="99.3" cy="186.5" r=".38" fill="#6c7280"/><circle cx="100.7" cy="186.5" r=".38" fill="#6c7280"/>
+                    <circle cx="100" cy="197" r="2.5" fill="#d3d7e0" stroke="#8a90a0" stroke-width=".6"/>
+                    <circle cx="99.3" cy="197" r=".38" fill="#6c7280"/><circle cx="100.7" cy="197" r=".38" fill="#6c7280"/>
+
+                    <!-- cabeza -->
+                    <g class="av-giro">
+                      <g class="av-cabeza">
+                        <!-- orejas con detalle y pendiente -->
+                        <ellipse cx="55" cy="101" rx="8" ry="12.5" fill="url(#av-piel)"/>
+                        <ellipse cx="56.2" cy="101" rx="3.3" ry="7" fill="#c68a66" opacity=".75"/>
+                        <path d="M51.4 94 Q48.4 101 52 109" stroke="#bd8160" stroke-width="1" fill="none" opacity=".7"/>
+                        <ellipse cx="145" cy="101" rx="8" ry="12.5" fill="url(#av-piel)"/>
+                        <ellipse cx="143.8" cy="101" rx="3.3" ry="7" fill="#c68a66" opacity=".75"/>
+                        <path d="M148.6 94 Q151.6 101 148 109" stroke="#bd8160" stroke-width="1" fill="none" opacity=".7"/>
+                        <circle cx="146.6" cy="116.6" r="3.4" fill="none" stroke="url(#av-plata)" stroke-width="1.7"/>
+                        <path d="M144.4 114.6 Q146 113.6 147.8 114.2" stroke="#fff" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".8"/>
+
+                        <!-- cara -->
+                        <path d="M56 88 C56 57 77 40 100 40 C123 40 144 57 144 88 C144 112 138 128 127 140 C118 148 109 153 100 153 C91 153 82 148 73 140 C62 128 56 112 56 88 Z" fill="url(#av-piel)"/>
+
+                        <!-- luces y sombras que dan volumen -->
+                        <g clip-path="url(#av-cara)">
+                          <path d="M56 88 C56 57 77 40 100 40 C123 40 144 57 144 88 C144 112 138 128 127 140 C118 148 109 153 100 153 C91 153 82 148 73 140 C62 128 56 112 56 88 Z" fill="none" stroke="#6e3f2a" stroke-width="7" opacity=".3" filter="url(#av-b2)"/>
+                          <ellipse cx="100" cy="55" rx="25" ry="9" fill="#fff" opacity=".16" filter="url(#av-b4)"/>
+                          <ellipse cx="74" cy="103" rx="9" ry="6" fill="#fff" opacity=".1" filter="url(#av-b2)"/>
+                          <ellipse cx="126" cy="103" rx="9" ry="6" fill="#fff" opacity=".1" filter="url(#av-b2)"/>
+                          <circle cx="73" cy="115" r="8" fill="#d98466" opacity=".12" filter="url(#av-b2)"/>
+                          <circle cx="127" cy="115" r="8" fill="#d98466" opacity=".12" filter="url(#av-b2)"/>
+                          <ellipse cx="81" cy="88" rx="12" ry="8" fill="#9a5a3d" opacity=".2" filter="url(#av-b2)"/>
+                          <ellipse cx="119" cy="88" rx="12" ry="8" fill="#9a5a3d" opacity=".2" filter="url(#av-b2)"/>
+                          <path d="M74 97.4 Q81 100.4 88 97.4 M112 97.4 Q119 100.4 126 97.4" stroke="#b57553" stroke-width="1.6" fill="none" opacity=".35" filter="url(#av-b1)"/>
+                          <path d="M67 61 Q74 76 83 60 Q93 77 103 59 Q113 76 122 60 Q131 75 140 61" stroke="#4a2a1b" stroke-width="5" fill="none" opacity=".32" filter="url(#av-b2)"/>
+                          <path d="M92.6 92 Q90 105 92 113 L96.5 114 Q95 103 96.6 92 Z" fill="#8d5236" opacity=".24" filter="url(#av-b1)"/>
+                          <path d="M99.6 93 Q99 103 99.8 110" stroke="#fff" stroke-width="2.4" fill="none" opacity=".24" filter="url(#av-b1)"/>
+                          <ellipse cx="100" cy="112" rx="3" ry="2" fill="#fff" opacity=".22" filter="url(#av-b1)"/>
+                          <ellipse cx="95" cy="114.4" rx="3" ry="2.4" fill="#b07755" opacity=".35" filter="url(#av-b1)"/>
+                          <ellipse cx="105" cy="114.4" rx="3" ry="2.4" fill="#b07755" opacity=".35" filter="url(#av-b1)"/>
+                          <ellipse cx="100" cy="121" rx="3.6" ry="3" fill="#b07755" opacity=".16" filter="url(#av-b1)"/>
+                          <path d="M89 112 Q85 121 88 128 M111 112 Q115 121 112 128" stroke="#b07755" stroke-width="1.1" fill="none" opacity=".26" filter="url(#av-b1)"/>
+                          <ellipse cx="100" cy="137.4" rx="9.5" ry="2.7" fill="#8d5236" opacity=".28" filter="url(#av-b1)"/>
+                          <ellipse cx="100" cy="145" rx="7.5" ry="4" fill="#fff" opacity=".13" filter="url(#av-b2)"/>
+                          <!-- barba de dos días -->
+                          <rect x="40" y="90" width="120" height="75" fill="url(#av-barba)" mask="url(#av-mascara-barba)" opacity=".55"/>
+                        </g>
+
+                        <!-- nariz -->
+                        <path d="M97.4 96 Q94.8 108 96.2 113.2 M102.6 96 Q105.2 108 103.8 113.2" stroke="#b27350" stroke-width="1" fill="none" stroke-linecap="round" opacity=".55"/>
+                        <ellipse cx="96.8" cy="115.6" rx="2" ry="1.1" fill="#6a3a28" opacity=".6"/>
+                        <ellipse cx="103.2" cy="115.6" rx="2" ry="1.1" fill="#6a3a28" opacity=".6"/>
+
+                        <!-- ojo izquierdo (el de la derecha de la imagen es el espejo) -->
+                        <g class="av-ojo">
+                          <path d="M72.5 91 Q81 82.5 89.5 91 Q81 99.5 72.5 91 Z" fill="url(#av-esclera)"/>
+                          <g clip-path="url(#av-ojo-i)">
+                            <g class="av-iris">
+                              <circle cx="81.8" cy="91.4" r="4.8" fill="url(#av-iris)"/>
+                              <circle cx="81.8" cy="91.4" r="2" fill="#0d0603"/>
+                              <circle cx="83.5" cy="89.6" r="1.4" fill="#fff" opacity=".95"/>
+                              <circle cx="80.2" cy="93.2" r=".7" fill="#fff" opacity=".5"/>
+                            </g>
+                            <rect x="70" y="82" width="22" height="5.6" fill="url(#av-piel)"/>
+                            <rect x="70" y="87.4" width="22" height="3.2" fill="#3a2418" opacity=".3" filter="url(#av-b1)"/>
+                          </g>
+                          <path d="M71.8 91.4 Q81 82 90.2 91.4" stroke="#1d110c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                          <path d="M72.6 90.2 L69.8 88.2" stroke="#1d110c" stroke-width="1.3" stroke-linecap="round"/>
+                          <path d="M74.5 93.8 Q81 98.4 87.5 94" stroke="#b27350" stroke-width="1" fill="none" opacity=".5"/>
+                          <ellipse cx="89.2" cy="92" rx="1" ry=".8" fill="#d98c85" opacity=".6"/>
+                        </g>
+                        <path class="av-cierre" d="M72.5 91.6 Q81 95.6 89.5 91.6" stroke="#1d110c" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+                        <path d="M72 85.4 Q81 78.2 90.5 85.2" stroke="#9a6245" stroke-width="1.1" fill="none" opacity=".55"/>
+
+                        <!-- ojo derecho -->
+                        <g class="av-ojo">
+                          <path d="M110.5 91 Q119 82.5 127.5 91 Q119 99.5 110.5 91 Z" fill="url(#av-esclera)"/>
+                          <g clip-path="url(#av-ojo-d)">
+                            <g class="av-iris">
+                              <circle cx="119.8" cy="91.4" r="4.8" fill="url(#av-iris)"/>
+                              <circle cx="119.8" cy="91.4" r="2" fill="#0d0603"/>
+                              <circle cx="121.5" cy="89.6" r="1.4" fill="#fff" opacity=".95"/>
+                              <circle cx="118.2" cy="93.2" r=".7" fill="#fff" opacity=".5"/>
+                            </g>
+                            <rect x="108" y="82" width="22" height="5.6" fill="url(#av-piel)"/>
+                            <rect x="108" y="87.4" width="22" height="3.2" fill="#3a2418" opacity=".3" filter="url(#av-b1)"/>
+                          </g>
+                          <path d="M109.8 91.4 Q119 82 128.2 91.4" stroke="#1d110c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                          <path d="M127.4 90.2 L130.2 88.2" stroke="#1d110c" stroke-width="1.3" stroke-linecap="round"/>
+                          <path d="M112.5 94 Q119 98.4 125.5 93.8" stroke="#b27350" stroke-width="1" fill="none" opacity=".5"/>
+                          <ellipse cx="110.8" cy="92" rx="1" ry=".8" fill="#d98c85" opacity=".6"/>
+                        </g>
+                        <path class="av-cierre" d="M110.5 91.6 Q119 95.6 127.5 91.6" stroke="#1d110c" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+                        <path d="M109.5 85.2 Q119 78.2 128 85.4" stroke="#9a6245" stroke-width="1.1" fill="none" opacity=".55"/>
+
+                        <!-- cejas gruesas con pelo -->
+                        <g class="av-cejas">
+                          <path d="M66.5 83 Q71 77 80 75.8 Q88 75.2 94.5 78.8 Q95 80.8 93.8 81.6 Q88 79.4 81 79.8 Q73 80.6 67.5 85.4 Q66 85 66.5 83 Z" fill="#2a1a14"/>
+                          <path d="M133.5 83 Q129 77 120 75.8 Q112 75.2 105.5 78.8 Q105 80.8 106.2 81.6 Q112 79.4 119 79.8 Q127 80.6 132.5 85.4 Q134 85 133.5 83 Z" fill="#2a1a14"/>
+                          <path d="M70 81.6 Q78 77.8 88 78.3 M74 82.2 Q82 79 92 79.8 M130 81.6 Q122 77.8 112 78.3 M126 82.2 Q118 79 108 79.8" stroke="#52392e" stroke-width=".6" fill="none" opacity=".7"/>
+                        </g>
+
+                        <!-- pelo: volumen, mechones y laterales cortos -->
+                        <path d="M56 85 C46 62 52 38 70 31 C74 24 84 24 90 27 C94 20 106 20 110 26 C116 22 126 24 130 30 C148 36 154 62 144 85 C143 75 142 66 140 58 Q131 73 122 57 Q113 74 103 56 Q93 75 83 57 Q74 73 67 58 C61 66 58 75 56 85 Z" fill="#2a1a14"/>
+                        <path d="M72 41 Q88 30 104 35 M110 34 Q124 32 137 43" stroke="#5e4436" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".38" filter="url(#av-b1)"/>
+                        <path d="M100 27 Q84 37 70 57 M106 27 Q120 35 134 53 M92 29 Q78 35 62 49 M112 28 Q128 33 142 49 M88 39 Q82 51 78 63 M104 37 Q100 49 98 61 M120 39 Q122 51 126 61" stroke="#4d372d" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".75"/>
+                        <path d="M70 45 Q76 37 84 41 M92 35 Q100 29 108 34 M113 37 Q121 31 129 37 M125 46 Q133 42 139 50 M61 57 Q65 49 73 51" stroke="#6a4c3c" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".55"/>
+                        <path d="M96 25 Q97 21 101.5 19.6 M118 27 Q121.5 22.6 126 22.4 M82 29 Q80 25 76.6 24.4" stroke="#2a1a14" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".9"/>
+
+                        <!-- boca: una forma por sonido -->
+                        <g class="av-boca">
+                          <g class="b-c">
+                            <path d="M89.5 127.2 Q94.8 123.6 100 125.2 Q105.2 123.6 110.5 127.2 Q100 128.8 89.5 127.2 Z" fill="#b5605a"/>
+                            <path d="M90.8 128 Q100 136 109.2 128 Q100 130.2 90.8 128 Z" fill="#c9766b"/>
+                            <path d="M89.5 127.4 Q100 129.4 110.5 127.4" stroke="#5c2427" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                            <ellipse cx="100" cy="131.4" rx="4" ry=".9" fill="#fff" opacity=".2"/>
+                          </g>
+                          <g class="b-s">
+                            <path d="M88.5 125.8 Q94.5 123 100 124.8 Q105.5 123 111.5 125.8 Q100 129.2 88.5 125.8 Z" fill="#b5605a"/>
+                            <path d="M90 127.2 Q100 137.4 110 127.2 Q100 131.2 90 127.2 Z" fill="#c9766b"/>
+                            <path d="M88.5 126 Q100 130.6 111.5 126" stroke="#5c2427" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+                            <path d="M87.4 124.6 Q86.4 126 87.8 127.4 M112.6 124.6 Q113.6 126 112.2 127.4" stroke="#a96a50" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".7"/>
+                            <ellipse cx="100" cy="132.2" rx="4.4" ry=".9" fill="#fff" opacity=".2"/>
+                          </g>
+                          <g class="b-m">
+                            <path d="M90.5 127 Q100 125.4 109.5 127 Q100 134 90.5 127 Z" fill="#4a1420"/>
+                            <path d="M92 127 Q100 125.4 108 127 L107.6 129.2 Q100 128 92.4 129.2 Z" fill="url(#av-diente)"/>
+                            <path d="M89.5 127.2 Q94.8 123.6 100 125.2 Q105.2 123.6 110.5 127.2 Q100 125.6 89.5 127.2 Z" fill="#b5605a"/>
+                            <path d="M90.5 127.4 Q100 138.2 109.5 127.4 Q100 133.8 90.5 127.4 Z" fill="#c9766b"/>
+                          </g>
+                          <g class="b-a">
+                            <path d="M88.5 125.8 Q100 123.8 111.5 125.8 Q111 141 100 141.4 Q89 141 88.5 125.8 Z" fill="#4a1420"/>
+                            <ellipse cx="100" cy="136.8" rx="6.8" ry="3.5" fill="url(#av-lengua)"/>
+                            <path d="M90.2 126 Q100 124.4 109.8 126 L109.2 130.4 Q100 128.8 90.8 130.4 Z" fill="url(#av-diente)"/>
+                            <path d="M88.5 125.8 Q94.5 121.8 100 123.6 Q105.5 121.8 111.5 125.8 Q100 124 88.5 125.8 Z" fill="#b5605a"/>
+                            <path d="M88.8 126.6 Q89.5 143.4 100 143.6 Q110.5 143.4 111.2 126.6 Q110.6 141 100 141.4 Q89.4 141 88.8 126.6 Z" fill="#c9766b"/>
+                          </g>
+                          <g class="b-o">
+                            <ellipse cx="100" cy="129.6" rx="6.8" ry="8.2" fill="#c0695f"/>
+                            <ellipse cx="100" cy="129.6" rx="4" ry="5.5" fill="#4a1420"/>
+                            <ellipse cx="100" cy="132.6" rx="2.6" ry="1.9" fill="url(#av-lengua)"/>
+                            <path d="M95.4 124.6 Q100 122.4 104.6 124.6" stroke="#fff" stroke-width=".8" fill="none" stroke-linecap="round" opacity=".25"/>
+                          </g>
+                        </g>
+                      </g>
                     </g>
                   </g>
                 </svg>

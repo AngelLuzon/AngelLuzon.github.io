@@ -703,6 +703,96 @@ function setBoca(forma) {
   dibujoAvatar.dataset.boca = forma;
 }
 
+// ---------- Gestos humanos del avatar: sonrisa, cejas, parpadeo y mirada ----------
+let timerSonrisa = null;
+let timerCeja = null;
+let ultimoPuntero = 0; // momento del último movimiento del ratón
+
+// Al acabar de hablar sonríe un instante antes de cerrar la boca
+function sonreir() {
+  setBoca("s");
+  clearTimeout(timerSonrisa);
+  timerSonrisa = setTimeout(() => {
+    if (dibujoAvatar.dataset.boca === "s") setBoca("c");
+  }, 1400);
+}
+
+function levantarCeja(ms = 500) {
+  dibujoAvatar.dataset.ceja = "arriba";
+  clearTimeout(timerCeja);
+  timerCeja = setTimeout(() => {
+    delete dibujoAvatar.dataset.ceja;
+  }, ms);
+}
+
+// Parpadea a intervalos irregulares, y a veces dos veces seguidas
+function iniciarParpadeo() {
+  if (reducirMovimiento) return;
+
+  const parpadear = () => {
+    if (modoAvatar === "dibujo" && avatarVisible && pestanaVisible) {
+      dibujoAvatar.classList.add("parpadeando");
+      setTimeout(() => dibujoAvatar.classList.remove("parpadeando"), 200);
+    }
+    setTimeout(parpadear, Math.random() < 0.2 ? 320 : 2200 + Math.random() * 3600);
+  };
+  setTimeout(parpadear, 1800);
+}
+
+// ax y ay van de -1 a 1: hacia dónde mira (los ojos se mueven más que la cabeza)
+function mirar(ax, ay) {
+  const estilo = dibujoAvatar.style;
+  estilo.setProperty("--mx", `${(ax * 2.4).toFixed(2)}px`);
+  estilo.setProperty("--my", `${(ay * 1.5).toFixed(2)}px`);
+  estilo.setProperty("--giro", `${(ax * 2.2).toFixed(2)}deg`);
+  estilo.setProperty("--cabeceo", `${(ay * 1.1).toFixed(2)}px`);
+}
+
+// Sigue el cursor con la mirada y, si no hay ratón en movimiento, mira a su alrededor de vez en cuando
+function iniciarMirada() {
+  if (reducirMovimiento) return;
+
+  if (puntero_fino) {
+    let pendiente = false;
+    let ultimo = null;
+
+    const seguir = () => {
+      pendiente = false;
+      if (modoAvatar !== "dibujo" || !avatarVisible || !ultimo) return;
+      const r = dibujoAvatar.getBoundingClientRect();
+      const dx = (ultimo.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2);
+      const dy = (ultimo.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2);
+      mirar(Math.max(-1, Math.min(1, dx)), Math.max(-1, Math.min(1, dy)));
+    };
+
+    window.addEventListener(
+      "pointermove",
+      (e) => {
+        ultimo = e;
+        ultimoPuntero = performance.now();
+        if (!pendiente) {
+          pendiente = true;
+          requestAnimationFrame(seguir);
+        }
+      },
+      { passive: true }
+    );
+
+    document.documentElement.addEventListener("mouseleave", () => mirar(0, 0));
+  }
+
+  const suelta = () => {
+    if (modoAvatar === "dibujo" && avatarVisible && pestanaVisible && performance.now() - ultimoPuntero > 2500) {
+      mirar((Math.random() * 2 - 1) * 0.8, (Math.random() * 2 - 1) * 0.5);
+      setTimeout(() => {
+        if (performance.now() - ultimoPuntero > 1500) mirar(0, 0);
+      }, 900 + Math.random() * 900);
+    }
+    setTimeout(suelta, 2500 + Math.random() * 3500);
+  };
+  setTimeout(suelta, 3000);
+}
+
 function esperar(ms) {
   return new Promise((resolve) => {
     timerHabla = setTimeout(resolve, ms);
@@ -805,6 +895,7 @@ async function decir(texto, token, clave, etiqueta = "") {
     elementoFrase.replaceChildren(...piezas);
     elementoFrase.classList.add("escribiendo");
     dibujoAvatar.classList.add("hablando");
+    levantarCeja(650);
 
     let tecleoFin = false;
     let vozFin = !(vozActiva && (grabada || sintetizador));
@@ -813,7 +904,7 @@ async function decir(texto, token, clave, etiqueta = "") {
       if (token !== tokenHabla) return resolve();
       if (!tecleoFin || !vozFin) return;
       clearInterval(timerBoca);
-      setBoca("c");
+      sonreir();
       dibujoAvatar.classList.remove("hablando");
       elementoFrase.classList.remove("escribiendo");
       resolve();
@@ -886,6 +977,7 @@ async function decir(texto, token, clave, etiqueta = "") {
       const ch = texto[i++];
       visible.textContent += ch;
       setBoca(visema(ch));
+      if (ch === "?" || ch === "!") levantarCeja(500);
       timerHabla = setTimeout(paso, ".,;:!?".includes(ch) ? velocidad + 180 : velocidad);
     };
     paso();
@@ -1442,5 +1534,7 @@ aplicarModoAvatar();
 iniciarPaleta();
 iniciarProgreso();
 iniciarOpcionales();
+iniciarParpadeo();
+iniciarMirada();
 aplicarIdioma(idioma);
 cargarRepos();
