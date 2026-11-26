@@ -1181,6 +1181,12 @@ async function preguntar(indice, desdePaleta = false) {
   elementoFrase.setAttribute("aria-live", "off");
   marcarPregunta(indice);
 
+  // Si el bocadillo queda fuera de pantalla (o bajo la barra), se lleva a la vista
+  const caja = elementoFrase.getBoundingClientRect();
+  if (caja.top < 90 || caja.bottom > window.innerHeight) {
+    elementoFrase.scrollIntoView({ behavior: reducirMovimiento ? "auto" : "smooth", block: "center" });
+  }
+
   // Con movimiento reducido no hay animación: se muestra la respuesta tal cual
   if (reducirMovimiento) {
     const rotulo = document.createElement("span");
