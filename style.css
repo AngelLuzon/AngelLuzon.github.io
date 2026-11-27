@@ -2273,3 +2273,137 @@ html.puntero-fino .paleta-opcion {
     transition: none;
   }
 }
+
+/* Bienvenida */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--bg);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.intro[hidden] {
+  display: none;
+}
+
+.intro.saliendo {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body.intro-activa {
+  overflow: hidden;
+}
+
+.intro-foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--acento);
+  box-shadow: var(--glow);
+  animation: intro-entra 0.7s ease both;
+}
+
+.intro-titulo {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  letter-spacing: -0.03em;
+  animation: intro-entra 0.7s 0.15s ease both;
+}
+
+.intro-texto {
+  max-width: 34rem;
+  color: var(--texto-suave);
+  animation: intro-entra 0.7s 0.3s ease both;
+}
+
+.intro-botones {
+  animation: intro-entra 0.7s 0.45s ease both;
+}
+
+.intro-pista {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--texto-tenue);
+  animation: intro-entra 0.7s 0.6s ease both;
+}
+
+@keyframes intro-entra {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Ficha de caso de un proyecto */
+.proyecto-insignias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.proyecto-estado {
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+.caso summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--acento);
+  width: fit-content;
+  padding: 0.25rem 0;
+}
+
+.caso summary:hover {
+  text-decoration: underline;
+}
+
+.caso-detalle {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.caso-detalle dt {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acento-2);
+  margin-bottom: 0.2rem;
+}
+
+.caso-detalle dd {
+  color: var(--texto-suave);
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+@media print {
+  .intro {
+    display: none !important;
+  }
+  .caso:not([open]) > :not(summary) {
+    display: block;
+  }
+}

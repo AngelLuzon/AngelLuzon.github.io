@@ -40,7 +40,7 @@
 
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 
   <script type="application/ld+json">
   {
@@ -61,6 +61,16 @@
   <a class="saltar" href="#contenido" data-i18n="saltar">Saltar al contenido</a>
   <div id="progreso" aria-hidden="true"></div>
   <div id="aviso" class="aviso-flotante" role="status" aria-live="polite"></div>
+
+  <div id="intro" class="intro" role="dialog" aria-modal="true" aria-labelledby="intro-titulo" hidden>
+    <img class="intro-foto" src="img/avatar.jpg" alt="" width="120" height="120">
+    <h2 class="intro-titulo" id="intro-titulo" data-i18n="intro_titulo">¡Hola! Soy Ángel</h2>
+    <p class="intro-texto" data-i18n="intro_texto">Desarrollador full stack junior. Esta web es mi forma de presentarme: pasa, mira y pregúntame lo que quieras.</p>
+    <div class="intro-botones">
+      <button type="button" class="boton boton-primario" id="intro-entrar"><span data-i18n="intro_entrar">Entrar</span></button>
+    </div>
+    <p class="intro-pista" data-i18n="intro_pista">Se cierra sola en unos segundos · Esc para saltar</p>
+  </div>
 
   <div id="cursor-punto" aria-hidden="true"></div>
   <div id="cursor-anillo" aria-hidden="true"></div>
@@ -497,8 +507,33 @@
       </header>
 
       <div id="lista-proyectos" class="proyectos-grid revelar">
+        <article class="proyecto proyecto-destacado proyecto-caso tarjeta">
+          <div class="proyecto-insignias">
+            <span class="proyecto-etiqueta" data-i18n="proyecto_destacado">Destacado</span>
+            <span class="proyecto-estado" data-i18n="estado_solo">Hecho en solitario</span>
+          </div>
+          <h3 data-i18n="caso_bot_titulo">Un bot que recorre una red pública y automatiza el certificado digital</h3>
+          <p data-i18n="caso_bot_resumen">Explora todas las opciones posibles, calcula cada iteración y deja registro de todo.</p>
+          <details class="caso">
+            <summary><span data-i18n="caso_ver">Ver el caso completo</span></summary>
+            <dl class="caso-detalle">
+              <div><dt data-i18n="caso_problema_t">Problema</dt><dd data-i18n="caso_bot_problema">Entrar en una red pública y recorrer todas sus opciones, con muchos casos excepcionales, no es algo que se pueda hacer a mano de forma fiable.</dd></div>
+              <div><dt data-i18n="caso_construi_t">Qué construí</dt><dd data-i18n="caso_bot_construi">Un bot completo, de principio a fin y yo solo: desde la lógica hasta el registro de resultados.</dd></div>
+              <div><dt data-i18n="caso_como_t">Cómo funciona</dt><dd data-i18n="caso_bot_como">Entra en la red, calcula todas las iteraciones posibles y los casos de uso excepcionales, automatiza el certificado digital y guarda los casos de éxito y los logs en el blob.</dd></div>
+              <div><dt data-i18n="caso_resultado_t">Resultado</dt><dd data-i18n="caso_bot_resultado">Un proceso repetitivo que se ejecuta solo y deja trazabilidad completa de lo que ha pasado.</dd></div>
+            </dl>
+          </details>
+          <ul class="tecnologias">
+            <li>Automatización</li>
+            <li>Certificado digital</li>
+            <li>Azure Blob</li>
+          </ul>
+        </article>
         <article class="proyecto proyecto-destacado tarjeta">
-          <span class="proyecto-etiqueta" data-i18n="proyecto_destacado">Destacado</span>
+          <div class="proyecto-insignias">
+            <span class="proyecto-etiqueta" data-i18n="proyecto_destacado">Destacado</span>
+            <span class="proyecto-estado" data-i18n="estado_personal">Proyecto personal</span>
+          </div>
           <h3 data-i18n="proy_portfolio_titulo">Este portfolio</h3>
           <p data-i18n="proy_portfolio_desc">Mi web personal, hecha a mano y sin frameworks: tema claro y oscuro, español e inglés, y un avatar animado que habla y responde a tus preguntas.</p>
           <ul class="tecnologias">
@@ -589,7 +624,7 @@
     </div>
   </dialog>
 
-  <script src="frases.js?v=5"></script>
-  <script src="script.js?v=5"></script>
+  <script src="frases.js?v=6"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

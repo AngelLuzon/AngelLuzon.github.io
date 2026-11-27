@@ -104,9 +104,26 @@ const traducciones = {
     cmd_cv: "Descargar CV",
     subir: "Volver arriba",
     preguntas_titulo: "Pregúntame algo",
+    intro_titulo: "¡Hola! Soy Ángel",
+    intro_texto: "Desarrollador full stack junior. Esta web es mi forma de presentarme: pasa, mira y pregúntame lo que quieras.",
+    intro_entrar: "Entrar",
+    intro_pista: "Se cierra sola en unos segundos · Esc para saltar",
+    estado_solo: "Hecho en solitario",
+    estado_personal: "Proyecto personal",
+    caso_ver: "Ver el caso completo",
+    caso_problema_t: "Problema",
+    caso_construi_t: "Qué construí",
+    caso_como_t: "Cómo funciona",
+    caso_resultado_t: "Resultado",
+    caso_bot_titulo: "Un bot que recorre una red pública y automatiza el certificado digital",
+    caso_bot_resumen: "Explora todas las opciones posibles, calcula cada iteración y deja registro de todo.",
+    caso_bot_problema: "Entrar en una red pública y recorrer todas sus opciones, con muchos casos excepcionales, no es algo que se pueda hacer a mano de forma fiable.",
+    caso_bot_construi: "Un bot completo, de principio a fin y yo solo: desde la lógica hasta el registro de resultados.",
+    caso_bot_como: "Entra en la red, calcula todas las iteraciones posibles y los casos de uso excepcionales, automatiza el certificado digital y guarda los casos de éxito y los logs en el blob.",
+    caso_bot_resultado: "Un proceso repetitivo que se ejecuta solo y deja trazabilidad completa de lo que ha pasado.",
     proyecto_destacado: "Destacado",
     proy_portfolio_titulo: "Este portfolio",
-    proy_portfolio_desc: "Mi web personal, hecha a mano y sin frameworks: tema claro y oscuro, español e inglés, y un avatar animado que habla y responde a tus preguntas.",
+    proy_portfolio_desc: "Mi web personal, hecha a mano y sin frameworks: tema claro y oscuro, español e inglés, un avatar animado y una sección de preguntas y respuestas.",
     proy_codigo: "Ver código",
     proy_avatar: "Probar el avatar",
     repos_cargando: "Cargando más proyectos de GitHub…",
@@ -215,9 +232,26 @@ const traducciones = {
     cmd_cv: "Download CV",
     subir: "Back to top",
     preguntas_titulo: "Ask me something",
+    intro_titulo: "Hi! I'm Ángel",
+    intro_texto: "Junior full stack developer. This site is my way of introducing myself: come in, look around and ask me anything.",
+    intro_entrar: "Enter",
+    intro_pista: "Closes by itself in a few seconds · Esc to skip",
+    estado_solo: "Built solo",
+    estado_personal: "Personal project",
+    caso_ver: "See the full case",
+    caso_problema_t: "Problem",
+    caso_construi_t: "What I built",
+    caso_como_t: "How it works",
+    caso_resultado_t: "Result",
+    caso_bot_titulo: "A bot that walks a public network and automates the digital certificate",
+    caso_bot_resumen: "It explores every possible option, calculates each iteration and logs everything.",
+    caso_bot_problema: "Getting into a public network and going through all its options, with many exceptional cases, is not something you can do reliably by hand.",
+    caso_bot_construi: "A complete bot, end to end and on my own: from the logic to the results log.",
+    caso_bot_como: "It enters the network, calculates every possible iteration and the exceptional use cases, automates the digital certificate and stores successful cases and logs in blob storage.",
+    caso_bot_resultado: "A repetitive process that runs by itself and leaves a complete trail of what happened.",
     proyecto_destacado: "Featured",
     proy_portfolio_titulo: "This portfolio",
-    proy_portfolio_desc: "My personal website, handmade without frameworks: light and dark theme, Spanish and English, and an animated avatar that speaks and answers your questions.",
+    proy_portfolio_desc: "My personal website, handmade without frameworks: light and dark theme, Spanish and English, an animated avatar and a questions and answers section.",
     proy_codigo: "View code",
     proy_avatar: "Try the avatar",
     repos_cargando: "Loading more projects from GitHub…",
@@ -1577,6 +1611,38 @@ function iniciarOpcionales() {
   }
 }
 
+// ---------- Bienvenida: una vez por visita, se cierra sola o con Esc ----------
+function iniciarIntro() {
+  const caja = document.getElementById("intro");
+  if (!caja || reducirMovimiento || location.search.includes("sinintro")) return;
+  try {
+    if (sessionStorage.getItem("intro")) return;
+    sessionStorage.setItem("intro", "1");
+  } catch {
+    // Sin almacenamiento, se muestra y ya
+  }
+
+  const boton = document.getElementById("intro-entrar");
+  let timer;
+  const alTeclear = (e) => {
+    if (e.key === "Escape" || e.key === "Enter") cerrar();
+  };
+  function cerrar() {
+    clearTimeout(timer);
+    document.removeEventListener("keydown", alTeclear);
+    caja.classList.add("saliendo");
+    document.body.classList.remove("intro-activa");
+    setTimeout(() => (caja.hidden = true), 500);
+  }
+
+  caja.hidden = false;
+  document.body.classList.add("intro-activa");
+  boton.addEventListener("click", cerrar);
+  document.addEventListener("keydown", alTeclear);
+  boton.focus();
+  timer = setTimeout(cerrar, 5000);
+}
+
 // ---------- Arranque ----------
 document.getElementById("anio").textContent = new Date().getFullYear();
 iniciarCursor();
@@ -1592,3 +1658,4 @@ iniciarParpadeo();
 iniciarMirada();
 aplicarIdioma(idioma);
 cargarRepos();
+iniciarIntro();
