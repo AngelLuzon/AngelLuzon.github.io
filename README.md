@@ -1,76 +1,99 @@
-# Portfolio de Ángel Luzón Balanzá
+# Ángel Luzón Balanzá · Portfolio
 
-Web personal hecha a mano con HTML, CSS y JavaScript, sin frameworks ni dependencias.
-Publicada con GitHub Pages en <https://angelluzon.github.io>.
+Portfolio personal construido con HTML, CSS y JavaScript nativos, sin frameworks, sin dependencias y sin paso de compilación. Publicado con GitHub Pages.
 
-## Qué incluye
+🔗 **Ver en vivo:** <https://angelluzon.github.io>
 
-- Una sola página con scroll: Sobre mí, Preguntas y respuestas, Trayectoria, Competencias, Aptitudes, Proyectos y Contacto.
-- Tema oscuro (por defecto) y claro, y español e inglés. Se recuerdan las preferencias.
-- Bienvenida con foto, una vez por visita (se cierra sola, con Esc o con el botón).
-- Avatar animado opcional: dice frases cortas con boca sincronizada, parpadea y sigue el cursor con la mirada. Con voz del sistema o con voz propia.
-- Preguntas y respuestas en desplegables, agrupadas en Perfil, Técnico, Personal y Trabajo.
-- Proyectos: fichas de caso (Problema, Qué construí, Cómo funciona, Resultado) y repositorios públicos de GitHub cargados solos.
-- Paleta de comandos (`Ctrl/Cmd + K`), barra de progreso, impresión como CV y 404 propia.
-- SEO (metadatos, JSON-LD, `sitemap.xml`, `robots.txt`) y accesibilidad (navegación por teclado, `prefers-reduced-motion`, revisado con axe-core).
+![Captura del portfolio](docs/captura.png)
 
-## Cómo trabajar en local
+## Aspectos destacados
+
+- **Cero dependencias.** Todo el código es propio. Las fuentes (Inter y JetBrains Mono) se alojan en local.
+- **Bilingüe y con dos temas.** Español e inglés, y tema oscuro o claro. Las preferencias se recuerdan entre visitas.
+- **Accesible.** Se navega por teclado, respeta `prefers-reduced-motion` y está revisado con axe-core.
+- **Optimizado para buscadores.** Incluye metadatos, datos estructurados JSON-LD, `sitemap.xml`, `robots.txt` e imagen Open Graph.
+- **Interactivo sin sacrificar rendimiento:**
+  - Paleta de comandos (`Ctrl/Cmd + K`) y barra de progreso de lectura.
+  - Avatar animado con boca sincronizada, parpadeo y mirada que sigue al cursor. Habla con la voz del sistema o con grabaciones propias.
+- **Proyectos documentados como casos.** Cada ficha recoge Problema, Qué construí, Cómo funciona y Resultado.
+- **Repositorios automáticos.** Los repositorios públicos se cargan desde la API de GitHub.
+- **Imprimible como CV** desde el propio navegador, y con página 404 propia.
+
+## Secciones
+
+Sobre mí · Preguntas y respuestas (Perfil, Técnico, Personal, Trabajo) · Trayectoria · Competencias · Aptitudes · Proyectos · Contacto
+
+## Tecnologías
+
+HTML5 · CSS3 (variables, temas) · JavaScript ES6+ · Web Speech API · GitHub REST API · GitHub Pages · GoatCounter (opcional, sin cookies)
+
+## Puesta en marcha
 
 ```bash
+git clone https://github.com/angelluzon/angelluzon.github.io.git
+cd angelluzon.github.io
 python -m http.server 8000
 ```
 
-Abre <http://localhost:8000>. Para saltarte la bienvenida: <http://localhost:8000/?sinintro>.
+Abre <http://localhost:8000>. Para saltar la bienvenida, usa <http://localhost:8000/?sinintro>.
 
-> Tras cambiar `style.css`, `script.js` o `frases.js`, sube el número de `?v=` en las etiquetas de `index.html`. Así los navegadores no usan una copia antigua, que mezclada con archivos nuevos hace que la web falle a medias.
+## Estructura
 
-## Cómo editar el contenido
+```text
+├── index.html          # Estructura y textos por defecto (data-i18n)
+├── style.css           # Estilos y variables de tema
+├── script.js           # Lógica, traducciones y configuración
+├── frases.js           # Frases del avatar y preguntas y respuestas
+├── grabar.html / .js   # Grabadora de voz para el avatar (herramienta local)
+├── fonts/              # Inter y JetBrains Mono
+├── img/  og.png        # Avatar, iconos e imagen para redes
+├── audio/              # (Opcional) grabaciones del avatar
+└── 404.html  sitemap.xml  robots.txt
+```
+
+## Editar el contenido
 
 | Quiero cambiar… | Dónde |
 | --- | --- |
-| Textos de la web (español e inglés) | `traducciones` en [`script.js`](script.js), y el mismo texto como valor por defecto en `index.html` (`data-i18n`) |
-| Preguntas y respuestas | [`frases.js`](frases.js), lista `PREGUNTAS` (campos `g` grupo, `p` pregunta, `r` respuesta) |
-| Frases cortas del avatar | [`frases.js`](frases.js), lista `FRASES` |
-| Competencias (chips) | array `competencias` en [`script.js`](script.js) |
-| Proyectos propios | sección `#proyectos` de `index.html` y claves `caso_*` / `proy_*` en `traducciones` |
+| Textos de la web | `traducciones` en [`script.js`](script.js), y el mismo texto por defecto en `index.html` (`data-i18n`) |
+| Preguntas y respuestas | [`frases.js`](frases.js), lista `PREGUNTAS` (`g` grupo, `p` pregunta, `r` respuesta) |
+| Frases del avatar | [`frases.js`](frases.js), lista `FRASES` |
+| Competencias | array `competencias` en [`script.js`](script.js) |
+| Proyectos | sección `#proyectos` de `index.html` y claves `caso_*` / `proy_*` en `traducciones` |
 | Colores y tema | variables CSS al principio de [`style.css`](style.css) |
 
 Cada texto nuevo necesita su versión en español **y** en inglés.
 
 ## Configuración opcional
 
-Al principio de [`script.js`](script.js) hay tres constantes. Con cada una vacía, esa función permanece oculta:
+Las tres constantes están al principio de [`script.js`](script.js). Si una está vacía, su función queda oculta.
 
 | Constante | Qué activa | Ejemplo |
 | --- | --- | --- |
-| `CV_PDF` | Botones de descargar CV (cabecera, contacto y paleta) | `"cv.pdf"` (con el archivo en la raíz) |
-| `LINKEDIN` | Enlace a LinkedIn en cabecera, contacto y paleta | `"https://www.linkedin.com/in/..."` |
+| `CV_PDF` | Botón de descarga del CV (cabecera, contacto y paleta) | `"cv.pdf"` |
+| `LINKEDIN` | Enlace a LinkedIn (cabecera, contacto y paleta) | `"https://www.linkedin.com/in/..."` |
 | `GOATCOUNTER` | Estadísticas de visitas sin cookies | `"angelluzon"` |
 
-## Voz propia del avatar (opcional)
+## Voz propia del avatar
 
-1. Sirve la carpeta en local (`python -m http.server 8000`).
-2. Abre <http://localhost:8000/grabar.html>, graba las frases y descarga los WAV.
-3. Guárdalos en una carpeta `audio/` en la raíz (`es-1.wav`, `en-1.wav`…).
+1. Sirve la carpeta en local y abre <http://localhost:8000/grabar.html>.
+2. Graba las frases y descarga los WAV.
+3. Guárdalos en `audio/` con los nombres `es-1.wav`, `en-1.wav`, etc.
 
-Sin grabaciones, el avatar usa la voz del sistema. La voz se activa con el botón "Voz". Ahora solo se usa para las frases cortas del avatar; las respuestas de Preguntas y respuestas son texto (los `es-rN.wav` ya no se reproducen).
+Sin grabaciones, el avatar usa la voz del sistema. La voz se activa con el botón «Voz» y solo se aplica a las frases cortas del avatar.
 
-## Estructura
+## Publicar cambios
 
-- `index.html`, `style.css`, `script.js`: la web.
-- `frases.js`: frases del avatar y preguntas y respuestas.
-- `grabar.html`, `grabar.js`: grabadora de voz (se puede borrar cuando ya no haga falta).
-- `fonts/`: Inter y JetBrains Mono alojadas en local.
-- `img/`, `og.png`: avatar, iconos e imagen para compartir el enlace.
-- `404.html`, `sitemap.xml`, `robots.txt`.
+La web se despliega automáticamente con GitHub Pages al subir cambios a la rama publicada. Antes de cada subida:
 
-## Próximos pasos
+- [ ] Si cambiaste `style.css`, `script.js` o `frases.js`, sube el número `?v=` de sus etiquetas en `index.html`. Así se evita que el navegador mezcle archivos antiguos y nuevos.
+- [ ] Revisa la web en español y en inglés, y en tema claro y oscuro.
+- [ ] Pasa axe-core (o Lighthouse) si tocaste estructura o estilos.
 
-- [ ] Fichas de caso para otros 2 o 3 proyectos, con un dato real en "Resultado".
-- [ ] Tres datos verdaderos en la cabecera (hero).
-- [ ] Filtros de proyectos por categoría (Automatización, Web, Móvil, IA).
-- [ ] Cuadrícula de cursos y certificados.
-- [ ] Subir el CV (`CV_PDF`) y poner el enlace de LinkedIn (`LINKEDIN`).
-- [ ] Revisar niveles de C# y TypeScript en las competencias (siguen como "inicial").
-- [ ] Testimonios, cuando haya quien quiera recomendarte.
-- [ ] Decidir si se vuelve a poner un cursor personalizado (ahora usa el del sistema; la función `iniciarCursor` está desactivada).
+## Hoja de ruta
+
+Las mejoras previstas están en [ROADMAP.md](ROADMAP.md).
+
+## Autor
+
+Ángel Luzón Balanzá · [angelluzon.github.io](https://angelluzon.github.io) · [GitHub](https://github.com/AngelLuzon)
